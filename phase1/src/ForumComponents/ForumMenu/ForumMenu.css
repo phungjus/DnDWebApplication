@@ -1,0 +1,22 @@
+.forumMenu {
+    padding: 10px;
+    margin-top: 25px;
+    margin-right: 25px;
+    width: 200px;
+    float: right;
+    background-color: blue;
+    border: 1px black solid;
+}
+
+.forumMenu a {
+    background-color: blue;
+    color: black;
+    display: block;
+    padding: 20px;
+    border: 1px black solid;
+    text-align: center;
+}
+
+.forumMenu a:hover {
+    background-color: red;
+}
