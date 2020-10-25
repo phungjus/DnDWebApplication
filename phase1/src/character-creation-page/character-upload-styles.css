@@ -1,0 +1,25 @@
+.character-upload {
+    width: 30%;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    background-color: rgb(126, 137, 172);
+}
+
+.character-image {
+    padding-top: 1;
+    border: 3px solid black;
+    width: 60%;
+    margin-top: 40px;
+}
+
+.side-bar {
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.input {
+    width: 300px;
+}
