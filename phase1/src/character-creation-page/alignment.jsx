@@ -31,7 +31,7 @@ class Alignment extends React.Component {
         return (
         <div class="alignment">
             <h2>STEP 1: CHOOSE AN ALIGNMENT</h2>
-            <h3>Your character's alignment influences the moral choices that they make...</h3>
+            <h3>Your character's alignment influences the moral choices that they make.</h3>
             <FormControl className = 'select'>
         <InputLabel id="demo-simple-select-label">Select Alignment</InputLabel>
         <Select
