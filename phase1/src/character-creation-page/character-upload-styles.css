@@ -23,3 +23,7 @@
 .input {
     width: 300px;
 }
+
+.pic-upload {
+    display: none;
+}
