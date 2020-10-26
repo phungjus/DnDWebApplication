@@ -1,5 +1,6 @@
 .character-upload {
     width: 30%;
+    float: left;
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -9,10 +10,12 @@
 }
 
 .character-image {
-    padding-top: 1;
-    border: 3px solid black;
-    width: 60%;
+    border: 3px solid rgb(221, 221, 221);
+    width: 18vw;
+    height: 18vw;
     margin-top: 40px;
+    border-radius: 90%;
+    overflow: hidden;
 }
 
 .side-bar {
