@@ -1,0 +1,7 @@
+.log {
+    grid-area: log;
+}
+
+.Dicelog {
+    white-space: pre-line;
+}
