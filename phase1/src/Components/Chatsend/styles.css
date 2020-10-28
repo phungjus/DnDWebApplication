@@ -1,0 +1,23 @@
+.Chatsend {
+    background: var(--send-message-form);
+    display: flex;
+    box-sizing: border-box;
+    height: 60px;
+}
+
+.Chatsend input {
+    width: 100%;
+    padding: 15px 10px;
+    border: none;
+    margin: 0;
+    background: var(--send-message-form);
+    font-weight: 200;
+}
+
+.Chatsend input:focus {
+    outline-width: 0;
+}
+
+.Chatsend input::placeholder {
+    color: black;
+}
