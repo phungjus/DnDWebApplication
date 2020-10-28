@@ -24,7 +24,21 @@
     padding: 10px;
 }
 
-.forumPost {
+.newPostDiv {
+    background-color: orange;
+    border: 1px solid black;
+    min-height: 150px;
+    overflow: auto;
+    width: 90%;
+    margin: 0 auto 30px;
+}
+
+#newPost {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+/* .forumPost {
     background-color: orange;
     border: 1px solid black;
     min-height: 150px;
@@ -54,4 +68,4 @@
     margin-bottom: 0;
     padding-bottom: 0;
     padding-left: 5px;
-}
+} */
