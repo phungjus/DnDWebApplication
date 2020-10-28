@@ -2,7 +2,6 @@ import React from 'react';
 import './ability-points-styles.css'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 
 class AbilityPoints extends React.Component {
 
@@ -19,8 +18,9 @@ class AbilityPoints extends React.Component {
         const needed_points = this.state.cost[stat + 1] - this.state.cost[stat]
         var new_stat = this.state.stats 
         new_stat[index] += 1
-        this.setState({stats: new_stat,
-                        available_points: this.state.available_points-needed_points})
+        this.setState({stats: new_stat, available_points: this.state.available_points-needed_points})
+        this.props.onStatsChange(new_stat)
+        
     }
 
     decreaseStat = (e) => {
@@ -30,6 +30,7 @@ class AbilityPoints extends React.Component {
         var new_stat = this.state.stats 
         new_stat[index] -= 1
         this.setState({stats: new_stat, available_points: this.state.available_points + gained_points})
+        this.props.onStatsChange(new_stat)
     }
 
     createGrid = () => {
@@ -46,20 +47,22 @@ class AbilityPoints extends React.Component {
                         {this.state.stats[i]}
                         <button 
                             disabled={this.state.stats[i]===15 || (this.state.cost[this.state.stats[i]+1] - this.state.cost[this.state.stats[i]] > this.state.available_points)}
-                            class='increment' 
-                            onClick={this.increaseStat} value={i}>+
+                            className='increment' 
+                            onClick={this.increaseStat} 
+                            value={i}>+
                         </button>
                         <button
                             disabled={this.state.stats[i]===8} 
-                            class='increment'
-                            onClick={this.decreaseStat}>-
+                            className='increment'
+                            onClick={this.decreaseStat} 
+                            value={i}>-
                         </button>
                     </Paper>
                 </Grid>
             )
             grid.push(
                 <Grid item xs={3}>
-                    <Paper className='grid-cell'>{Math.floor(this.state.stats[i]/2)-5}</Paper>
+                    <Paper className='grid-cell'>{(this.state.stats[i] > 11) ? "+":""}{Math.floor(this.state.stats[i]/2)-5}</Paper>
                 </Grid>
             )
             grid.push(
