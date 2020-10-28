@@ -30,6 +30,11 @@
     padding-left: 5px;
 }
 
-#date {
-   display: inline; 
+#deleteButton {
+
+    background-color: white;
+    margin-top: 10px;
+    right: 0;
+    bottom: 0;
 }
+

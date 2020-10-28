@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ForumGroups from '../ForumGroups/ForumGroups.js';
 import ForumHeader from '../ForumHeader/ForumHeader.js';
 import ForumMenu from '../ForumMenu/ForumMenu.js';
@@ -7,26 +7,33 @@ import "./Forum.css";
 
 export default function Forum() {
 
-    const [username, setUsername] = useState('LoggedInUser')
+    const [username, setUsername] = useState('user')
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
     const [postComments, setPostComments] = useState([])
     const [forumPosts, setForumPosts] = useState([
         {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DragonRider12', postComment: "Neat let me send you a private message"}, {username: 'OrcMan52', postComment: "Hey I am willing to join your game"}]},
+        comments: [{username: 'DragonRider12', postComment: "Neat let me send you a private message"}, {username: 'OrcMan52', postComment: "Hey I am willing to join your game"}], pid: 0},
         {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}]}
+        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}], pid: 1}
     ])
     const [showPost, setShowPost] = useState(false)
+    const [pid, setPID] = useState(2)
 
     async function handleSubmit(e) {
         
         e.preventDefault();
-        const newPostInfo = {username: username, title: title, postContent: postContent, comments: postComments}
+        const newPostInfo = {username: username, title: title, postContent: postContent, comments: postComments, pid: pid}
         setForumPosts([newPostInfo, ...forumPosts])
         setShowPost(false)
+        setPID(pid + 1)
         console.log(forumPosts)
     }
+    
+    const handleDelete = useCallback(pid => {
+        const updatedList = forumPosts.filter(posts => posts.pid !== pid)
+        setForumPosts(updatedList)
+    }, [forumPosts])
 
     return (
         <div className="mainForum">
@@ -41,6 +48,8 @@ export default function Forum() {
 
                     {/* DONE: Add functionality to the New Post Button */}
 
+                    {/* DONE: Each Posts should have a unique PostID to make it easier to delete later */}
+
                     {/* Add a Time Stamp to all Posts and Comments */}
 
                     {/* Add an option to comment on each Post 
@@ -48,7 +57,7 @@ export default function Forum() {
 
                     {/* Add functionality to the Groups section of the page */}
 
-                    {/* Remember to create another view dedicated to the Admin
+                    {/* DONE: Remember to create another view dedicated to the Admin
                      (i.e. the ability to delete posts) */}
 
                     {/* DONE: Add in a ForumPost Component Later it should take in
@@ -76,7 +85,17 @@ export default function Forum() {
 
                     {
                         forumPosts.map((posts) => (
-                            <ForumPost title={posts.title} username={posts.username} postContent={posts.postContent} postComments={posts.comments}/>
+                            <div id={posts.pid}>
+                                <ForumPost 
+                                    title={posts.title} 
+                                    username={posts.username} 
+                                    postContent={posts.postContent} 
+                                    postComments={posts.comments} 
+                                    pid={posts.pid} 
+                                    handleDelete={handleDelete}
+                                    curUser={username}
+                                    />
+                            </div>
                         ))
                     }
 

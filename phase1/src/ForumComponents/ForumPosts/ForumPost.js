@@ -18,6 +18,15 @@ export default function ForumPost(props) {
                     ))
                 }
             </Toggle>
+
+            {(props.curUser === props.username || props.curUser === 'admin') ? 
+            <button onClick={() => props.handleDelete(props.pid)} id="deleteButton">Delete Post</button>
+            :
+            <div></div>
+            }
+
+            {/* <button onClick={() => props.handleDelete(props.pid)} id="deleteButton">Delete Post</button> */}
+
         </div>
     )
 }
