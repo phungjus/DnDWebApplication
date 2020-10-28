@@ -7,19 +7,22 @@ import "./Forum.css";
 
 export default function Forum() {
 
-    const [username, setUsername] = useState('')
+    const [username, setUsername] = useState('LoggedInUser')
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
+    const [postComments, setPostComments] = useState([])
     const [forumPosts, setForumPosts] = useState([
-        {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!"},
-        {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!"}
+        {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+        comments: [{username: 'DragonRider12', postComment: "Neat let me send you a private message"}, {username: 'OrcMan52', postComment: "Hey I am willing to join your game"}]},
+        {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}]}
     ])
     const [showPost, setShowPost] = useState(false)
 
     async function handleSubmit(e) {
         
         e.preventDefault();
-        const newPostInfo = {username: 'Me', title: title, postContent: postContent}
+        const newPostInfo = {username: username, title: title, postContent: postContent, comments: postComments}
         setForumPosts([newPostInfo, ...forumPosts])
         setShowPost(false)
         console.log(forumPosts)
@@ -40,7 +43,8 @@ export default function Forum() {
 
                     {/* Add a Time Stamp to all Posts and Comments */}
 
-                    {/* Add an option to comment on each Post */}
+                    {/* Add an option to comment on each Post 
+                    NOTE: This will most likely need to be done with a callback function */}
 
                     {/* Add functionality to the Groups section of the page */}
 
@@ -51,7 +55,7 @@ export default function Forum() {
                     3 variables: postTitle, postUser, and postContent. Don't forget
                     each post requires a timestamp along with it */}
                     
-                    {/* Add in a PostComment Component later it should also take in
+                    {/* DONE: Add in a PostComment Component later it should also take in
                     2 variables: commentUser, and commentContent. Don't forget each post
                     requires a timestamp along with it*/}
 
@@ -72,7 +76,7 @@ export default function Forum() {
 
                     {
                         forumPosts.map((posts) => (
-                            <ForumPost title={posts.title} username={posts.username} postContent={posts.postContent}/>
+                            <ForumPost title={posts.title} username={posts.username} postContent={posts.postContent} postComments={posts.comments}/>
                         ))
                     }
 
