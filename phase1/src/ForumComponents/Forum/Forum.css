@@ -1,9 +1,7 @@
 .forumPostBody {
     border-radius: 10px;
 	background-color: purple;
-
-	/* Add properties below */
-	margin-top: 20px;
+    margin-top: 20px;
 	width: 750px;
     margin-left: 350px;
     min-height: 800px;
@@ -14,7 +12,6 @@
     padding-top: 10px;
     padding-bottom: 5px;
     text-align: center;
-    /* border-bottom: solid black 2px; */
 }
 
 .button {
@@ -37,35 +34,3 @@
     margin-left: 5px;
     margin-top: 5px;
 }
-
-/* .forumPost {
-    background-color: orange;
-    border: 1px solid black;
-    min-height: 150px;
-    overflow: auto;
-    width: 90%;
-    margin: 0 auto 30px;
-}
-
-.postTitle {
-    margin-top: 5px;
-    margin-left: 5px;
-    padding-bottom: 0;
-    margin-bottom: 5px;
-    text-decoration: underline;
-}
-
-.postUser {
-    margin-top: 0;
-    margin-left: 5px;
-}
-
-.postContent {
-    padding-left: 10px;
-}
-
-.postComments {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    padding-left: 5px;
-} */

@@ -20,3 +20,30 @@
     font-size: 24px;
 
 }
+
+.groupDiv {
+    border: solid black 1px ;
+    height: 100px;
+    background-color: white;
+    top: 0;
+    margin-bottom: 15px;
+}
+
+#indivGroupTitle {
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#icon {
+    height: 45px;
+    width: 45px;
+    border-radius: 100%;
+    border: solid black 1px;
+}
+
+.groupIcons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
