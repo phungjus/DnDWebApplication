@@ -10,25 +10,34 @@ export default function Forum() {
     const [username, setUsername] = useState('user')
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
-    const [postComments, setPostComments] = useState([])
     const [forumPosts, setForumPosts] = useState([
         {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DragonRider12', postComment: "Neat let me send you a private message"}, {username: 'OrcMan52', postComment: "Hey I am willing to join your game"}], pid: 0},
+        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game"}, {username: 'DragonRider12', postComment: "Neat let me send you a private message"}], pid: 0},
         {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
         comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}], pid: 1}
     ])
     const [showPost, setShowPost] = useState(false)
     const [pid, setPID] = useState(2)
 
-    async function handleSubmit(e) {
+    
+    function handleSubmit(e) {
         
         e.preventDefault();
-        const newPostInfo = {username: username, title: title, postContent: postContent, comments: postComments, pid: pid}
-        setForumPosts([newPostInfo, ...forumPosts])
+        const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid }
+        setForumPosts((forumPosts) => ([newPostInfo, ...forumPosts]))
+        setTitle('')
+        setPostContent('')
         setShowPost(false)
         setPID(pid + 1)
-        console.log(forumPosts)
     }
+
+    const handleNewComment = useCallback((username, postComment, postPID) => {
+        const shallowCopy = forumPosts.slice()
+        const prevPost = forumPosts.filter(posts => posts.pid === postPID)
+        const newComment = {username: username, postComment: postComment}
+        prevPost[0].comments.push(newComment)
+        setForumPosts(shallowCopy)
+    }, [forumPosts])
     
     const handleDelete = useCallback(pid => {
         const updatedList = forumPosts.filter(posts => posts.pid !== pid)
@@ -52,7 +61,7 @@ export default function Forum() {
 
                     {/* Add a Time Stamp to all Posts and Comments */}
 
-                    {/* Add an option to comment on each Post 
+                    {/* DONE: Add an option to comment on each Post 
                     NOTE: This will most likely need to be done with a callback function */}
 
                     {/* Add functionality to the Groups section of the page */}
@@ -84,8 +93,9 @@ export default function Forum() {
                         }
 
                     {
-                        forumPosts.map((posts) => (
-                            <div id={posts.pid}>
+                        forumPosts.map((posts, i) => (
+                            
+                            <div id={posts.pid} key={i}>
                                 <ForumPost 
                                     title={posts.title} 
                                     username={posts.username} 
@@ -93,6 +103,7 @@ export default function Forum() {
                                     postComments={posts.comments} 
                                     pid={posts.pid} 
                                     handleDelete={handleDelete}
+                                    handleNewComment={handleNewComment}
                                     curUser={username}
                                     />
                             </div>
