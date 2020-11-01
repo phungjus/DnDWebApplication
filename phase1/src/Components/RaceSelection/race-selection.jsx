@@ -2,9 +2,9 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
-import human from '../images/human.jpg';
-import elf from '../images/elf.png';
-import dwarf from '../images/dwarf.png';
+import human from '../../images/human.jpg';
+import elf from '../../images/elf.png';
+import dwarf from '../../images/dwarf.png';
 import './race-selection-styles.css';
 
 class RaceSelection extends React.Component {

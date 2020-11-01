@@ -1,8 +1,8 @@
 import React from 'react';
-import CharacterUpload from './character-upload.jsx'
-import Alignment from './alignment.jsx'
-import AbilityPoints from './ability-points.jsx'
-import RaceSelection from './race-selection.jsx'
+import CharacterUpload from '../CharacterUpload/character-upload.jsx'
+import Alignment from '../Alignment/alignment.jsx'
+import AbilityPoints from '../AbilityPoints/ability-points.jsx'
+import RaceSelection from '../RaceSelection/race-selection.jsx'
 import './character-creation-page-styles.css'
 
 class CharacterCreatePage extends React.Component{ 

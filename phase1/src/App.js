@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import CharacterCreatePage from './character-creation-page/character-creation-page.jsx';
+import CharacterCreatePage from './Components/CharacterCreationPage/character-creation-page.jsx';
 import Login from './Components/Login'
 import './App.css';
 
