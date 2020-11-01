@@ -1,18 +1,61 @@
 .message {
-    margin: 15px 0;
-    background: var(--main-color);
-    color: var(--secondary-color);
-    /* display: inline; */
-    padding: 4px 8px;
+    /* margin: 5px 0; */
+    background: var(--palette-orange);
+    color: var(--palette-black);
+    display: inline;
+    padding: 8px 8px;
     border-radius: 8px;
+    float: left;
+    height: 100%;
+    margin-left: 5px;
+}
+
+.user {
+    display: inline-block;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: black;
+}
+
+.date {
+    display: inline-block;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: black;
+    font-size: 0.75rem;
+}
+
+.icon {
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border-radius: 50%;
+    display: block;
+    float: left;
+    margin-top: 2px;
+}
+
+.messageli {
+    margin-top: 5px;
+    /* display: block; */
+    display: inline-block;
+    /* margin-right: fill; */
+    width: 100%;
+    /* float: left;  */
 }
 
 .Chatbubbles {
     box-sizing: border-box;
+    display: block;
     padding: 0 0 0 6px;
     margin: 0;
     width: 100%;
-    height: 100%;
-    overflow: scroll;
-    background: white;
+    height: calc(100% - 60px);
+    overflow-y: scroll;
+    border-right: black 2px solid;
+    align-content: left;
 }
+
+.Chatbubbles::-webkit-scrollbar { width: 0 !important }

@@ -6,7 +6,7 @@ class Member extends React.Component {
         return(
             <div className="Member">
                 <span className="dot"></span>
-                <p>
+                <p className="Memberp">
                     {this.props.name}
                     {" (" + this.props.memberType + ")"}
                 </p>

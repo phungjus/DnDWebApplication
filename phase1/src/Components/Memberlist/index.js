@@ -45,8 +45,8 @@ class Memberlist extends React.Component {
             </li>)
         return (
             <div className="Memberlist">
-                <ul>
-                    <h1>
+                <ul className="Memberlistul">
+                    <h1 className="MemberTitle">
                         Members
                     </h1>
                     <div className="Members">

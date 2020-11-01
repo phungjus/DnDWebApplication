@@ -5,7 +5,7 @@ class Dicelog extends React.Component {
   render() {
     return (
       <div className="Dicelog log">
-        <p>
+        <p className="logOutput">
           {this.props.outputText}
         </p>
       </div>

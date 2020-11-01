@@ -1,23 +1,28 @@
-.dice20 {
-    grid-area: dice20;
+.d20, .d12, .d10, .d8, .d6, .d4 {
+    max-width:100%;
+    max-height:100%;
 }
 
-.dice12 {
-    grid-area: dice12;
+.d20 {
+    grid-area: d20;
 }
 
-.dice10 {
-    grid-area: dice10;
+.d12 {
+    grid-area: d12;
 }
 
-.dice8 {
-    grid-area: dice8;
+.d10 {
+    grid-area: d10;
 }
 
-.dice6 {
-    grid-area: dice6;
+.d8 {
+    grid-area: d8;
 }
 
-.dice4 {
-    grid-area: dice4;
+.d6 {
+    grid-area: d6;
+}
+
+.d4 {
+    grid-area: d4;
 }

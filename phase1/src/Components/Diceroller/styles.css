@@ -1,6 +1,6 @@
 .roll {
     grid-area: roll;
-    width: fit-content;
+    width: 100%;
 }
 
 .container {
@@ -19,4 +19,14 @@
     align-content: center;
     column-gap: 10px;
     row-gap: 15px;
+}
+
+.Diceroller {
+    z-index: 9999;
+    /* width: 20%; */
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 10px;
+    padding-right: 10px;
 }

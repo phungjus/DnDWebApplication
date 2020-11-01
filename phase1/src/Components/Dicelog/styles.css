@@ -4,4 +4,14 @@
 
 .Dicelog {
     white-space: pre-line;
+    overflow-y: scroll;
+    height: 50px;
+    width: 100%;
+}
+
+.Dicelog::-webkit-scrollbar { width: 0 !important }
+
+.logOutput {
+    text-align: center;
+    color: var(--palette-black);
 }
