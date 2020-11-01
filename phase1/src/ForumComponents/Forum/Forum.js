@@ -5,9 +5,9 @@ import ForumMenu from '../ForumMenu/ForumMenu.js';
 import ForumPost from '../ForumPosts/ForumPost.js';
 import "./Forum.css";
 
-export default function Forum() {
+export default function Forum(props) {
 
-    const [username, setUsername] = useState('user')
+    const [username, setUsername] = useState('')
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
     const [forumPosts, setForumPosts] = useState([
@@ -54,6 +54,8 @@ export default function Forum() {
                 <div className="forumBody">
                     
                     {/* ToDO: */}
+
+                    {/* Implement profile picture for each user who posts and comments */}
 
                     {/* DONE: Add functionality to the New Post Button */}
 
