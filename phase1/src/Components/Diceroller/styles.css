@@ -1,0 +1,32 @@
+.roll {
+    grid-area: roll;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(5, auto);
+    grid-template-areas: 
+        "d20 d12"
+        "d10 d8"
+        "d6 d4"
+        "roll roll"
+        "log log";
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    column-gap: 10px;
+    row-gap: 15px;
+}
+
+.Diceroller {
+    z-index: 9999;
+    /* width: 20%; */
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 10px;
+    padding-right: 10px;
+}
