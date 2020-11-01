@@ -13,12 +13,14 @@ code {
 }
 
 :root {
-  --palette-black: #0b0200;
+  --textColour: #0b0200;
+  --linkColour: #b3230a;
   --palette-dark-red: #330905;
   --palette-red: #7a240a;
-  --palette-orange: #b95c0d;
+  --buttonColour: #b95c0d;
   --palette-beige: #6b4e44;
-  --palette-grey: rgb(59, 59, 59);
+  --backgroundColour: rgb(59, 59, 59);
+  --backgroundColourSecondary: rgb(70, 68, 68);
 }
 
 html, body {
