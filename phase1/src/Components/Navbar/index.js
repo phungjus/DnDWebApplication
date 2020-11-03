@@ -11,7 +11,7 @@ function Navbar(props) {
     return (
         <div>
             <AppBar position="sticky">
-                <Toolbar>
+                <Toolbar className="Navbar">
                     <img id="logo" src={logo} alt="Logo"/>
                     <Button className="NavbarLink" component={Link} to={'/'}>Character Page</Button>
                     <Button className="NavbarLink" component={Link} to={'/Group'}>Group Page</Button>
