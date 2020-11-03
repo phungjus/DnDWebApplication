@@ -22,7 +22,7 @@ class App extends React.Component {
     const login = this.state.login
     if (!login) {
       return (
-        <div>
+        <div className="App">
           <Login
             handleLogin={this.handleLogin}
           />
@@ -31,7 +31,7 @@ class App extends React.Component {
     } else {
       return (  
         <BrowserRouter>
-          <div>
+          <div className="App">
             <Navbar
               auth={this.state.login}
             />
