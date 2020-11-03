@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -14,28 +15,15 @@ code {
 
 :root {
   --textColour: #0b0200;
-  --linkColour: #b3230a;
+  --linkColour: #ff0000;
   --palette-dark-red: #330905;
   --palette-red: #7a240a;
   --buttonColour: #b95c0d;
   --palette-beige: #6b4e44;
-  --backgroundColour: rgb(59, 59, 59);
-  --backgroundColourSecondary: rgb(70, 68, 68);
+  --backgroundColour:#2c2f33;
+  --backgroundColourSecondary: #464444;
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  /* min-width: 1000px;
-  min-height: 1000px; */
-  margin: 0;
-  padding: 0;
-  /* font-family: system-ui; */
-  font-weight: 200;
-  color: #3e5869; 
-  position: relative;
-}
-
-#root {
-  height: 100%;
+html, body, #root, #app, #app>div {
+  height: 100%
 }

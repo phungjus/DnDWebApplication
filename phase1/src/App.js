@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import CharacterCreatePage from './Components/CharacterCreationPage/character-creation-page.jsx';
+import Group from './Components/Group'
 import Login from './Components/Login'
+import Navbar from './Components/Navbar'
 import './App.css';
 
 class App extends React.Component {
@@ -27,14 +29,18 @@ class App extends React.Component {
         </div>
       );
     } else {
-      return (
-        <div>
+      return (  
         <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={CharacterCreatePage} />
-          </Switch>
+          <div>
+            <Navbar
+              auth={this.state.login}
+            />
+            <Switch>
+              <Route exact path='/' component={CharacterCreatePage} />
+              <Route exact path='/Group' component={Group}/>
+            </Switch>
+          </div>
         </BrowserRouter>
-        </div>
       );
     }
   }
