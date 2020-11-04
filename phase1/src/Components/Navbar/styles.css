@@ -1,5 +1,6 @@
-.MuiToolbar-root {
+.MuiToolbar-root.Navbar {
     background-color: var(--backgroundColourSecondary);
+    height: 64px;
 }
 
 .MuiButton-root.NavbarLink:hover {
