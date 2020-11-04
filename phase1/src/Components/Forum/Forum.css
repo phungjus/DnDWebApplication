@@ -1,6 +1,6 @@
-/* .mainForum {
-    background-color:  #464444;
-} */
+.mainForum {
+    background-color:  #2c2f33;
+}
 
 .forumPostBody {
     border-radius: 10px;
@@ -33,13 +33,9 @@
 }
 
 :root {
-    background-color: #464444;
-    --textColour: #0b0200;
-    --linkColour: #ff0000;
-    --palette-dark-red: #330905;
-    --palette-red: #7a240a;
-    --buttonColour: #b95c0d;
-    --palette-beige: #6b4e44;
-    --backgroundColour:#2c2f33;
-    --backgroundColourSecondary: #464444;
+    background-color: #2c2f33;
+}
+
+.MuiButton-root {
+    margin-left: 0;
 }

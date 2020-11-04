@@ -1,3 +1,7 @@
+.toggleBox {
+    left: 0;
+}
+
 .comments {
     margin-bottom: 0px;
     margin-top: 10px;
@@ -5,7 +9,9 @@
 
 .toggleTitle {
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: left;
 }
 
 .toggleTitle:hover {

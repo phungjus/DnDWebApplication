@@ -9,13 +9,26 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+    box: {
+        left: '0',
+        maxWidth: '75px',
+        maxHeight: '40px',
+        minWidth: '75px',
+        minHeight: '40px',
+    },
 
+    comment : {
+        marginBottom: '10px'
+    }
 }))
 
 
 export default function ForumPost(props) {
+
+    const classes = useStyles()
 
     const [newComment, setNewComment] = useState("")
 
@@ -36,9 +49,9 @@ export default function ForumPost(props) {
         >
             <Card variant="outlined">
                 <CardContent style={{backgroundColor: '#464444'}}>
-                    <Typography component="h4" className='postTitle'>{props.title}</Typography>
-                    <Typography component="h4" className='postUser'>By: {props.username}</Typography>
-                    <Typography component="p" className='postContent'>{props.postContent}</Typography>
+                    <Typography component="h4" className='postTitle' align="left">{props.title}</Typography>
+                    <Typography component="h4" className='postUser' align="left">By: {props.username}</Typography>
+                    <Typography component="p" className='postContent' align="left">{props.postContent}</Typography>
                     <Toggle title="Show Comments">
                         <Grid item xs={12} component="div">
                             {
@@ -47,7 +60,7 @@ export default function ForumPost(props) {
                                 ))
                             }
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} className={classes.comment}>
                             <TextField 
                             id="postContent"
                             multiline
@@ -71,9 +84,11 @@ export default function ForumPost(props) {
                     {
                         (props.curUser === props.username || props.curUser === 'admin') 
                         ?
-                        <Button variant="contained" color="primary" onClick={() => props.handleDelete(props.pid)} component="div">
-                            Delete
-                        </Button>
+                        <Box component="div" className={classes.box}>
+                            <Button variant="contained" color="primary" onClick={() => props.handleDelete(props.pid)} fullWidth>
+                                Delete
+                            </Button>
+                        </Box>
                         :
                         <div></div>
                     }

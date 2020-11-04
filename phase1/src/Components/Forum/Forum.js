@@ -1,17 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import ForumGroups from '../ForumGroups/ForumGroups.js';
-import ForumMenu from '../ForumMenu/ForumMenu.js';
 import ForumPost from '../ForumPosts/ForumPost.js';
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input'
-
 import "./Forum.css";
 import { Paper } from '@material-ui/core';
 
@@ -39,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
     submitBtn: {
-        maxWidth: '75px',
-        maxHeight: '40px',
-        minWidth: '75px',
-        minHeight: '40px',
     },
 
     Button : {
@@ -53,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#0b0200',
         backgroundColor: '#b95c0d',
         '&:hover': { backgroundColor: '#b95c0d' },
-        right: '0'
+        left: '0px'
     },
 
     fields : {
@@ -66,7 +57,7 @@ export default function Forum(props) {
 
     const classes = useStyles()
 
-    const [username, setUsername] = useState('')
+    const [username, setUsername] = useState('admin')
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
     const [forumPosts, setForumPosts] = useState([
@@ -115,14 +106,11 @@ export default function Forum(props) {
                 <Grid container item xs={3}>
                     <ForumGroups />
                 </Grid>
-                <Grid item container xs={8} className={classes.forumPostBody} spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography className={classes.latestPost} align="center" component="h1">Latest Posts</Typography>
-                        <Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button>
+                <Grid item container xs={8} className={classes.forumPostBody} spacing={2} direction="row">
+                    <Grid container item xs={12} alignItems="center" justify="space-between">
+                        <Grid><Typography className={classes.latestPost} align="center" component="h1">Forum Posts</Typography></Grid>
+                        <Grid><Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button></Grid>
                     </Grid>
-                    {/* <Grid item xs={2}>
-                        <Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button>
-                    </Grid> */}
                     {showPost ?
                 
                         <Grid 
