@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
     comment : {
         marginBottom: '10px'
+    },
+
+    Button : {
+        color: '#0b0200',
+        backgroundColor: '#b95c0d',
+        '&:hover': { backgroundColor: '#b95c0d' },
     }
 }))
 
@@ -61,7 +67,30 @@ export default function ForumPost(props) {
                             }
                         </Grid>
                         <Grid item xs={12} className={classes.comment}>
-                            <TextField 
+                            <Card variant="outlined">
+                                <CardContent style={{backgroundColor: '#464444'}}>
+                                    <TextField 
+                                    id="postContent"
+                                    multiline
+                                    rows={6}
+                                    placeholder="Enter Comment"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={newComment}
+                                    onChange={e => setNewComment(e.target.value)}
+                                    />
+                                    <Button
+                                    type="submit"
+                                    variant="contained"
+                                    className={classes.Button}
+                                    fullWidth
+                                    onClick={() => handleComment(props.curUser, newComment, props.pid)}
+                                    >
+                                        Submit
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            {/* <TextField 
                             id="postContent"
                             multiline
                             rows={6}
@@ -74,18 +103,19 @@ export default function ForumPost(props) {
                             <Button
                             type="submit"
                             variant="contained"
-                            color="primary"
+                            className={classes.Button}
+                            fullWidth
                             onClick={() => handleComment(props.curUser, newComment, props.pid)}
                             >
                                 Submit
-                            </Button>
+                            </Button> */}
                         </Grid>
                     </Toggle>
                     {
                         (props.curUser === props.username || props.curUser === 'admin') 
                         ?
                         <Box component="div" className={classes.box}>
-                            <Button variant="contained" color="primary" onClick={() => props.handleDelete(props.pid)} fullWidth>
+                            <Button variant="contained" className={classes.Button} onClick={() => props.handleDelete(props.pid)} fullWidth>
                                 Delete
                             </Button>
                         </Box>

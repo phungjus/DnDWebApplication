@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input'
 import "./Forum.css";
-import { Paper } from '@material-ui/core';
+import { Card, CardContent, Paper } from '@material-ui/core';
 
 
 {/* ToDO: */}
@@ -33,23 +33,16 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
     },
 
-    submitBtn: {
-    },
 
     Button : {
-        maxWidth: '75px',
-        maxHeight: '45px',
-        minWidth: '75px',
-        minHeight: '45px',
         color: '#0b0200',
         backgroundColor: '#b95c0d',
         '&:hover': { backgroundColor: '#b95c0d' },
-        left: '0px'
     },
 
     fields : {
-        backgroundColor: '#2c2f33',
-        color: '#ff0000'
+        backgroundColor: '#464444',
+        color: 'black'
     }
 }))
 
@@ -109,7 +102,7 @@ export default function Forum(props) {
                 <Grid item container xs={8} className={classes.forumPostBody} spacing={2} direction="row">
                     <Grid container item xs={12} alignItems="center" justify="space-between">
                         <Grid><Typography className={classes.latestPost} align="center" component="h1">Forum Posts</Typography></Grid>
-                        <Grid><Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button></Grid>
+                        <Grid><Button className={classes.Button} variant="contained" onClick={() => setShowPost(!showPost)}>New Post</Button></Grid>
                     </Grid>
                     {showPost ?
                 
@@ -120,38 +113,41 @@ export default function Forum(props) {
                         justify="center"
                         alignItems="flex-start"
                         >
-
-                            <form id="newPost" onSubmit={e => handleSubmit(e)}>
-                                <Input
-                                className={classes.fields}
-                                name="postTitle"
-                                variant="outline"
-                                fullWidth
-                                id="postTitle"
-                                autoFocus
-                                placeholder="Enter Post Title"
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}
-                                />
-                                <TextField 
-                                className={classes.fields}
-                                id="postContent"
-                                multiline
-                                rows={6}
-                                placeholder="Enter Post's Content"
-                                variant="outlined"
-                                fullWidth
-                                value={postContent}
-                                onChange={e => setPostContent(e.target.value)}
-                                />
-                                <Button
-                                type="submit"
-                                variant="contained"
-                                className={classes.submitBtn}
-                                >
-                                    Submit
-                                </Button>
-                            </form>
+                            <Card variant="outlined">
+                                <CardContent style={{backgroundColor: '#464444'}}>
+                                    <form id="newPost" onSubmit={e => handleSubmit(e)}>
+                                        <Input
+                                        className={classes.fields}
+                                        name="postTitle"
+                                        variant="outline"
+                                        fullWidth
+                                        id="postTitle"
+                                        autoFocus
+                                        placeholder="Enter Post Title"
+                                        value={title}
+                                        onChange={e => setTitle(e.target.value)}
+                                        />
+                                        <TextField 
+                                        className={classes.fields}
+                                        id="postContent"
+                                        multiline
+                                        rows={6}
+                                        placeholder="Enter Post's Content"
+                                        variant="outlined"
+                                        fullWidth
+                                        value={postContent}
+                                        onChange={e => setPostContent(e.target.value)}
+                                        />
+                                        <Button
+                                        type="submit"
+                                        variant="contained"
+                                        className={classes.Button}
+                                        >
+                                            Submit
+                                        </Button>
+                                    </form>
+                                </CardContent>
+                            </Card>
                         </Grid>
                         : 
                         <div></div>
