@@ -1,14 +1,14 @@
 .comments {
-    margin-left: 5px;
     margin-bottom: 0px;
+    margin-top: 10px;
 }
 
 .toggleTitle {
-    margin-left: 5px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
 .toggleTitle:hover {
-    color: blue;
+    color: #ff0000;
     font-weight: bold;
 }

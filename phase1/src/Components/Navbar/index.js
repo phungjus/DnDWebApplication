@@ -15,7 +15,7 @@ function Navbar(props) {
                     <img id="logo" src={logo} alt="Logo"/>
                     <Button className="NavbarLink" component={Link} to={'/'}>Character Page</Button>
                     <Button className="NavbarLink" component={Link} to={'/Group'}>Group Page</Button>
-                    <Button className="NavbarLink" component={Link} to={'/'}>Forum Page</Button>
+                    <Button className="NavbarLink" component={Link} to={'/Forum'}>Forum Page</Button>
                     {props.auth ? <AccountCircle /> : null}
                 </Toolbar>
             </AppBar>

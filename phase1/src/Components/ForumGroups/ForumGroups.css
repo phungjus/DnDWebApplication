@@ -1,6 +1,6 @@
 .yourGroups {
     
-    background-color: green;
+    background-color: #464444;
     padding: 10px;
     margin-top: 25px;
     margin-left: 25px;
@@ -8,7 +8,8 @@
     min-height: 400px; 
     /* Note: remove this min-height variable later so it can group with number of groups
     you are in */
-    float: left
+    float: left;
+    border: solid 1px black
 }
 
 #yourGroupsTitle {
@@ -24,7 +25,7 @@
 .groupDiv {
     border: solid black 1px ;
     height: 100px;
-    background-color: white;
+    background-color: #464444;
     top: 0;
     margin-bottom: 15px;
 }

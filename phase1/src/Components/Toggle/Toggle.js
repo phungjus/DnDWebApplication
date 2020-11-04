@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './Toggle.css'
 
 class Toggle extends React.Component {
@@ -36,7 +35,7 @@ class Toggle extends React.Component {
                     {title}
                 </div>
                 {toggled && (
-                    <div className="comments">
+                    <div className='comments'>
                         {children}
                     </div>
                 )}

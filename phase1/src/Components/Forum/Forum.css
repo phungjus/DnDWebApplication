@@ -1,6 +1,10 @@
+/* .mainForum {
+    background-color:  #464444;
+} */
+
 .forumPostBody {
     border-radius: 10px;
-	background-color: purple;
+    background-color: #2c2f33;
     margin-top: 20px;
 	width: 750px;
     margin-left: 350px;
@@ -12,13 +16,6 @@
     padding-top: 10px;
     padding-bottom: 5px;
     text-align: center;
-}
-
-.button {
-    float:right;
-    margin-right: 10px;
-    background-color: yellow;
-    padding: 10px;
 }
 
 .newPostDiv {
@@ -33,4 +30,16 @@
 #newPost {
     margin-left: 5px;
     margin-top: 5px;
+}
+
+:root {
+    background-color: #464444;
+    --textColour: #0b0200;
+    --linkColour: #ff0000;
+    --palette-dark-red: #330905;
+    --palette-red: #7a240a;
+    --buttonColour: #b95c0d;
+    --palette-beige: #6b4e44;
+    --backgroundColour:#2c2f33;
+    --backgroundColourSecondary: #464444;
 }

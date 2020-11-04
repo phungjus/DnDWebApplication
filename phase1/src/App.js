@@ -4,6 +4,7 @@ import CharacterCreatePage from './Components/CharacterCreationPage/character-cr
 import Group from './Components/Group'
 import Login from './Components/Login'
 import Navbar from './Components/Navbar'
+import Forum from './Components/Forum/Forum'
 import './App.css';
 
 class App extends React.Component {
@@ -38,6 +39,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/' component={CharacterCreatePage} />
               <Route exact path='/Group' component={Group}/>
+              <Route exact path='/Forum' render={() => (<Forum />)} />
             </Switch>
           </div>
         </BrowserRouter>

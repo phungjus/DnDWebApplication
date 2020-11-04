@@ -8,9 +8,8 @@
 }
 
 .postTitle {
-    margin-top: 5px;
-    margin-left: 5px;
-    padding-bottom: 0;
+
+    padding-bottom: 5px;
     margin-bottom: 5px;
     text-decoration: underline;
 }
@@ -21,7 +20,7 @@
 }
 
 .postContent {
-    padding-left: 10px;
+    padding-top: 10px;
 }
 
 .postComments {

@@ -1,11 +1,70 @@
 import React, { useCallback, useState } from 'react';
 import ForumGroups from '../ForumGroups/ForumGroups.js';
-import ForumHeader from '../ForumHeader/ForumHeader.js';
 import ForumMenu from '../ForumMenu/ForumMenu.js';
 import ForumPost from '../ForumPosts/ForumPost.js';
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input'
+
 import "./Forum.css";
+import { Paper } from '@material-ui/core';
+
+
+{/* ToDO: */}
+
+{/* Add a Time Stamp to all Posts and Comments (note: it would be easier if each post has a dateTime stamp as a state) */}
+{/* DONE: Add in the page redirects */}
+{/* DONE: Update the color scheme to be consistent throughout the application */}
+{/* DONE: Add Material-UI to the View */}
+{/* Add Comments refering to places where data needs to be called */}
+{/* Update the README.md file with instructions about how to use the Web Application */}
+
+const useStyles = makeStyles((theme) => ({
+
+    latestPost: {
+        fontSize: '20px',
+        fontWeight: 'bold',
+        color: '#0b0200',
+
+    },
+
+    forumPostBody : {
+        marginTop: '20px',
+    },
+
+    submitBtn: {
+        maxWidth: '75px',
+        maxHeight: '40px',
+        minWidth: '75px',
+        minHeight: '40px',
+    },
+
+    Button : {
+        maxWidth: '75px',
+        maxHeight: '45px',
+        minWidth: '75px',
+        minHeight: '45px',
+        color: '#0b0200',
+        backgroundColor: '#b95c0d',
+        '&:hover': { backgroundColor: '#b95c0d' },
+        right: '0'
+    },
+
+    fields : {
+        backgroundColor: '#2c2f33',
+        color: '#ff0000'
+    }
+}))
 
 export default function Forum(props) {
+
+    const classes = useStyles()
 
     const [username, setUsername] = useState('')
     const [title, setTitle] = useState('')
@@ -46,59 +105,83 @@ export default function Forum(props) {
 
     return (
         <div className="mainForum">
-            <ForumHeader />
-            <ForumGroups />
-            <ForumMenu />
-            <div className="forumPostBody">
-                <h1>Latest Posts <button className="button" onClick={() => setShowPost(true)}>New Post</button></h1>
-                <div className="forumBody">
-                    
-                    {/* ToDO: */}
+            <Grid 
+            container 
+            spacing={2}
+            direction="row"
+            alignItems="flex-start"
+            justify="center"
+            >
+                <Grid container item xs={3}>
+                    <ForumGroups />
+                </Grid>
+                <Grid item container xs={8} className={classes.forumPostBody} spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography className={classes.latestPost} align="center" component="h1">Latest Posts</Typography>
+                        <Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button>
+                    </Grid>
+                    {/* <Grid item xs={2}>
+                        <Button className={classes.Button} variant="contained" onClick={() => setShowPost(true)}>New Post</Button>
+                    </Grid> */}
+                    {showPost ?
+                
+                        <Grid 
+                        item 
+                        xs={12} 
+                        component='div'
+                        justify="center"
+                        alignItems="flex-start"
+                        >
 
-                    {/* Implement profile picture for each user who posts and comments */}
-
-                    {/* DONE: Add functionality to the New Post Button */}
-
-                    {/* DONE: Each Posts should have a unique PostID to make it easier to delete later */}
-
-                    {/* Add a Time Stamp to all Posts and Comments */}
-
-                    {/* DONE: Add an option to comment on each Post 
-                    NOTE: This will most likely need to be done with a callback function */}
-
-                    {/* Add functionality to the Groups section of the page */}
-
-                    {/* DONE: Remember to create another view dedicated to the Admin
-                     (i.e. the ability to delete posts) */}
-
-                    {/* DONE: Add in a ForumPost Component Later it should take in
-                    3 variables: postTitle, postUser, and postContent. Don't forget
-                    each post requires a timestamp along with it */}
-                    
-                    {/* DONE: Add in a PostComment Component later it should also take in
-                    2 variables: commentUser, and commentContent. Don't forget each post
-                    requires a timestamp along with it*/}
-
-                    {/* Add in the page redirects */}
-
-                    {showPost ? 
-                        <div className="newPostDiv">
                             <form id="newPost" onSubmit={e => handleSubmit(e)}>
-                                <label htmlFor="postTitle">Title:</label><br />
-                                <input type="text" id="postTitle" name="postTitle" value={title} onChange={e => setTitle(e.target.value)}/> <br />
-                                <textarea name="postContent" form="newPost" rows="6" cols="80" value={postContent} onChange={e => setPostContent(e.target.value)}/>
-                                <input type="submit" />
-                            </form> 
-                        </div> 
+                                <Input
+                                className={classes.fields}
+                                name="postTitle"
+                                variant="outline"
+                                fullWidth
+                                id="postTitle"
+                                autoFocus
+                                placeholder="Enter Post Title"
+                                value={title}
+                                onChange={e => setTitle(e.target.value)}
+                                />
+                                <TextField 
+                                className={classes.fields}
+                                id="postContent"
+                                multiline
+                                rows={6}
+                                placeholder="Enter Post's Content"
+                                variant="outlined"
+                                fullWidth
+                                value={postContent}
+                                onChange={e => setPostContent(e.target.value)}
+                                />
+                                <Button
+                                type="submit"
+                                variant="contained"
+                                className={classes.submitBtn}
+                                >
+                                    Submit
+                                </Button>
+                            </form>
+                        </Grid>
                         : 
                         <div></div>
-                        }
+                    }
 
                     {
                         forumPosts.map((posts, i) => (
                             
-                            <div id={posts.pid} key={i}>
-                                <ForumPost 
+                            <Grid 
+                            item 
+                            container
+                            xs={12} 
+                            alignItems="center"
+                            justify="flex-start"
+                            direction="column"
+                            >
+                                <ForumPost
+                                    key={i} 
                                     title={posts.title} 
                                     username={posts.username} 
                                     postContent={posts.postContent} 
@@ -107,13 +190,18 @@ export default function Forum(props) {
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     curUser={username}
-                                    />
-                            </div>
+                                />
+                            </Grid>
+
                         ))
                     }
 
-                </div>
-            </div>
+                </Grid>
+                <Grid item xs={1}>
+                    <Paper></Paper>
+                </Grid>
+            </Grid>
+
         </div>
     )
 
