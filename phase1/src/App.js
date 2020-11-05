@@ -10,12 +10,14 @@ import './App.css';
 class App extends React.Component {
 
   state = {
-    login : false
+    login : false,
+    user: ''
   }
 
-  handleLogin = () => {
+  handleLogin = (user) => {
     this.setState({
-      login : true
+      login : true,
+      user: user
     })
   }
 
@@ -39,7 +41,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/' component={CharacterCreatePage} />
               <Route exact path='/Group' component={Group}/>
-              <Route exact path='/Forum' render={() => (<Forum />)} />
+              <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
             </Switch>
           </div>
         </BrowserRouter>

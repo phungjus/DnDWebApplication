@@ -16,6 +16,10 @@ class ForumGroups extends React.Component {
         this.state = {}
     }
 
+    // Inside the ForumGroups components for the next phase this data would need to be pulled from the
+    // back-end of the program in order to find out which groups that current user is a part of, but
+    // for the purposes of Phase 1 the groups the user is part of is hard-coded.
+
     render() {
         return(
             <div className="yourGroups">

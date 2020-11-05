@@ -14,9 +14,6 @@ import { Card, CardContent, Paper } from '@material-ui/core';
 {/* ToDO: */}
 
 {/* Add a Time Stamp to all Posts and Comments (note: it would be easier if each post has a dateTime stamp as a state) */}
-{/* DONE: Add in the page redirects */}
-{/* DONE: Update the color scheme to be consistent throughout the application */}
-{/* DONE: Add Material-UI to the View */}
 {/* Add Comments refering to places where data needs to be called */}
 {/* Update the README.md file with instructions about how to use the Web Application */}
 
@@ -49,16 +46,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Forum(props) {
 
     const classes = useStyles()
-
-    const [username, setUsername] = useState('admin')
+    const username = props.user
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
+
+    // the variable forumPosts would require a server call to to get all the posts that have been made to the
+    // Forum, but here they are hard-coded for the Phase 1
+
     const [forumPosts, setForumPosts] = useState([
         {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
         comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game"}, {username: 'DragonRider12', postComment: "Neat let me send you a private message"}], pid: 0},
         {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
         comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}], pid: 1}
     ])
+
     const [showPost, setShowPost] = useState(false)
     const [pid, setPID] = useState(2)
 

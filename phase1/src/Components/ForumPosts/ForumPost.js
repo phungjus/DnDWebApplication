@@ -90,25 +90,6 @@ export default function ForumPost(props) {
                                     </Button>
                                 </CardContent>
                             </Card>
-                            {/* <TextField 
-                            id="postContent"
-                            multiline
-                            rows={6}
-                            placeholder="Enter Comment"
-                            variant="outlined"
-                            fullWidth
-                            value={newComment}
-                            onChange={e => setNewComment(e.target.value)}
-                            />
-                            <Button
-                            type="submit"
-                            variant="contained"
-                            className={classes.Button}
-                            fullWidth
-                            onClick={() => handleComment(props.curUser, newComment, props.pid)}
-                            >
-                                Submit
-                            </Button> */}
                         </Grid>
                     </Toggle>
                     {
