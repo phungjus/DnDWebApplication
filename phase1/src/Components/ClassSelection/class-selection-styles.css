@@ -1,8 +1,8 @@
-.raceselection {
-    width: 65%;
-    padding-left: 5%;
-    float: left;
-    padding-bottom: 40px;
+.class-selection {
+    width:65%;
+    float: right;
+    padding-right: 5%;
+    padding-bottom: 20px;
     border-bottom: 1px dashed rgb(221, 221, 221);
 }
 

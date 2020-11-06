@@ -3,6 +3,7 @@ import CharacterUpload from '../CharacterUpload/character-upload.jsx'
 import Alignment from '../Alignment/alignment.jsx'
 import AbilityPoints from '../AbilityPoints/ability-points.jsx'
 import RaceSelection from '../RaceSelection/race-selection.jsx'
+import ClassSelection from '../ClassSelection/class-selection.jsx'
 import './character-creation-page-styles.css'
 
 class CharacterCreatePage extends React.Component{ 
@@ -16,12 +17,12 @@ class CharacterCreatePage extends React.Component{
   render() {
     return (
       <div>
-        <div class='title'><h1 class='title'>CHARACTER CREATOR</h1></div>
         <div className='charactercreatepage'>
           <CharacterUpload/>
           <Alignment/>
           <AbilityPoints onStatsChange={this.handleStatsChange}/>
-          <RaceSelection currStats={this.state.stats}/>
+          <RaceSelection/>
+          <ClassSelection/>
         </div>
       </div>
     )

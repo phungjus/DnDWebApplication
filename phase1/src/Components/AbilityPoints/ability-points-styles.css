@@ -1,9 +1,9 @@
 .ability-points {
     float: left;
-    background-color: rgb(229, 157, 157);
     padding-left: 5%;
     padding-bottom: 20px;
     width: 65%;
+    border-bottom: 1px dashed rgb(221, 221, 221);
 }
 
 .grid {
@@ -22,7 +22,7 @@
 }
 
 .increment {
-    background-color: aquamarine;
+    background-color: var(--buttonColour);
     float: right;
     width: 25px;
     margin-top: 10px;
@@ -31,7 +31,7 @@
 }
 
 .increment:disabled {
-    background-color: aquamarine;
+    background-color: var(--buttonColour);
     float: right;
     width: 25px;
     margin-top: 10px;

@@ -2,15 +2,15 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
-import human from '../../images/human.jpg';
-import elf from '../../images/elf.png';
-import dwarf from '../../images/dwarf.png';
-import './race-selection-styles.css';
+import wizard from '../../images/wizard.png';
+import rogue from '../../images/rogue.png';
+import fighter from '../../images/fighter.png';
+import './class-selection-styles.css';
 
-class RaceSelection extends React.Component {
+class ClassSelection extends React.Component {
 
     state = {
-        selectedValue: "human"
+        selectedValue: "wizard"
     }
 
     handleChange = (e) => {
@@ -19,51 +19,48 @@ class RaceSelection extends React.Component {
 
     render(){
         return (
-            <div className='raceselection'>
-                <h2>STEP 3: CHOOSE A RACE</h2>
-                <h3>Something about choosing a race... </h3>
+            <div className='class-selection'>
+                <h2>STEP 4: CHOOSE A CLASS</h2>
+                <h3>Something about choosing a class... </h3>
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={human}/>
-                            <h2>HUMAN</h2>
+                            <img className='card-image' src={wizard}/>
+                            <h2>WIZARD</h2>
                             <p>Humans are the most adaptable and ambitious people among the common races. Whatever drives them, humans are the innovators, the achievers, and the pioneers of the worlds.</p>
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+1 to all ability scores, Extra Language</p>
                             <Radio
-                                color="default"
-                                checked={this.state.selectedValue === 'human'}
-                                value="human"
+                                checked={this.state.selectedValue === 'wizard'}
+                                value="wizard"
                                 onChange={this.handleChange}
                             />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={elf}/>
-                            <h2>ELF</h2>
+                            <img className='card-image' src={rogue}/>
+                            <h2>ROGUE</h2>
                             <p>Elves are a magical people of otherworldly grace, living in the world but not entirely part of it.</p>
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+2 Dexterity, Darkvision, Keen Senses, Fey Ancestry, Trance</p>
                             <Radio
-                                color="default"
-                                checked={this.state.selectedValue === 'elf'}
-                                value="elf"
+                                checked={this.state.selectedValue === 'rogue'}
+                                value="rogue"
                                 onChange={this.handleChange}
                             />
                         </Paper>
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={dwarf}/>
-                            <h2>DWARF</h2>
+                            <img className='card-image' src={fighter}/>
+                            <h2>FIGHTER</h2>
                             <p>Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal.</p>
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+2 Constitution, Darkvision, Dwarven Resilience, Dwarven Combat Training, Stonecunning</p>
                             <Radio
-                                color="default"
-                                checked={this.state.selectedValue === 'dwarf'}
-                                value="dwarf"
+                                checked={this.state.selectedValue === 'fighter'}
+                                value="fighter"
                                 onChange={this.handleChange}
                             />
                         </Paper>
@@ -74,4 +71,4 @@ class RaceSelection extends React.Component {
     }
 }
 
-export default RaceSelection
+export default ClassSelection

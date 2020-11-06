@@ -32,7 +32,7 @@ class CharacterUpload extends React.Component {
                     onChange={this.picSelectedHandler}
                 />
                 <label htmlFor="contained-button-file">
-                    <Button variant="contained" color="primary" component="span">
+                    <Button variant="contained" component="span" className='button'>
                     Upload Picture 
                     </Button>
                 </label>

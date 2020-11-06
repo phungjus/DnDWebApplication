@@ -29,30 +29,31 @@ class Alignment extends React.Component {
 
     render () {
         return (
-        <div class="alignment">
-            <h2>STEP 1: CHOOSE AN ALIGNMENT</h2>
-            <h3>Your character's alignment influences the moral choices that they make.</h3>
-            <FormControl className = 'select'>
-        <InputLabel id="demo-simple-select-label">Select Alignment</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={this.state.alignment}
-          onChange={this.handleChange}
-        >
-          <MenuItem value={0}>Lawful Good</MenuItem>
-          <MenuItem value={1}>Neutral Good</MenuItem>
-          <MenuItem value={2}>Chaotic Good</MenuItem>
-          <MenuItem value={3}>Lawful Neutral</MenuItem>
-          <MenuItem value={4}>True Neutral</MenuItem>
-          <MenuItem value={5}>Chaotic Neutral</MenuItem>
-          <MenuItem value={6}>Lawful Evil</MenuItem>
-          <MenuItem value={7}>Neutral Evil</MenuItem>
-          <MenuItem value={8}>Chaotic Evil</MenuItem>
-        </Select>
-      </FormControl>
-        <p class='text'>{this.state.alignment_text[this.state.alignment]}</p>
-        </div>
+          <div class="alignment">
+              <h2>STEP 1: CHOOSE AN ALIGNMENT</h2>
+              <h3>Your character's alignment influences the moral choices that they make.</h3>
+              <FormControl className = 'select'>
+          <InputLabel id="demo-simple-select-label">Select Alignment</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={this.state.alignment}
+            onChange={this.handleChange}
+            className='select'
+          >
+            <MenuItem value={0}>Lawful Good</MenuItem>
+            <MenuItem value={1}>Neutral Good</MenuItem>
+            <MenuItem value={2}>Chaotic Good</MenuItem>
+            <MenuItem value={3}>Lawful Neutral</MenuItem>
+            <MenuItem value={4}>True Neutral</MenuItem>
+            <MenuItem value={5}>Chaotic Neutral</MenuItem>
+            <MenuItem value={6}>Lawful Evil</MenuItem>
+            <MenuItem value={7}>Neutral Evil</MenuItem>
+            <MenuItem value={8}>Chaotic Evil</MenuItem>
+          </Select>
+        </FormControl>
+          <p class='text'>{this.state.alignment_text[this.state.alignment]}</p>
+          </div>
         )
     }
 }
