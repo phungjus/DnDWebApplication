@@ -26,8 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
     Button : {
         color: '#0b0200',
-        backgroundColor: '#b95c0d',
-        '&:hover': { backgroundColor: '#b95c0d' },
+        backgroundColor: 'var(--buttonColour)',
+        '&:hover': { backgroundColor: 'var(--buttonColour)' },
+    },
+    multilineColor: {
+        color: 'var(--textColour)'
     }
 }))
 
@@ -54,7 +57,7 @@ export default function ForumPost(props) {
         alignItems="stretch"
         >
             <Card variant="outlined">
-                <CardContent style={{backgroundColor: '#464444'}}>
+                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
                     <Typography component="h4" className='postTitle' align="left">{props.title}</Typography>
                     <Typography component="h4" className='postUser' align="left">By: {props.username}</Typography>
                     <Typography component="p" className='postContent' align="left">{props.postContent}</Typography>
@@ -68,10 +71,11 @@ export default function ForumPost(props) {
                         </Grid>
                         <Grid item xs={12} className={classes.comment}>
                             <Card variant="outlined">
-                                <CardContent style={{backgroundColor: '#464444'}}>
+                                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
                                     <TextField 
                                     id="postContent"
                                     multiline
+                                    inputProps={{className: classes.multilineColor}}
                                     rows={6}
                                     placeholder="Enter Comment"
                                     variant="outlined"

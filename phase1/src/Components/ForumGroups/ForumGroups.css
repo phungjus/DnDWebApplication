@@ -1,6 +1,6 @@
 .yourGroups {
     
-    background-color: #464444;
+    background-color: var(--backgroundColourSecondary);
     padding: 10px;
     margin-top: 25px;
     margin-left: 25px;
@@ -9,7 +9,7 @@
     /* Note: remove this min-height variable later so it can group with number of groups
     you are in */
     float: left;
-    border: solid 1px black
+    border: solid 1px var(--textColour)
 }
 
 #yourGroupsTitle {
@@ -17,15 +17,15 @@
     margin-top: 5px;
     padding-bottom: 5px;
     text-align: center;
-    border-bottom: black 2px solid;
+    border-bottom: var(--textColour) 2px solid;
     font-size: 24px;
-
+    color: var(--textColour);
 }
 
 .groupDiv {
-    border: solid black 1px ;
+    border: solid var(--textColour) 1px ;
     height: 100px;
-    background-color: #464444;
+    background-color: var(--backgroundColourSecondary);
     top: 0;
     margin-bottom: 15px;
 }
@@ -34,13 +34,15 @@
     font-size: 18px;
     margin-top: 5px;
     margin-left: 5px;
+    color: var(--textColour);
+    text-align: left;
 }
 
 #icon {
     height: 45px;
     width: 45px;
     border-radius: 100%;
-    border: solid black 1px;
+    border: solid var(--textColour) 1px;
 }
 
 .groupIcons {

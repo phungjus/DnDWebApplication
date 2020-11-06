@@ -13,7 +13,6 @@ import { Card, CardContent, Paper } from '@material-ui/core';
 
 {/* ToDO: */}
 
-{/* Add a Time Stamp to all Posts and Comments (note: it would be easier if each post has a dateTime stamp as a state) */}
 {/* Add Comments refering to places where data needs to be called */}
 {/* Update the README.md file with instructions about how to use the Web Application */}
 
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     latestPost: {
         fontSize: '20px',
         fontWeight: 'bold',
-        color: '#0b0200',
+        color: 'var(--textColour)',
 
     },
 
@@ -30,16 +29,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
     },
 
-
     Button : {
         color: '#0b0200',
-        backgroundColor: '#b95c0d',
-        '&:hover': { backgroundColor: '#b95c0d' },
+        backgroundColor: 'var(--buttonColour)',
+        '&:hover': { backgroundColor: 'var(--buttonColour)' },
     },
 
-    fields : {
-        backgroundColor: '#464444',
-        color: 'black'
+    multiline : {
+        color: 'var(--textColour)'
     }
 }))
 
@@ -115,13 +112,13 @@ export default function Forum(props) {
                         alignItems="flex-start"
                         >
                             <Card variant="outlined">
-                                <CardContent style={{backgroundColor: '#464444'}}>
+                                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
                                     <form id="newPost" onSubmit={e => handleSubmit(e)}>
                                         <Input
-                                        className={classes.fields}
                                         name="postTitle"
                                         variant="outline"
                                         fullWidth
+                                        inputProps={{className: classes.multiline}}
                                         id="postTitle"
                                         autoFocus
                                         placeholder="Enter Post Title"
@@ -129,9 +126,9 @@ export default function Forum(props) {
                                         onChange={e => setTitle(e.target.value)}
                                         />
                                         <TextField 
-                                        className={classes.fields}
                                         id="postContent"
                                         multiline
+                                        inputProps={{className: classes.multiline}}
                                         rows={6}
                                         placeholder="Enter Post's Content"
                                         variant="outlined"
@@ -191,113 +188,3 @@ export default function Forum(props) {
     )
 
 }
-
-
-// class Forum extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-            // forumPosts : [
-            //     {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!"},
-            //     {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!"}
-            // ],
-//             showPost: false,
-//             newPostUsername: 'Me',
-//             newPostTitle: '',
-//             newPostContent: ''
-//         }
-//         this.handleNewPost = this.handleNewPost.bind(this);
-//         this.handleNewTitle = this.handleNewTitle.bind(this);
-//         this.handleNewPostContent = this.handleNewPostContent.bind(this);
-//         this.handleSubmit = this.handleSubmit.bind(this);
-//     }
-
-//     handleNewPost() {
-//         this.setState({showPost: true})
-//     }
-
-//     handleNewTitle(e) {
-//         // console.log(e.target.value)
-//         this.setState({newPostTitle: e.target.value}, () => console.log("titleUpdated"))
-//     }
-
-//     handleNewPostContent(e) {
-//         this.setState({newPostContent: e.target.value}, () => console.log("postContentUpdated"))
-//     }
-
-//     handleSubmit(e) {
-//         e.preventDefault();
-//         const newPost = [{username: this.newPostUsername, title: this.newPostTitle, postContent: this.newPostContent}]
-//         console.log(newPost)
-//         // this.setState(state => {
-//         //     const list = [ newPost, ...state.forumPosts ]
-//         // })
-//         this.setState({forumPosts: [newPost, ... this.state.forumPosts]})
-
-//         console.log(this.state.forumPosts)
-//         // const newPosts = this.state.forumPosts.concat([{username: this.newPostUsername, title: this.newPostTitle, postContent: this.newPostContent}])
-//         // console.log(newPosts)
-//         // this.setState({forumPosts : newPosts})
-//         // console.log(this.state.forumPosts)
-//     }
-
-//     render() {
-//         return (
-//             <div className="mainForum">
-//                 <ForumHeader />
-//                 <ForumGroups />
-//                 <ForumMenu />
-//                 <div className="forumPostBody">
-//                     <h1>Latest Posts <button className="button" onClick={this.handleNewPost}>New Post</button></h1>
-//                     <div className="forumBody">
-                        
-//                         {/* ToDO: */}
-
-//                         {/* Add functionality to the New Post Button */}
-
-//                         {/* Add an option to comment on each Post */}
-
-//                         {/* Add functionality to the Groups section of the page */}
-
-//                         {/* Remember to create another view dedicated to the Admin
-//                          (i.e. the ability to delete posts) */}
-
-//                         {/* DONE: Add in a ForumPost Component Later it should take in
-//                         3 variables: postTitle, postUser, and postContent. Don't forget
-//                         each post requires a timestamp along with it */}
-                        
-//                         {/* Add in a PostComment Component later it should also take in
-//                         2 variables: commentUser, and commentContent. Don't forget each post
-//                         requires a timestamp along with it*/}
-
-//                         {/* Add in the page redirects */}
-
-//                         {this.state.showPost ? 
-//                             <div className="newPostDiv">
-//                                 <form id="newPost" onSubmit={this.handleSubmit}>
-//                                     <label htmlFor="postTitle">Title:</label><br />
-//                                     <input type="text" id="postTitle" name="postTitle" value={this.state.newPostTitle} onChange={this.handleNewTitle}/> <br />
-//                                     <textarea name="postContent" form="newPost" rows="6" cols="80" value={this.state.newPostContent} onChange={this.handleNewPostContent}/>
-//                                     <input type="submit" />
-//                                 </form> 
-//                             </div> 
-//                             : 
-//                             <div></div>
-//                             }
-
-//                         {
-//                             this.state.forumPosts.map((posts) => (
-//                                 <ForumPost title={posts.title} username={posts.username} postContent={posts.postContent}/>
-//                             ))
-//                         }
-
-//                     </div>
-//                 </div>
-//             </div>
-//         )
-//     }
-
-// }
-
-// export default Forum;

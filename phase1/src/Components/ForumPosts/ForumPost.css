@@ -1,5 +1,4 @@
 .forumPost {
-    background-color: orange;
     border: 1px solid black;
     min-height: 150px;
     overflow: auto;
@@ -12,15 +11,18 @@
     padding-bottom: 5px;
     margin-bottom: 5px;
     text-decoration: underline;
+    color: var(--textColour);
 }
 
 .postUser {
     margin-top: 0;
     margin-left: 5px;
+    color: var(--textColour);
 }
 
 .postContent {
     padding-top: 10px;
+    color: var(--textColour);
 }
 
 .postComments {

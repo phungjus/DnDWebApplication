@@ -16,9 +16,9 @@ export default function ForumComments(props) {
         alignItems="stretch"
         >
             <Card variant="outlined">
-                <CardContent style={{backgroundColor: '#464444'}}>
-                    <Typography component="h4" align="left">by: {props.username}</Typography>
-                    <Typography component="p" align="left">{props.commentContent}</Typography>
+                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
+                    <Typography component="h4" align="left" className='header'>by: {props.username}</Typography>
+                    <Typography component="p" align="left" className='paragraph'>{props.commentContent}</Typography>
                 </CardContent>  
             </Card>
         </Grid>
