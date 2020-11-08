@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.css';
 import Member from '../Member'
 import PopUp from '../Groupinvite'
+import Button from '@material-ui/core/Button'
 
 class Memberlist extends React.Component {
     
@@ -19,20 +20,6 @@ class Memberlist extends React.Component {
             {name: "Ishan", memberType: "Player"},
             {name: "Shakir", memberType: "Player"},
         ]
-    }
-
-    togglePop = () => {
-        this.setState({
-         seen: !this.state.seen
-        });
-    };
-
-    startLeaveEvent = () => {
-        if(window.confirm("Are you sure you want to leave the group?")){
-            console.log('okay')
-        } else {
-            console.log('no')
-        }
     }
     
     render() {
@@ -53,17 +40,16 @@ class Memberlist extends React.Component {
                         {members}
                     </div>
                     <li>
-                        <button onClick={this.togglePop}>
+                        <Button className="GroupAction" onClick={this.props.togglePop}>
                             Invite to group
-                        </button>
+                        </Button>
                     </li>
                     <li>
-                        <button onClick={this.startLeaveEvent}>
+                        <Button className="GroupAction" onClick={this.props.startLeaveEvent}>
                             Leave group
-                        </button>
+                        </Button>
                     </li>
                 </ul>
-                {this.state.seen ? <PopUp toggle={this.togglePop} /> : null}
             </div>
         );
    }

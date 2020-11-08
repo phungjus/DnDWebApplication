@@ -2,6 +2,7 @@
     display: block;
     margin: 0;
     border-bottom: 2px solid black;
+    color: var(--textColour);
 }
 
 
@@ -9,7 +10,7 @@
 li:nth-child(odd) { background: red; } */
 
 .Members {
-    height: 75%;
+    height: calc(100% - 116px);
     overflow-y: scroll;
 }
 .Members::-webkit-scrollbar { width: 0 !important }
@@ -23,17 +24,31 @@ li:nth-child(odd) { background: red; } */
     border: 0px;
 }
 
-button {
+/* button.GroupAction {
     width: 100%;
     border-radius: 5px;
     border-width: 0;
     padding: 5px 5px 5px 5px;
     margin-top: 5px;
+} */
+
+.MuiButton-root.GroupAction {
+    width: 100%;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 5px 5px 5px 5px;
+    margin-top: 5px;
+    color: var(--textColour);
+    background-color: transparent;
+}
+
+.MuiButton-root.GroupAction:hover {
+    background-color: var(--buttonColour);
 }
 
 .MemberTitle {
     margin: 0px 0px 0px 0px;
-    color: var(--palette-black);
+    color: var(--textColour);
 }
 
 .Memberlist {
