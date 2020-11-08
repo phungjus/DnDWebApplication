@@ -4,7 +4,13 @@ import './styles.css'
 class Chatsend extends React.Component {
     
     state = {
-        message: ''
+        message: '',
+        time: null
+    }
+
+    getTime = () => {
+        const date = new Date()
+        return date.toLocaleTimeString('en-US')
     }
     
     handleChange = (event) => {
@@ -15,7 +21,7 @@ class Chatsend extends React.Component {
     
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.sendMessage(this.state.message)
+        this.props.sendMessage(this.state.message, this.getTime())
         this.setState({
             message: ''
         })

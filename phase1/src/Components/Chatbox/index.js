@@ -10,9 +10,9 @@ class Chatbox extends React.Component {
         messages: []
     }
     
-    sendMessage = (text) => {
+    sendMessage = (text, time) => {
         const messages = this.state.messages
-        messages.push(text)
+        messages.push({message: text, time: time, user: "User"})
         this.setState({
             messages : messages
         });

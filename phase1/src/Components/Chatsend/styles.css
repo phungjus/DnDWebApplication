@@ -3,7 +3,7 @@
     display: flex;
     box-sizing: border-box;
     height: 60px;
-    border-right: black 2px solid;
+    /* border-right: black 2px solid; */
     border-top: black 2px solid;
     border-bottom: black 2px solid;
 }
@@ -15,6 +15,7 @@
     margin: 0;
     font-weight: 200;
     background: rgb(59, 59, 59);
+    color: var(--textColour);
 }
 
 .Chatsend input:focus {
@@ -22,5 +23,5 @@
 }
 
 .Chatsend input::placeholder {
-    color: black;
+    color: var(--textColour);
 }

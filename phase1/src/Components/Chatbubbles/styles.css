@@ -1,17 +1,16 @@
 .message {
-    /* margin: 5px 0; */
-    background: var(--palette-orange);
-    color: var(--palette-black);
+    margin-top: 10px;
+    background-color: var(--palette-dark-red);
+    color: var(--textColour);
     display: inline;
-    padding: 8px 8px;
+    padding: 5px 5px;
     border-radius: 8px;
     float: left;
-    height: 100%;
+    height: 50%;
     margin-left: 5px;
 }
 
 .user {
-    display: inline-block;
     float: left;
     margin-top: 5px;
     margin-left: 5px;
@@ -19,7 +18,6 @@
 }
 
 .date {
-    display: inline-block;
     float: left;
     margin-top: 5px;
     margin-left: 5px;
@@ -38,12 +36,9 @@
 }
 
 .messageli {
-    margin-top: 5px;
-    /* display: block; */
+    margin: 5px 0px;
     display: inline-block;
-    /* margin-right: fill; */
     width: 100%;
-    /* float: left;  */
 }
 
 .Chatbubbles {
@@ -54,8 +49,9 @@
     width: 100%;
     height: calc(100% - 60px);
     overflow-y: scroll;
-    border-right: black 2px solid;
     align-content: left;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .Chatbubbles::-webkit-scrollbar { width: 0 !important }
