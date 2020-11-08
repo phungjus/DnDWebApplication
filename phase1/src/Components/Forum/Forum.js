@@ -49,12 +49,15 @@ export default function Forum(props) {
 
     // the variable forumPosts would require a server call to to get all the posts that have been made to the
     // Forum, but here they are hard-coded for the Phase 1
-
+    const date = new Date()
+    const localDate = date.toLocaleDateString('en-US')
+    const localTime = date.toLocaleTimeString('en-US')
+    const time = localTime + " " + localDate
     const [forumPosts, setForumPosts] = useState([
         {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game"}, {username: 'DragonRider12', postComment: "Neat let me send you a private message"}], pid: 0},
+        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time},
         {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?'}], pid: 1}
+        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time}], pid: 1, date: time}
     ])
 
     const [showPost, setShowPost] = useState(false)
@@ -64,7 +67,11 @@ export default function Forum(props) {
     function handleSubmit(e) {
         
         e.preventDefault();
-        const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid }
+        const newDate = new Date()
+        const postDate = newDate.toLocaleDateString('en-US')
+        const postTime = newDate.toLocaleTimeString('en-US')
+        const dateTime = postTime + " " + postDate
+        const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid, date: dateTime }
         setForumPosts((forumPosts) => ([newPostInfo, ...forumPosts]))
         setTitle('')
         setPostContent('')
@@ -72,10 +79,10 @@ export default function Forum(props) {
         setPID(pid + 1)
     }
 
-    const handleNewComment = useCallback((username, postComment, postPID) => {
+    const handleNewComment = useCallback((username, postComment, postPID, date) => {
         const shallowCopy = forumPosts.slice()
         const prevPost = forumPosts.filter(posts => posts.pid === postPID)
-        const newComment = {username: username, postComment: postComment}
+        const newComment = {username: username, postComment: postComment, date: date}
         prevPost[0].comments.push(newComment)
         setForumPosts(shallowCopy)
     }, [forumPosts])
@@ -172,6 +179,7 @@ export default function Forum(props) {
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     curUser={username}
+                                    dateTime={posts.date}
                                 />
                             </Grid>
 

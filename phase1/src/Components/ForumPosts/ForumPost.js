@@ -43,7 +43,11 @@ export default function ForumPost(props) {
 
     function handleComment(username, comment, pid) {
         setNewComment("")
-        props.handleNewComment(username, comment, pid)
+        const date = new Date()
+        const localDate = date.toLocaleDateString('en-US')
+        const localTime = date.toLocaleTimeString('en-US')
+        const time = localTime + " " + localDate
+        props.handleNewComment(username, comment, pid, time)
     }
 
     return(
@@ -59,13 +63,13 @@ export default function ForumPost(props) {
             <Card variant="outlined">
                 <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
                     <Typography component="h4" className='postTitle' align="left">{props.title}</Typography>
-                    <Typography component="h4" className='postUser' align="left">By: {props.username}</Typography>
+                    <Typography component="h4" className='postUser' align="left">By: {props.username} @ {props.dateTime}</Typography>
                     <Typography component="p" className='postContent' align="left">{props.postContent}</Typography>
                     <Toggle title="Show Comments">
                         <Grid item xs={12} component="div">
                             {
                                 props.postComments.map((comments, i) => (
-                                    <ForumComments username={comments.username} commentContent={comments.postComment} key={i}/>
+                                    <ForumComments username={comments.username} commentContent={comments.postComment} dateTime={comments.date} key={i}/>
                                 ))
                             }
                         </Grid>
