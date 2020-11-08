@@ -10,12 +10,6 @@ import Input from '@material-ui/core/Input'
 import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
 
-
-{/* ToDO: */}
-
-{/* Add Comments refering to places where data needs to be called */}
-{/* Update the README.md file with instructions about how to use the Web Application */}
-
 const useStyles = makeStyles((theme) => ({
 
     latestPost: {
@@ -32,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     Button : {
         color: '#0b0200',
         backgroundColor: 'var(--buttonColour)',
-        '&:hover': { backgroundColor: 'var(--buttonColour)' },
+        '&:hover': { backgroundColor: 'var(--buttonColour)' }
     },
 
     multiline : {
@@ -47,22 +41,23 @@ export default function Forum(props) {
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
-    // the variable forumPosts would require a server call to to get all the posts that have been made to the
-    // Forum, but here they are hard-coded for the Phase 1
     const date = new Date()
     const localDate = date.toLocaleDateString('en-US')
     const localTime = date.toLocaleTimeString('en-US')
     const time = localTime + " " + localDate
+
+    // the variable forumPosts would require a server call to to get all the posts that have been made to the
+    // Forum, but here they are hard-coded for Phase 1
     const [forumPosts, setForumPosts] = useState([
         {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time},
+        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
         {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time}], pid: 1, date: time}
+        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
     ])
 
     const [showPost, setShowPost] = useState(false)
     const [pid, setPID] = useState(2)
-
+    const [cid, setCID] = useState(3)
     
     function handleSubmit(e) {
         
@@ -81,15 +76,23 @@ export default function Forum(props) {
 
     const handleNewComment = useCallback((username, postComment, postPID, date) => {
         const shallowCopy = forumPosts.slice()
-        const prevPost = forumPosts.filter(posts => posts.pid === postPID)
-        const newComment = {username: username, postComment: postComment, date: date}
+        const prevPost = shallowCopy.filter(posts => posts.pid === postPID)
+        const newComment = {username: username, postComment: postComment, date: date, cid: cid}
         prevPost[0].comments.push(newComment)
+        setCID(cid + 1)
         setForumPosts(shallowCopy)
-    }, [forumPosts])
+    }, [forumPosts, cid])
     
     const handleDelete = useCallback(pid => {
         const updatedList = forumPosts.filter(posts => posts.pid !== pid)
         setForumPosts(updatedList)
+    }, [forumPosts])
+
+    const handleDeleteComment = useCallback((pid, cid) => {
+        const shallowCopy = forumPosts.slice()
+        const indexOfComment = shallowCopy.filter(posts => posts.pid === pid)[0].comments.findIndex(comment => comment.cid === cid)
+        shallowCopy.find(posts => posts.pid === pid).comments.splice(indexOfComment, 1)
+        setForumPosts(shallowCopy)
     }, [forumPosts])
 
     return (
@@ -143,13 +146,25 @@ export default function Forum(props) {
                                         value={postContent}
                                         onChange={e => setPostContent(e.target.value)}
                                         />
-                                        <Button
-                                        type="submit"
-                                        variant="contained"
-                                        className={classes.Button}
-                                        >
-                                            Submit
-                                        </Button>
+                                        <Grid container item xs={12} alignItems="center" justify="space-between">
+                                            <Grid>
+                                                <Button
+                                                type="submit"
+                                                variant="contained"
+                                                className={classes.Button}
+                                                >
+                                                    Submit
+                                                </Button>
+                                            </Grid>
+                                            <Grid>
+                                                <Button
+                                                variant="contained"
+                                                className={classes.Button}
+                                                onClick={() => setShowPost(!showPost)}>
+                                                    Cancel
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
                                     </form>
                                 </CardContent>
                             </Card>
@@ -178,6 +193,7 @@ export default function Forum(props) {
                                     pid={posts.pid} 
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
+                                    handleDeleteComment={handleDeleteComment}
                                     curUser={username}
                                     dateTime={posts.date}
                                 />

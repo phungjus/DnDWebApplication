@@ -69,7 +69,15 @@ export default function ForumPost(props) {
                         <Grid item xs={12} component="div">
                             {
                                 props.postComments.map((comments, i) => (
-                                    <ForumComments username={comments.username} commentContent={comments.postComment} dateTime={comments.date} key={i}/>
+                                    <ForumComments 
+                                    username={comments.username} 
+                                    commentContent={comments.postComment} 
+                                    dateTime={comments.date} 
+                                    key={i} 
+                                    handleDeleteComment={props.handleDeleteComment} 
+                                    pid={props.pid}
+                                    cid={comments.cid} 
+                                    curUser={props.curUser}/>
                                 ))
                             }
                         </Grid>
