@@ -2,7 +2,81 @@ import React from 'react';
 import './styles.css';
 import Dice from '../Dice/index.js';
 import Dicelog from '../Dicelog/index.js';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
 
+// const useStyles = makeStyles({
+//   list: {
+//     width: 250,
+//   },
+//   fullList: {
+//     width: 'auto',
+//   },
+// });
+
+// export default function TemporaryDrawer() {
+//   const classes = useStyles();
+//   const [state, setState] = React.useState({
+//     right: false
+//   });
+
+//   const toggleDrawer = (anchor, open) => (event) => {
+//     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+//       return;
+//     }
+
+//     setState({ ...state, [anchor]: open });
+//   };
+
+//   const list = (anchor) => (
+//     <div
+//       className={clsx(classes.list, {
+//         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+//       })}
+//       role="presentation"
+//       onClick={toggleDrawer(anchor, false)}
+//       onKeyDown={toggleDrawer(anchor, false)}
+//     >
+//       <List>
+//         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//       <Divider />
+//       <List>
+//         {['All mail', 'Trash', 'Spam'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//     </div>
+//   );
+
+//   return (
+//     <div>
+//         <React.Fragment key={'right'}>
+//           <Button onClick={toggleDrawer('right', true)}>{'right'}</Button>
+//           <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
+//             {list('right')}
+//           </Drawer>
+//         </React.Fragment>
+//     </div>
+//   );
+// }
 
 class Diceroller extends React.Component {
   
@@ -15,7 +89,8 @@ class Diceroller extends React.Component {
     d4: 0,
     clickedDice: false,
     rolled : false,
-    rollResult : []
+    rollResult : [],
+    anchor: false
   }
 
   handleDicePress = (event) => {
@@ -114,41 +189,66 @@ class Diceroller extends React.Component {
     }
   }
 
+  toggleDrawer = (bool) => {
+    this.setState({
+      anchor: bool
+    })
+  }
+
   render() {
     return (
-      <div className="Diceroller">
-        <div className="container">
-          <Dice
-            gridClass="d20"
-            onClick={this.handleDicePress}
-          />
-          <Dice
-            gridClass="d12"
-            onClick={this.handleDicePress}
-          />
-          <Dice
-            gridClass="d10"
-            onClick={this.handleDicePress}
-          />
-          <Dice
-            gridClass="d8"
-            onClick={this.handleDicePress}
-          />
-          <Dice
-            gridClass="d6"
-            onClick={this.handleDicePress}
-          />
-          <Dice
-            gridClass="d4"
-            onClick={this.handleDicePress}
-          />
-          <button className="roll" onClick={this.handleRoll}>
-              ROLL
-          </button>
-          <Dicelog
+      <div className="test1">
+      <Button className="DicerollerButton" variant="contained" onClick={() => this.toggleDrawer(true)}>Open dice roller</Button>
+      <Drawer
+        anchor={'right'}
+        open={this.state.anchor}
+        onClose={() => this.toggleDrawer(false)}
+        className="Drawer"
+        PaperProps={{
+            style: {
+                top: "64px",
+                backgroundColor: "var(--backgroundColour)"
+            }
+        }}
+      >
+        <div className="Diceroller">
+          <div className="container">
+            <Dice
+              gridClass="d20"
+              onClick={this.handleDicePress}
+            />
+            <Dice
+              gridClass="d12"
+              onClick={this.handleDicePress}
+            />
+            <Dice
+              gridClass="d10"
+              onClick={this.handleDicePress}
+            />
+            <Dice
+              gridClass="d8"
+              onClick={this.handleDicePress}
+            />
+            <Dice
+              gridClass="d6"
+              onClick={this.handleDicePress}
+            />
+            <Dice
+              gridClass="d4"
+              onClick={this.handleDicePress}
+            />
+            <Button
+              onClick={this.handleRoll}
+              className="roll"
+            >
+              Roll
+            </Button>
+          </div>
+        </div>
+        <Dicelog
             outputText={this.outputText()}
           />
-        </div>
+      </Drawer>
       </div>
     );
   }
