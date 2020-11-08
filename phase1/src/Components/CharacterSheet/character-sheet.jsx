@@ -1,6 +1,7 @@
 import React from 'react';
 import caleb from '../../images/caleb.jpg';
 import CharacterPanel from '../CharacterPanel/character-panel.jsx';
+import Stats from '../Stats/stats.jsx';
 import './character-sheet-styles.css';
 
 class CharacterSheet extends React.Component {
@@ -36,6 +37,9 @@ class CharacterSheet extends React.Component {
                     ideals={this.state.ideals}
                     bonds={this.state.bonds}
                     flaws={this.state.flaws}
+                />
+                <Stats
+                    stats={this.state.stats}
                 />
             </div>
         )
