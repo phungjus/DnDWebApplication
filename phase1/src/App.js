@@ -5,6 +5,7 @@ import Group from './Components/Group'
 import Login from './Components/Login'
 import Navbar from './Components/Navbar'
 import Forum from './Components/Forum/Forum'
+import CharacterSheet from './Components/CharacterSheet/character-sheet.jsx'
 import './App.css';
 
 class App extends React.Component {
@@ -42,6 +43,7 @@ class App extends React.Component {
               <Route exact path='/' component={CharacterCreatePage} />
               <Route exact path='/Group' component={Group}/>
               <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
+              <Route exact path='/Character' component={CharacterSheet} />
             </Switch>
           </div>
         </BrowserRouter>
