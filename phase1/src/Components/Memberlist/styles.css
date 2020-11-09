@@ -5,10 +5,6 @@
     color: var(--textColour);
 }
 
-
-/* li { background: green; }
-li:nth-child(odd) { background: red; } */
-
 .Members {
     height: calc(100% - 116px);
     overflow-y: scroll;
@@ -23,14 +19,6 @@ li:nth-child(odd) { background: red; } */
     padding: 0px;
     border: 0px;
 }
-
-/* button.GroupAction {
-    width: 100%;
-    border-radius: 5px;
-    border-width: 0;
-    padding: 5px 5px 5px 5px;
-    margin-top: 5px;
-} */
 
 .MuiButton-root.GroupAction {
     width: 100%;

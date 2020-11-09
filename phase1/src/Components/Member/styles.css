@@ -23,11 +23,9 @@ a {
 }
 
 .MuiButton-root.KickButton {
-    z-index: 9999;
     color: var(--textColour);
     background-color: transparent;
     margin-left: auto;
-    /* float: left; */
 }
 
 .MuiButton-root.KickButton:hover {

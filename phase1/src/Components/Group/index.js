@@ -3,18 +3,13 @@ import Memberlist from '../Memberlist'
 import Diceroller from '../Diceroller'
 import Chatbox from '../Chatbox'
 import { Link } from 'react-router-dom'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import ButtonBase from '@material-ui/core/ButtonBase'
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './style.css'
 
 class Group extends React.Component {

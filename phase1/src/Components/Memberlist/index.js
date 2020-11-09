@@ -1,12 +1,12 @@
 import React from 'react';
 import './styles.css';
 import Member from '../Member'
-import PopUp from '../Groupinvite'
 import Button from '@material-ui/core/Button'
 
 class Memberlist extends React.Component {
     
     state = {
+        // Get members of the group from server
         members : [
             {name: "Matt", memberType: "DM"},
             {name: "Kyoji", memberType: "Player"},
@@ -23,6 +23,7 @@ class Memberlist extends React.Component {
     }
 
     deleteMember = (member) => {
+        // delete member on server
         const notKicked = this.state.members.filter( el => el.name !== member)
         this.setState({
             members: notKicked

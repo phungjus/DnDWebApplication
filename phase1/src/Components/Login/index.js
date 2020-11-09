@@ -35,6 +35,7 @@ class Login extends React.Component {
     };
 
     handleLogin = (e) => {
+        // Handle login in a backend server
         e.preventDefault();
         if (this.state.username === 'user' && this.state.pass === 'user') {
             console.log("Logged in as a user")
