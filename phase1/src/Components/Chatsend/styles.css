@@ -1,9 +1,7 @@
 .Chatsend {
-    /* background: var(--send-message-form); */
     display: flex;
     box-sizing: border-box;
     height: 60px;
-    /* border-right: black 2px solid; */
     border-top: black 2px solid;
     border-bottom: black 2px solid;
 }

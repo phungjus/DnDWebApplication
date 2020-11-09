@@ -24,13 +24,9 @@
 
 .Diceroller {
     z-index: 9999;
-    /* width: 20%; */
     position: relative;
     top: 0;
     right: 0;
-    /* height: 100%; */
-    /* padding-top: 10px;
-    padding-right: 10px; */
 }
 
 .MuiButton-root.DicerollerButton {
@@ -55,8 +51,6 @@
 }
 
 .test {
-    /* height: calc(100% - 64px); */
-    /* top: 64px; */
     width: 300px;
     background-color: inherit;
 }
@@ -66,7 +60,3 @@
     width: 100%;
     background-color: inherit;
 }
-
-/* .MuiDrawer-root.Drawer {
-    top: 64px;
-} */
