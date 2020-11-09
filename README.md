@@ -16,6 +16,7 @@ You can log in to the website with two accounts. To log in as a user: <br>
 	<li> Username: user </li>
 	<li> Password: user </li>
 </ul>
+
 To log in as an admin: <br>
 <ul>
 	 <li> Username: admin </li>

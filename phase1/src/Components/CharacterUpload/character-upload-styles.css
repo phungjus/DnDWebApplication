@@ -32,6 +32,11 @@
     display: none;
 }
 
-.button {
-    color: var(--buttonColor);
+.MuiButton-root.button {
+    color: var(--textColour);
+    background-color: var(--buttonColour);
+}
+
+.MuiButton-root.button:hover {
+    background-color: var(--buttonColour);
 }
