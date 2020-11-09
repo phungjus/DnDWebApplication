@@ -11,7 +11,7 @@
     color: var(--textColour);
 }
 
-.MuiSvgIcon-root {
+.MuiButtonBase-root.AccountIcon {
     margin-left: auto;
 }
 
