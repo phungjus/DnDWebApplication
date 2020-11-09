@@ -1,6 +1,15 @@
 import React from 'react';
 import './styles.css';
 import backgroundImage from './static/backgroundImage.jpg'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
 class Login extends React.Component {
 
@@ -44,16 +53,38 @@ class Login extends React.Component {
                 <div className="bg">
                     <img src={backgroundImage}/>
                 </div>
-                <div className="login">
-                    <form className="loginForm" onSubmit={this.handleLogin}>
-                        {/* <label htmlFor="username">Username:</label><br/> */}
-                        <input className="input" type="text" id="username" name="username" placeholder="Username" alue={this.state.username} onChange={this.handleInputChange}/><br/><br/><br/><br/>
-                        {/* <label htmlFor="current-password">Password:</label><br/> */}
-                        <input className="input" type="password" id="current-password" name="current-password" placeholder="Password" value={this.state.pass} onChange={this.handleInputChange}/><br/><br/><br/><br/><br/>
-                        <button className="loginButton" type="submit">LOGIN</button>
-                    </form>
-                </div>
-            </div>
+                <Card className="loginCard">
+                    <Typography gutterBottom variant="h5" component="h5" className="LoginTitle">
+                    Login
+                    </Typography>
+                        <CardContent className="loginField">
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="username"
+                                label="Username"
+                                type="username"
+                                fullWidth
+                                onChange={this.handleInputChange}
+                            />
+                            <TextField
+                                margin="dense"
+                                id="standard-password-input"
+                                name="current-password"
+                                label="Password"
+                                type="password"
+                                autoComplete="current-password"
+                                fullWidth
+                                onChange={this.handleInputChange}
+                            />
+                        </CardContent>
+                    <CardActions>
+                        <Button className="Signin" onClick={this.handleLogin} size="small" color="primary">
+                            Sign In
+                        </Button>
+                    </CardActions>
+                </Card>
+        </div>
         );
     }
 }

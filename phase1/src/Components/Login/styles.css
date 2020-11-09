@@ -87,3 +87,42 @@ form label {
     height: 100%;
     width: 100%;
 }
+
+.MuiCard-root.loginCard {
+    margin: 10px;
+    width: 20%;
+    min-width: 350px;
+    background-color: var(--backgroundColourSecondary);
+    color: var(--textColour);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.MuiCardContent-root.loginField {
+    color: var(--textColour);
+    background-color: var(--backgroundColourSecondary);
+}
+
+.MuiButton-root.Signin {
+    margin-left: auto;
+    background-color: transparent;
+    color: var(--textColour);
+    margin-top: 30px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.MuiButton-root.Signin:hover {
+    background-color: var(--buttonColour);
+}
+
+.MuiButton-root.Signin .MuiTouchRipple-child {
+    background-color: var(--backgroundColourSecondary);
+}
+
+.MuiTypography-root.LoginTitle {
+    margin-top: 30px;
+}
