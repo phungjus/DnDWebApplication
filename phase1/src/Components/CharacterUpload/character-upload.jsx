@@ -42,6 +42,9 @@ class CharacterUpload extends React.Component {
                     className='input'
                     label="Character Name"
                     variant="filled"
+                    InputProps={{
+                        color: "white"
+                      }}
                     />
                     </div>
                     <div className = 'side-bar'>

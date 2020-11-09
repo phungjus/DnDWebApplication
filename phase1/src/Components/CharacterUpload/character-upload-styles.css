@@ -23,11 +23,6 @@
     padding-bottom: 20px;
 }
 
-.input {
-    width: 300px;
-    background-color: white;
-}
-
 .pic-upload {
     display: none;
 }
@@ -39,4 +34,9 @@
 
 .MuiButton-root.button:hover {
     background-color: var(--buttonColour);
+}
+
+.MuiTextField-root.input {
+    width: 300px;
+    background-color: var(--backgroundColourSecondary);
 }

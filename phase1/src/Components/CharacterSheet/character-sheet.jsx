@@ -5,6 +5,7 @@ import Stats from '../Stats/stats.jsx';
 import CharacterHeader from '../CharacterHeader/character-header.jsx';
 import Diceroller from '../Diceroller/index.js';
 import './character-sheet-styles.css';
+import AbilityModifiers from '../AbilityModifiers/ability-modifiers';
 
 class CharacterSheet extends React.Component {
     /* This state is hardcoded for phase 1 but would be retrieved from backend */
@@ -52,6 +53,7 @@ class CharacterSheet extends React.Component {
                     attack={this.state.attack}
                 />
                 <Diceroller/>
+                <AbilityModifiers stats={this.state.stats}/>
             </div>
         )
     }
