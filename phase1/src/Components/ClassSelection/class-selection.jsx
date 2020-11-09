@@ -31,6 +31,7 @@ class ClassSelection extends React.Component {
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+1 to all ability scores, Extra Language</p>
                             <Radio
+                                color="default"
                                 checked={this.state.selectedValue === 'wizard'}
                                 value="wizard"
                                 onChange={this.handleChange}
@@ -45,6 +46,7 @@ class ClassSelection extends React.Component {
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+2 Dexterity, Darkvision, Keen Senses, Fey Ancestry, Trance</p>
                             <Radio
+                                color="default"
                                 checked={this.state.selectedValue === 'rogue'}
                                 value="rogue"
                                 onChange={this.handleChange}
@@ -59,6 +61,7 @@ class ClassSelection extends React.Component {
                             <p><strong>RACIAL TRAITS</strong></p>
                             <p>+2 Constitution, Darkvision, Dwarven Resilience, Dwarven Combat Training, Stonecunning</p>
                             <Radio
+                                color="default"
                                 checked={this.state.selectedValue === 'fighter'}
                                 value="fighter"
                                 onChange={this.handleChange}
