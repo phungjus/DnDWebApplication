@@ -24,13 +24,17 @@ const useStyles = makeStyles((theme) => ({
     },
 
     Button : {
-        color: '#0b0200',
+        color: 'var(--textColour)',
         backgroundColor: 'var(--buttonColour)',
         '&:hover': { backgroundColor: 'var(--buttonColour)' }
     },
 
     multiline : {
         color: 'var(--textColour)'
+    },
+
+    cardContent : {
+        backgroundColor: 'var(--backgroundColourSecondary)'
     }
 }))
 
@@ -122,7 +126,7 @@ export default function Forum(props) {
                         alignItems="flex-start"
                         >
                             <Card variant="outlined">
-                                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
+                                <CardContent className={classes.cardContent}>
                                     <form id="newPost" onSubmit={e => handleSubmit(e)}>
                                         <Input
                                         name="postTitle"
