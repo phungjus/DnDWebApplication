@@ -32,7 +32,7 @@ class Group extends React.Component {
         })
     }
 
-    copyToClipboard = (event) => {
+    copyToClipboard = () => {
         document.querySelector('#code').select();
         document.execCommand('copy');
         this.setState({ copySuccess: true });
@@ -48,6 +48,7 @@ class Group extends React.Component {
                 />
                 <Chatbox/>
                 <Diceroller/>
+                
                 <Dialog open={this.state.inviteGroupModal} onClose={() => this.handleClose('inviteGroupModal')} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Invite to Group</DialogTitle>
                     <DialogContent>
@@ -59,7 +60,6 @@ class Group extends React.Component {
                         margin="dense"
                         id="code"
                         label="Group Code"
-                        ref={(textarea) => this.textArea = textarea}
                         value='bit.ly/dndgroup1234'
                     />
                     <DialogContentText>{this.state.copySuccess ? "Copied!" : ""}</DialogContentText>
