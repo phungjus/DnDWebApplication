@@ -79,7 +79,6 @@ class Diceroller extends React.Component {
   }
 
   rollResultText = () => {
-    var result;
     var output = '';
     if (this.state.rollResult === []) {
       return "Please select a dice to roll"

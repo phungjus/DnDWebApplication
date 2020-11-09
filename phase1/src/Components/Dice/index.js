@@ -28,7 +28,7 @@ class Dice extends React.Component {
   render() {
     const { gridClass } = this.props;
     return (
-      <input type="image" className={gridClass} onClick={this.props.onClick} src={this.image(gridClass)} />
+      <input type="image" alt={gridClass} className={gridClass} onClick={this.props.onClick} src={this.image(gridClass)} />
     );
   }
 }
