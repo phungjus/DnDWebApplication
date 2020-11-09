@@ -22,12 +22,17 @@ const useStyles = makeStyles((theme) => ({
     },
 
     Button : {
-        color: '#0b0200',
+        color: 'var(--textColour)',
         backgroundColor: 'var(--buttonColour)',
         '&:hover': { backgroundColor: 'var(--buttonColour)' },
     },
+
     multilineColor: {
         color: 'var(--textColour)'
+    },
+
+    cardContent: {
+        backgroundColor: 'var(--backgroundColourSecondary)'
     }
 }))
 
@@ -45,7 +50,7 @@ export default function ForumComments(props) {
         alignItems="stretch"
         >
             <Card variant="outlined">
-                <CardContent style={{backgroundColor: 'var(--backgroundColourSecondary)'}}>
+                <CardContent className={classes.cardContent}>
                     <Typography component="h4" align="left" className='header'>by: {props.username} at {props.dateTime}</Typography>
                     <Typography component="p" align="left" className='paragraph'>{props.commentContent}</Typography>
                     {

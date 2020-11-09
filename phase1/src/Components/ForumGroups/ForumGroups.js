@@ -27,20 +27,20 @@ class ForumGroups extends React.Component {
                 <div className="groupDiv">
                     <h2 id="indivGroupTitle">TM9</h2>
                     <div className="groupIcons">
-                        <img id="icon" src={assassin}></img>
-                        <img id="icon" src={bard}></img>
-                        <img id="icon" src={druid}></img>
-                        <img id="icon" src={mage}></img>
-                        <img id="icon" src={monk}></img>
+                        <img id="icon" alt="assassin" src={assassin}></img>
+                        <img id="icon" alt="bard" src={bard}></img>
+                        <img id="icon" alt="druid" src={druid}></img>
+                        <img id="icon" alt="mage" src={mage}></img>
+                        <img id="icon" alt="monk" src={monk}></img>
                     </div>
                 </div>
                 <div className="groupDiv">
                     <h2 id="indivGroupTitle">VM</h2>
                     <div className="groupIcons">
-                        <img id="icon" src={paladin}></img>
-                        <img id="icon" src={ranger}></img>
-                        <img id="icon" src={warlock}></img>
-                        <img id="icon" src={druid}></img>
+                        <img id="icon" alt="paladin" src={paladin}></img>
+                        <img id="icon" alt="ranger" src={ranger}></img>
+                        <img id="icon" alt="warlock" src={warlock}></img>
+                        <img id="icon" alt="druid" src={druid}></img>
                     </div>
                 </div>
             </div>
