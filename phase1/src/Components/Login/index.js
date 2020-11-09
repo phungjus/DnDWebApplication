@@ -55,6 +55,7 @@ class Login extends React.Component {
                     <Typography gutterBottom variant="h5" component="h5" className="LoginTitle">
                     Login
                     </Typography>
+                    <form>
                         <CardContent className="loginField">
                             <TextField
                                 autoFocus
@@ -76,11 +77,12 @@ class Login extends React.Component {
                                 onChange={this.handleInputChange}
                             />
                         </CardContent>
-                    <CardActions>
-                        <Button className="Signin" onClick={this.handleLogin} size="small" color="primary">
-                            Sign In
-                        </Button>
-                    </CardActions>
+                        <CardActions>
+                            <Button className="Signin" onClick={this.handleLogin} size="small" color="primary">
+                                Sign In
+                            </Button>
+                        </CardActions>
+                    </form>
                 </Card>
         </div>
         );
