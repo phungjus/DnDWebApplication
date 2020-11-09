@@ -1,18 +1,18 @@
 # Starting the App 
-This app was made using React. Within the Phase 1 folder, run: \n
-	\t npm install \n
-	\t npm start \n
+This app was made using React. Within the Phase 1 folder, run: <br>
+	npm install <br>
+	npm start <br>
 
-We used the following third party libraries: \n
-	\t material-ui \n
-	\t react-router-dom \n
+We used the following third party libraries: <br>
+	material-ui <br>
+	react-router-dom <br>
 
-You can log in to the website with two accounts. To log in as a user: \n
-	\t Username: user \n
-	\t Password: user \n
-To log in as an admin: \n
-	\t Username: admin \n
-	\t Password: admin \n
+You can log in to the website with two accounts. To log in as a user: <br>
+	Username: user <br>
+	Password: user <br>
+To log in as an admin: <br>
+	 Username: admin <br>
+	 Password: admin <br>
 
 # Features
 
