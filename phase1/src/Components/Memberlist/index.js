@@ -21,6 +21,13 @@ class Memberlist extends React.Component {
             {name: "Shakir", memberType: "Player"},
         ]
     }
+
+    deleteMember = (member) => {
+        const notKicked = this.state.members.filter( el => el.name !== member)
+        this.setState({
+            members: notKicked
+        })
+    }
     
     render() {
         const members = this.state.members.map((member) => 
@@ -28,6 +35,8 @@ class Memberlist extends React.Component {
                 <Member
                     name={member.name}
                     memberType={member.memberType}
+                    userType={this.props.userType}
+                    deleteMember={this.deleteMember}
                 />
             </li>)
         return (

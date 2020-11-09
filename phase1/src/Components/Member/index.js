@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button'
 import './styles.css';
 
 class Member extends React.Component {
@@ -13,6 +14,7 @@ class Member extends React.Component {
                 <a href="">
                     Character sheet
                 </a>
+                {this.props.userType === 'Admin' ? <Button className="KickButton" onClick={() => this.props.deleteMember(this.props.name)}>Kick</Button>:null}
             </div>
         );
     }

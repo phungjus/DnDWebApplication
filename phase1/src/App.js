@@ -8,7 +8,6 @@ import Navbar from './Components/Navbar'
 import Forum from './Components/Forum/Forum'
 import CharacterSheet from './Components/CharacterSheet/character-sheet.jsx'
 import './App.css';
-import Grouptile from './Components/Grouptile/index.js';
 
 class App extends React.Component {
 
@@ -43,8 +42,9 @@ class App extends React.Component {
             />
             <Switch>
               <Route exact path='/' component={CharacterCreatePage} />
-              <Route exact path='/Grouplist' component={Grouplist}/>
-              <Route exact path='/Group' component={Group}/>
+              <Route exact path='/Grouplist' component={() => <Grouplist user={this.state.user}/>}/>
+              <Route exact path='/Groupadmin' component={() => <Group userType={"Admin"}/>}/>
+              <Route exact path='/Groupuser' component={() => <Group userType={"User"}/>}/>
               <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
               <Route exact path='/Character' component={CharacterSheet} />
             </Switch>
