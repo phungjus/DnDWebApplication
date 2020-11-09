@@ -1,6 +1,9 @@
 import React from 'react';
 import caleb from '../../images/caleb.jpg';
 import CharacterPanel from '../CharacterPanel/character-panel.jsx';
+import Stats from '../Stats/stats.jsx';
+import CharacterHeader from '../CharacterHeader/character-header.jsx';
+import Diceroller from '../Diceroller/index.js';
 import './character-sheet-styles.css';
 
 class CharacterSheet extends React.Component {
@@ -18,6 +21,7 @@ class CharacterSheet extends React.Component {
         stats: [8, 18, 11, 13, 9, 7],
         proficiency: 2,
         speed: 30,
+        attack: 7,
         hp: 11,
         death: 0
     }
@@ -37,6 +41,17 @@ class CharacterSheet extends React.Component {
                     bonds={this.state.bonds}
                     flaws={this.state.flaws}
                 />
+                <Stats
+                    stats={this.state.stats}
+                />
+                <CharacterHeader
+                    ac={10 + Math.floor(this.state.stats[1]/2)-5}
+                    initiative={(this.state.stats[1] > 9) ? "+".concat(Math.floor(this.state.stats[1]/2)-5):Math.floor(this.state.stats[1]/2)-5}
+                    speed={this.state.speed}
+                    proficiency={this.state.proficiency}
+                    attack={this.state.attack}
+                />
+                <Diceroller/>
             </div>
         )
     }
