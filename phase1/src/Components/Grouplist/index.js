@@ -32,16 +32,10 @@ class Grouplist extends React.Component {
         code: null,
         groups: [
             {
-                link: '/Group',
+                link: `/Group${this.props.user}`,
                 image: group1,
                 Groupname: "Group 1",
-                Groupdescription: "This group is where the current user is joined as a user"
-            },
-            {
-                link: '/Group',
-                image: group2,
-                Groupname: "Group 2",
-                Groupdescription: "This group is where the current user is joined as a admin"
+                Groupdescription: `This group is where the current user is joined as ${this.props.user}`
             }
         ],
         image: null,

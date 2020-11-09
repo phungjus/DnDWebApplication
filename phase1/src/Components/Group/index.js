@@ -49,6 +49,7 @@ class Group extends React.Component {
                 <Memberlist
                     togglePop={() => this.handleOpen('inviteGroupModal')}
                     startLeaveEvent={() => this.handleOpen('leaveGroupModal')}
+                    userType={this.props.userType}
                 />
                 <Chatbox/>
                 <Diceroller/>
