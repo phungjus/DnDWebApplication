@@ -25,11 +25,11 @@ class ClassSelection extends React.Component {
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={wizard}/>
+                            <img className='card-image' alt="A wizard" src={wizard}/>
                             <h2>WIZARD</h2>
-                            <p>Humans are the most adaptable and ambitious people among the common races. Whatever drives them, humans are the innovators, the achievers, and the pioneers of the worlds.</p>
-                            <p><strong>RACIAL TRAITS</strong></p>
-                            <p>+1 to all ability scores, Extra Language</p>
+                            <p>A scholarly magic-user capable of manipulating the structures of reality.</p>
+                            <p><strong>CLASS TRAITS</strong></p>
+                            <p>Hit Die: d6. Primary ability: Intelligence.</p>
                             <Radio
                                 color="default"
                                 checked={this.state.selectedValue === 'wizard'}
@@ -40,11 +40,11 @@ class ClassSelection extends React.Component {
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={rogue}/>
+                            <img className='card-image' alt="A rogue." src={rogue}/>
                             <h2>ROGUE</h2>
-                            <p>Elves are a magical people of otherworldly grace, living in the world but not entirely part of it.</p>
-                            <p><strong>RACIAL TRAITS</strong></p>
-                            <p>+2 Dexterity, Darkvision, Keen Senses, Fey Ancestry, Trance</p>
+                            <p>A scoundrel who uses stealth and trickery to overcome obstacles and enemies.</p>
+                            <p><strong>CLASS TRAITS</strong></p>
+                            <p>Hit die: d8. Primary ability: Dexterity.</p>
                             <Radio
                                 color="default"
                                 checked={this.state.selectedValue === 'rogue'}
@@ -55,11 +55,11 @@ class ClassSelection extends React.Component {
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={fighter}/>
+                            <img className='card-image' alt="A fighter." src={fighter}/>
                             <h2>FIGHTER</h2>
-                            <p>Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal.</p>
-                            <p><strong>RACIAL TRAITS</strong></p>
-                            <p>+2 Constitution, Darkvision, Dwarven Resilience, Dwarven Combat Training, Stonecunning</p>
+                            <p>A master of martial combat, skilled with a variety of weapons and armor.</p>
+                            <p><strong>CLASS TRAITS</strong></p>
+                            <p>Hit Die: d10. Primary ability: Strength or Dexterity.</p>
                             <Radio
                                 color="default"
                                 checked={this.state.selectedValue === 'fighter'}

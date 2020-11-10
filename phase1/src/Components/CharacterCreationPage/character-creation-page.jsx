@@ -4,6 +4,7 @@ import Alignment from '../Alignment/alignment.jsx'
 import AbilityPoints from '../AbilityPoints/ability-points.jsx'
 import RaceSelection from '../RaceSelection/race-selection.jsx'
 import ClassSelection from '../ClassSelection/class-selection.jsx'
+import Button from '@material-ui/core/Button'
 import './character-creation-page-styles.css'
 
 class CharacterCreatePage extends React.Component{ 
@@ -23,6 +24,7 @@ class CharacterCreatePage extends React.Component{
           <AbilityPoints onStatsChange={this.handleStatsChange}/>
           <RaceSelection/>
           <ClassSelection/>
+          <div className="wide"><Button className="button wide" variant="contained" component="span">SUBMIT</Button></div>
         </div>
       </div>
     )

@@ -9,3 +9,12 @@
 .charactercreatepage {
     color: var(--textColour);
 }
+
+.wide {
+    padding-left: 30%;
+    padding-bottom: 30px;
+    float: left;
+    height: 30px;
+    width: 80%;
+    padding-top: 20px;
+}

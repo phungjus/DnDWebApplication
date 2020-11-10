@@ -19,7 +19,7 @@ class CharacterPanel extends React.Component {
     render() {
         return (
             <div className="panel">
-                <img className="character-image" src={this.props.image} />
+                <img className="character-image" alt="This is your character" src={this.props.image} />
                 <h2 className="caption">{this.props.name.toUpperCase()}</h2>
                 <h3 className="caption">LVL {this.props.level} {this.props.race.toUpperCase()} {this.props.class.toUpperCase()}</h3>
                 <p className="caption bottom">{this.props.personality}</p>

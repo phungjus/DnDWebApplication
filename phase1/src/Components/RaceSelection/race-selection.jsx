@@ -25,7 +25,7 @@ class RaceSelection extends React.Component {
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={human}/>
+                            <img className='card-image' alt= "A human." src={human}/>
                             <h2>HUMAN</h2>
                             <p>Humans are the most adaptable and ambitious people among the common races. Whatever drives them, humans are the innovators, the achievers, and the pioneers of the worlds.</p>
                             <p><strong>RACIAL TRAITS</strong></p>
@@ -40,7 +40,7 @@ class RaceSelection extends React.Component {
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={elf}/>
+                            <img className='card-image' alt="An elf" src={elf}/>
                             <h2>ELF</h2>
                             <p>Elves are a magical people of otherworldly grace, living in the world but not entirely part of it.</p>
                             <p><strong>RACIAL TRAITS</strong></p>
@@ -55,7 +55,7 @@ class RaceSelection extends React.Component {
                     </Grid>
                     <Grid item xs={4}>
                         <Paper className='card'>
-                            <img className='card-image' src={dwarf}/>
+                            <img className='card-image' alt="A dwarf" src={dwarf}/>
                             <h2>DWARF</h2>
                             <p>Bold and hardy, dwarves are known as skilled warriors, miners, and workers of stone and metal.</p>
                             <p><strong>RACIAL TRAITS</strong></p>

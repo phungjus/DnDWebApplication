@@ -17,7 +17,7 @@ function Navbar(props) {
                     <Button className="NavbarLink" component={Link} to={'/'}>Character Page</Button>
                     <Button className="NavbarLink" component={Link} to={'/Grouplist'}>Groups Page</Button>
                     <Button className="NavbarLink" component={Link} to={'/Forum'}>Forum Page</Button>
-                    {props.auth ? <IconButton className="AccountIcon" component={Link} to={'/Forum'}> <AccountCircle /> </IconButton>: null}
+                    {props.auth ? <IconButton className="AccountIcon" component={Link} to={'/Character'}> <AccountCircle /> </IconButton>: null}
                 </Toolbar>
             </AppBar>
         </div>

@@ -22,7 +22,7 @@ class CharacterUpload extends React.Component {
     render() {
         return (
             <div className='character-upload'>
-                <img className='character-image' src = { this.state.selectedPic }/>
+                <img className='character-image' alt="This is your character." src = { this.state.selectedPic }/>
                 <div className = 'side-bar'>
                     <input
                     accept="image/*"

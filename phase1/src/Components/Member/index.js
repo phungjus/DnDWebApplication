@@ -11,7 +11,7 @@ class Member extends React.Component {
                     {this.props.name}
                     {" (" + this.props.memberType + ")"}
                 </p>
-                <a href="">
+                <a href="/Character">
                     Character sheet
                 </a>
                 {this.props.userType === 'Admin' ? <Button className="KickButton" onClick={() => this.props.deleteMember(this.props.name)}>Kick</Button>:null}
