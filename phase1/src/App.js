@@ -46,7 +46,7 @@ class App extends React.Component {
               <Route exact path='/Groupadmin' component={() => <Group userType={"Admin"}/>}/>
               <Route exact path='/Groupuser' component={() => <Group userType={"User"}/>}/>
               <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
-              <Route exact path='/Character' component={CharacterSheet} />
+              <Route exact path='/Character' render={() => (<CharacterSheet user={this.state.user}/>)} />
             </Switch>
           </div>
         </BrowserRouter>

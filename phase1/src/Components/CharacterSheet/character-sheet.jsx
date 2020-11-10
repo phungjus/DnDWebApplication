@@ -27,6 +27,10 @@ class CharacterSheet extends React.Component {
         death: 0
     }
 
+    handleStatsChange = (statsValue) => {
+        this.setState({stats: statsValue});
+      }
+
     render() {
         return (
             <div className="character-sheet">
@@ -44,6 +48,8 @@ class CharacterSheet extends React.Component {
                 />
                 <Stats
                     stats={this.state.stats}
+                    user={this.props.user}
+                    onStatsChange={this.handleStatsChange}
                 />
                 <CharacterHeader
                     ac={10 + Math.floor(this.state.stats[1]/2)-5}

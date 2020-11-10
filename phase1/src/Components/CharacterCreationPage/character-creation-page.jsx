@@ -14,6 +14,7 @@ class CharacterCreatePage extends React.Component{
   handleStatsChange = (statsValue) => {
     this.setState({stats: statsValue});
   }
+  // Submit button currently does not do anything, will make call to back end in Phase 2. 
   
   render() {
     return (
