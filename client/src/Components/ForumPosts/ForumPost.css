@@ -1,0 +1,41 @@
+.forumPost {
+    border: 1px solid black;
+    min-height: 150px;
+    overflow: auto;
+    width: 90%;
+    margin: 0 auto 30px;
+}
+
+.postTitle {
+
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    text-decoration: underline;
+    color: var(--textColour);
+}
+
+.postUser {
+    margin-top: 0;
+    margin-left: 5px;
+    color: var(--textColour);
+}
+
+.postContent {
+    padding-top: 10px;
+    color: var(--textColour);
+}
+
+.postComments {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+}
+
+#deleteButton {
+
+    background-color: white;
+    margin-top: 10px;
+    right: 0;
+    bottom: 0;
+}
+

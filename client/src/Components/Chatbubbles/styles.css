@@ -1,0 +1,57 @@
+.message {
+    margin-top: 10px;
+    background-color: var(--palette-dark-red);
+    color: var(--textColour);
+    display: inline;
+    padding: 5px 5px;
+    border-radius: 8px;
+    float: left;
+    height: 50%;
+    margin-left: 5px;
+}
+
+.user {
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: black;
+}
+
+.date {
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: black;
+    font-size: 0.75rem;
+}
+
+.icon {
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border-radius: 50%;
+    display: block;
+    float: left;
+    margin-top: 2px;
+}
+
+.messageli {
+    margin: 5px 0px;
+    display: inline-block;
+    width: 100%;
+}
+
+.Chatbubbles {
+    box-sizing: border-box;
+    display: block;
+    padding: 0 0 0 6px;
+    margin: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow-y: scroll;
+    align-content: left;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.Chatbubbles::-webkit-scrollbar { width: 0 !important }

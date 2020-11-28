@@ -1,0 +1,42 @@
+.character-upload {
+    width: 25%;
+    height: 150%;
+    float: left;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.character-image {
+    border: 3px solid rgb(221, 221, 221);
+    width: 18vw;
+    height: 18vw;
+    margin-top: 40px;
+    border-radius: 90%;
+    overflow: hidden;
+}
+
+.side-bar {
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+
+.pic-upload {
+    display: none;
+}
+
+.MuiButton-root.button {
+    color: var(--textColour);
+    background-color: var(--buttonColour);
+}
+
+.MuiButton-root.button:hover {
+    background-color: var(--buttonColour);
+}
+
+.MuiTextField-root.input {
+    width: 300px;
+    background-color: var(--backgroundColourSecondary);
+}
