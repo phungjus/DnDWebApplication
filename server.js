@@ -11,6 +11,11 @@ const path = require('path')
 const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
+//cors
+
+const cors = require('cors');
+app.use(cors());
+
 // import the mongoose models
 // const { Student } = require("./models/student");
 const { User } = require("./models/user");
@@ -18,6 +23,7 @@ const { Post } = require("./models/post");
 const { Character } = require("./models/character")
 const { Group } = require("./models/Group")
 const { Comment } = require("./models/comment")
+
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -28,11 +34,57 @@ app.use(bodyParser.json());
 
 // express-session for managing user sessions
 const session = require("express-session");
+const { mongo } = require("mongoose");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
+
+const mongoChecker = (req, res, next) => {
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    } else {
+        next()  
+    }   
+}
+
+app.get("/api/posts", mongoChecker, async (req, res) => {
+
+    try {
+        const posts = await Post.find()
+        res.send(posts)
+    } catch (error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+app.post("/api/posts", mongoChecker, async (req, res) => {
+
+    const post = new Post({
+        title: req.body.title,
+        post: req.body.post,
+        // userPosted: req.body.userPosted
+    })
+
+    try {
+        const result = await post.save()
+        res.send(result)
+    } catch (error) {
+        log(error)
+        if (isMongoError(error)) {
+            res.status(500).send("Internal Server Error")
+        } else {
+            res.status(400).send("Bad Request")
+        }
+    }
+
+})
 
 app.post("/user", async (req, res) => {
     log(req.body)

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import ForumGroups from '../ForumGroups/ForumGroups.js';
 import ForumPost from '../ForumPosts/ForumPost.js';
 import Grid from '@material-ui/core/Grid'
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input'
 import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
+import { getPosts, addPosts } from "../../Actions/Forum"
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -52,30 +54,38 @@ export default function Forum(props) {
 
     // the variable forumPosts would require a server call to to get all the posts that have been made to the
     // Forum, but here they are hard-coded for Phase 1
-    const [forumPosts, setForumPosts] = useState([
-        {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
-        {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
-    ])
+    // const [forumPosts, setForumPosts] = useState([
+    //     {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+    //     comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
+    //     {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+    //     comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
+    // ])
+
+    const [forumPosts, setForumPosts] = useState([])
 
     const [showPost, setShowPost] = useState(false)
     const [pid, setPID] = useState(2)
     const [cid, setCID] = useState(3)
     
+    useEffect(() => {
+        getPosts(setForumPosts)
+    }, [])
+
     function handleSubmit(e) {
         
         e.preventDefault();
-        const newDate = new Date()
-        const postDate = newDate.toLocaleDateString('en-US')
-        const postTime = newDate.toLocaleTimeString('en-US')
-        const dateTime = postTime + " " + postDate
-        const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid, date: dateTime }
-        setForumPosts((forumPosts) => ([newPostInfo, ...forumPosts]))
+        // const newDate = new Date()
+        // const postDate = newDate.toLocaleDateString('en-US')
+        // const postTime = newDate.toLocaleTimeString('en-US')
+        // const dateTime = postTime + " " + postDate
+        // const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid, date: dateTime }
+        const newPost = {title: title, post: postContent, postComments: [], userPosted: username}
+        addPosts(newPost, setForumPosts, forumPosts)
+        // setForumPosts((forumPosts) => ([newPost, ...forumPosts]))
         setTitle('')
         setPostContent('')
         setShowPost(false)
-        setPID(pid + 1)
+        // setPID(pid + 1)
     }
 
     const handleNewComment = useCallback((username, postComment, postPID, date) => {
@@ -98,6 +108,7 @@ export default function Forum(props) {
         shallowCopy.find(posts => posts.pid === pid).comments.splice(indexOfComment, 1)
         setForumPosts(shallowCopy)
     }, [forumPosts])
+
 
     return (
         <div className="mainForum">
@@ -191,15 +202,15 @@ export default function Forum(props) {
                                 <ForumPost
                                     key={i} 
                                     title={posts.title} 
-                                    username={posts.username} 
-                                    postContent={posts.postContent} 
-                                    postComments={posts.comments} 
-                                    pid={posts.pid} 
+                                    //username={posts.userPosted.toString()} 
+                                    postContent={posts.post} 
+                                    postComments={posts.postComments} 
+                                    //pid={posts.pid} 
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     handleDeleteComment={handleDeleteComment}
                                     curUser={username}
-                                    dateTime={posts.date}
+                                    //dateTime={posts.date}
                                 />
                             </Grid>
 

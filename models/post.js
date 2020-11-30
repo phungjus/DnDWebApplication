@@ -6,13 +6,14 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     post :{
-        type: String
+        type: String,
+        required: true
     },
     userPosted: {
         type:mongoose.Types.ObjectId,
-        ref:'User'
+        ref:'User',
     },
-    userComments: [{
+    postComments: [{
         type:mongoose.Types.ObjectId,
         ref:'Comment'
     }]
