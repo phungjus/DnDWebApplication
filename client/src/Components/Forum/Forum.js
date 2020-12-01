@@ -9,8 +9,19 @@ import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input'
 import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
-import { getPosts, addPosts } from "../../Actions/Forum"
+import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
+import { addComments, deleteComments } from  "../../Actions/Comments"
 
+//TODO:
+//1. Fix the re-arranging of order of postForums
+//2. Implement Delete Buttons to work with Backend for both Comments and Posts
+//3. Implement correct User key for Posts object and Comment object (i.e. newPost and newComment require a user object right now they don't)
+//4. Update Schema to require User for each Post and Comment
+
+//Steps to start everything up:
+//1. mongod --dbpath mongo-data (load database)
+//2. node server.js (load server)
+//3. npm start (load front-end)
 
 const useStyles = makeStyles((theme) => ({
 
@@ -47,11 +58,6 @@ export default function Forum(props) {
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
-    const date = new Date()
-    const localDate = date.toLocaleDateString('en-US')
-    const localTime = date.toLocaleTimeString('en-US')
-    const time = localTime + " " + localDate
-
     // the variable forumPosts would require a server call to to get all the posts that have been made to the
     // Forum, but here they are hard-coded for Phase 1
     // const [forumPosts, setForumPosts] = useState([
@@ -64,8 +70,6 @@ export default function Forum(props) {
     const [forumPosts, setForumPosts] = useState([])
 
     const [showPost, setShowPost] = useState(false)
-    const [pid, setPID] = useState(2)
-    const [cid, setCID] = useState(3)
     
     useEffect(() => {
         getPosts(setForumPosts)
@@ -74,40 +78,37 @@ export default function Forum(props) {
     function handleSubmit(e) {
         
         e.preventDefault();
-        // const newDate = new Date()
-        // const postDate = newDate.toLocaleDateString('en-US')
-        // const postTime = newDate.toLocaleTimeString('en-US')
-        // const dateTime = postTime + " " + postDate
-        // const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid, date: dateTime }
-        const newPost = {title: title, post: postContent, postComments: [], userPosted: username}
+        const newDate = new Date()
+        const postDate = newDate.toLocaleDateString('en-US')
+        const postTime = newDate.toLocaleTimeString('en-US')
+        const dateTime = postTime + " " + postDate
+        const newPost = {title: title, post: postContent, postComments: [], userPosted: username, dateTime: dateTime}
         addPosts(newPost, setForumPosts, forumPosts)
-        // setForumPosts((forumPosts) => ([newPost, ...forumPosts]))
         setTitle('')
         setPostContent('')
         setShowPost(false)
-        // setPID(pid + 1)
     }
 
-    const handleNewComment = useCallback((username, postComment, postPID, date) => {
-        const shallowCopy = forumPosts.slice()
-        const prevPost = shallowCopy.filter(posts => posts.pid === postPID)
-        const newComment = {username: username, postComment: postComment, date: date, cid: cid}
-        prevPost[0].comments.push(newComment)
-        setCID(cid + 1)
-        setForumPosts(shallowCopy)
-    }, [forumPosts, cid])
+    const handleNewComment = useCallback((username, postComment, postPID, time) => {
+
+        const newComment = {comment: postComment, pid: postPID, dateTime: time}
+        addComments(newComment, setForumPosts)
+
+    }, [])
     
     const handleDelete = useCallback(pid => {
-        const updatedList = forumPosts.filter(posts => posts.pid !== pid)
-        setForumPosts(updatedList)
-    }, [forumPosts])
+        
+        const pidObj = {pid: pid}
+        deletePosts(pidObj, setForumPosts)
+
+    }, [])
 
     const handleDeleteComment = useCallback((pid, cid) => {
-        const shallowCopy = forumPosts.slice()
-        const indexOfComment = shallowCopy.filter(posts => posts.pid === pid)[0].comments.findIndex(comment => comment.cid === cid)
-        shallowCopy.find(posts => posts.pid === pid).comments.splice(indexOfComment, 1)
-        setForumPosts(shallowCopy)
-    }, [forumPosts])
+        
+        const commentObj = {pid: pid, cid: cid}
+        deleteComments(commentObj, setForumPosts)
+
+    }, [])
 
 
     return (
@@ -133,8 +134,8 @@ export default function Forum(props) {
                         item 
                         xs={12} 
                         component='div'
-                        justify="center"
-                        alignItems="flex-start"
+                        // justify="center"
+                        // alignItems="flex-start"
                         >
                             <Card variant="outlined">
                                 <CardContent className={classes.cardContent}>
@@ -189,7 +190,7 @@ export default function Forum(props) {
                     }
 
                     {
-                        forumPosts.map((posts, i) => (
+                        forumPosts.map((posts) => (
                             
                             <Grid 
                             item 
@@ -198,19 +199,19 @@ export default function Forum(props) {
                             alignItems="center"
                             justify="flex-start"
                             direction="column"
+                            key={posts._id.toString()}
                             >
                                 <ForumPost
-                                    key={i} 
                                     title={posts.title} 
                                     //username={posts.userPosted.toString()} 
                                     postContent={posts.post} 
                                     postComments={posts.postComments} 
-                                    //pid={posts.pid} 
+                                    pid={posts._id.toString()} 
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     handleDeleteComment={handleDeleteComment}
                                     curUser={username}
-                                    //dateTime={posts.date}
+                                    dateTime={posts.dateTime}
                                 />
                             </Grid>
 

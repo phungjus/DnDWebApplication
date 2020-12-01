@@ -56,6 +56,8 @@ app.get("/api/posts", mongoChecker, async (req, res) => {
 
     try {
         const posts = await Post.find()
+        log(typeof posts)
+        log(posts)
         res.send(posts)
     } catch (error) {
         log(error)
@@ -69,6 +71,7 @@ app.post("/api/posts", mongoChecker, async (req, res) => {
     const post = new Post({
         title: req.body.title,
         post: req.body.post,
+        dateTime: req.body.dateTime
         // userPosted: req.body.userPosted
     })
 
@@ -83,6 +86,75 @@ app.post("/api/posts", mongoChecker, async (req, res) => {
             res.status(400).send("Bad Request")
         }
     }
+
+})
+
+app.post("/api/comments", mongoChecker, async (req, res) => {
+
+    const comment = req.body.comment
+    const pid = req.body.pid
+    const dateTime = req.body.dateTime
+
+    const newComment = {
+        comment: comment,
+        pid: pid,
+        dateTime: dateTime
+    }
+
+    Post.findById(pid).then((post) => {
+        if (!post) {
+            res.status(404).send("Resource Not Found")
+        } else {
+            post.postComments.push(newComment)
+            log(post.postComments)
+            post.save().then((result) => {
+                res.send(result)
+            })
+        }
+    }).catch((error) => {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    })
+
+})
+
+app.post('/api/deletePost', mongoChecker, async (req, res) => {
+
+    const pid = req.body.pid
+
+    Post.findByIdAndDelete(pid, function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send("Successful Delete")
+        }
+    })
+
+})
+
+app.post('/api/deleteComment', mongoChecker, async (req, res) => {
+
+    const pid = req.body.pid
+    const cid = req.body.cid
+
+    Post.findById(pid).then((post) => {
+        if (!post) {
+            res.status(404).send("Resource Not Found")
+        } else {
+            if (!post.postComments.id(cid)) {
+                res.status(404).send("Resource Not Found")
+            } else {
+
+                post.postComments = post.postComments.filter((comment) => comment._id.toString() !== cid)
+                post.save().then((result) => {
+                    res.send(result)
+                })
+            }
+        }
+    }).catch((error) => {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    })
 
 })
 

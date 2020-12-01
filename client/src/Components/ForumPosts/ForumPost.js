@@ -68,7 +68,7 @@ export default function ForumPost(props) {
             <Card variant="outlined">
                 <CardContent className={classes.cardContent}>
                     <Typography component="h4" className='postTitle' align="left">{props.title}</Typography>
-                    {/* <Typography component="h4" className='postUser' align="left">By: {props.username}</Typography> */}
+                    <Typography component="h4" className='postUser' align="left">at {props.dateTime}</Typography>
                     {/* <Typography component="h4" className='postUser' align="left">By: {props.username} @ {props.dateTime}</Typography> */}
                     <Typography component="p" className='postContent' align="left">{props.postContent}</Typography>
                     <Toggle title="Show Comments">
@@ -76,13 +76,13 @@ export default function ForumPost(props) {
                             {
                                 props.postComments.map((comments, i) => (
                                     <ForumComments 
-                                    username={comments.username} 
-                                    commentContent={comments.postComment} 
-                                    //dateTime={comments.date} 
+                                    // username={comments.username} 
+                                    commentContent={comments.comment}
+                                    cid={comments._id.toString()}
+                                    pid={props.pid} 
+                                    dateTime={comments.dateTime} 
                                     key={i} 
                                     handleDeleteComment={props.handleDeleteComment} 
-                                    //pid={props.pid}
-                                    //cid={comments.cid} 
                                     curUser={props.curUser}/>
                                 ))
                             }
