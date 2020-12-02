@@ -29,7 +29,7 @@ const PostSchema = new mongoose.Schema({
     userPosted: {
         type:mongoose.Types.ObjectId,
         ref:'User',
-        // required: true
+        required: true
     },
     dateTime: {
         type: String,

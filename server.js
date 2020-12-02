@@ -55,9 +55,11 @@ const mongoChecker = (req, res, next) => {
 app.get("/api/posts", mongoChecker, async (req, res) => {
 
     try {
-        const posts = await Post.find()
-        log(typeof posts)
-        log(posts)
+        const posts = await Post.find().populate({
+            path: 'postComments',
+            populate: { path: 'userPosted'}
+        }).populate('userPosted')
+
         res.send(posts)
     } catch (error) {
         log(error)
@@ -68,53 +70,103 @@ app.get("/api/posts", mongoChecker, async (req, res) => {
 
 app.post("/api/posts", mongoChecker, async (req, res) => {
 
-    const post = new Post({
-        title: req.body.title,
-        post: req.body.post,
-        dateTime: req.body.dateTime
-        // userPosted: req.body.userPosted
+    //Once User Works use this:
+
+    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+        const post = new Post({
+            title: req.body.title,
+            post: req.body.post,
+            dateTime: req.body.dateTime,
+            userPosted: user
+        })
+        try {
+            const result = await post.save()
+            res.send(result)
+        } catch (error) {
+            res.status(666).send("Shit has hit the fan")
+        }
     })
 
-    try {
-        const result = await post.save()
-        res.send(result)
-    } catch (error) {
-        log(error)
-        if (isMongoError(error)) {
-            res.status(500).send("Internal Server Error")
-        } else {
-            res.status(400).send("Bad Request")
-        }
-    }
+    // const post = new Post({
+    //     title: req.body.title,
+    //     post: req.body.post,
+    //     dateTime: req.body.dateTime
+    //     // userPosted: req.body.userPosted
+    // })
+
+    // try {
+    //     const result = await post.save()
+    //     res.send(result)
+    // } catch (error) {
+    //     log(error)
+    //     if (isMongoError(error)) {
+    //         res.status(500).send("Internal Server Error")
+    //     } else {
+    //         res.status(400).send("Bad Request")
+    //     }
+    // }
 
 })
 
 app.post("/api/comments", mongoChecker, async (req, res) => {
 
+    //Once User Works use this:
+
     const comment = req.body.comment
     const pid = req.body.pid
     const dateTime = req.body.dateTime
 
-    const newComment = {
-        comment: comment,
-        pid: pid,
-        dateTime: dateTime
-    }
-
-    Post.findById(pid).then((post) => {
-        if (!post) {
-            res.status(404).send("Resource Not Found")
-        } else {
-            post.postComments.push(newComment)
-            log(post.postComments)
-            post.save().then((result) => {
-                res.send(result)
-            })
+    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+        const newComment = {
+            comment: comment,
+            dateTime: dateTime,
+            userPosted: user
         }
+
+        Post.findById(pid).then((post) => {
+            if (!post) {
+                res.status(404).send("Resource Not Found")
+            } else {
+                post.postComments.push(newComment)
+                log(post.postComments)
+                post.save().then((result) => {
+                    res.send(result)
+                })
+            }
+        }).catch((error) => {
+            log(error)
+            res.status(500).send("Internal Server Error")
+        })
+
     }).catch((error) => {
         log(error)
         res.status(500).send("Internal Server Error")
     })
+
+    // const comment = req.body.comment
+    // const pid = req.body.pid
+    // const dateTime = req.body.dateTime
+
+    // const newComment = {
+    //     comment: comment,
+    //     pid: pid,
+    //     dateTime: dateTime
+    // }
+
+    // Post.findById(pid).then((post) => {
+    //     if (!post) {
+    //         res.status(404).send("Resource Not Found")
+    //     } else {
+    //         post.postComments.push(newComment)
+    //         log(post.postComments)
+    //         post.save().then((result) => {
+    //             res.send(result)
+    //         })
+    //     }
+    // }).catch((error) => {
+    //     log(error)
+    //     res.status(500).send("Internal Server Error")
+    // })
 
 })
 

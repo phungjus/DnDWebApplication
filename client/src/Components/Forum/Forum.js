@@ -13,10 +13,10 @@ import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
 import { addComments, deleteComments } from  "../../Actions/Comments"
 
 //TODO:
-//1. Fix the re-arranging of order of postForums
-//2. Implement Delete Buttons to work with Backend for both Comments and Posts
-//3. Implement correct User key for Posts object and Comment object (i.e. newPost and newComment require a user object right now they don't)
-//4. Update Schema to require User for each Post and Comment
+//1. Implement correct User key for Posts object and Comment object (i.e. newPost and newComment require a user object right now they don't)
+//2. Update Schema to require User for each Post and Comment
+//3. Add backend calls to the Group portion of the database
+
 
 //Steps to start everything up:
 //1. mongod --dbpath mongo-data (load database)
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Forum(props) {
 
     const classes = useStyles()
-    const username = props.user
+    // const username = props.user
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
