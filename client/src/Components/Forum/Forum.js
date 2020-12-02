@@ -13,9 +13,7 @@ import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
 import { addComments, deleteComments } from  "../../Actions/Comments"
 
 //TODO:
-//1. Implement correct User key for Posts object and Comment object (i.e. newPost and newComment require a user object right now they don't)
-//2. Update Schema to require User for each Post and Comment
-//3. Add backend calls to the Group portion of the database
+//1. Add backend calls to the Group portion of the database
 
 
 //Steps to start everything up:
@@ -54,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Forum(props) {
 
     const classes = useStyles()
-    // const username = props.user
+    const username = props.user
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
@@ -203,7 +201,7 @@ export default function Forum(props) {
                             >
                                 <ForumPost
                                     title={posts.title} 
-                                    //username={posts.userPosted.toString()} 
+                                    username={posts.userPosted.email} 
                                     postContent={posts.post} 
                                     postComments={posts.postComments} 
                                     pid={posts._id.toString()} 

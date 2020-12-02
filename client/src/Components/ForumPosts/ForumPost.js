@@ -68,15 +68,14 @@ export default function ForumPost(props) {
             <Card variant="outlined">
                 <CardContent className={classes.cardContent}>
                     <Typography component="h4" className='postTitle' align="left">{props.title}</Typography>
-                    <Typography component="h4" className='postUser' align="left">at {props.dateTime}</Typography>
-                    {/* <Typography component="h4" className='postUser' align="left">By: {props.username} @ {props.dateTime}</Typography> */}
+                    <Typography component="h4" className='postUser' align="left">By: {props.username} @ {props.dateTime}</Typography>
                     <Typography component="p" className='postContent' align="left">{props.postContent}</Typography>
                     <Toggle title="Show Comments">
                         <Grid item xs={12} component="div">
                             {
                                 props.postComments.map((comments, i) => (
                                     <ForumComments 
-                                    // username={comments.username} 
+                                    username={comments.userPosted.email} 
                                     commentContent={comments.comment}
                                     cid={comments._id.toString()}
                                     pid={props.pid} 

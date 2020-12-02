@@ -70,7 +70,7 @@ app.get("/api/posts", mongoChecker, async (req, res) => {
 
 app.post("/api/posts", mongoChecker, async (req, res) => {
 
-    //Once User Works use this:
+    //Once User Works use this need user id to be passed as parameter:
 
     User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
         const post = new Post({
