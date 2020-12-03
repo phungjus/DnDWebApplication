@@ -75,13 +75,13 @@ export default function ForumPost(props) {
                             {
                                 props.postComments.map((comments, i) => (
                                     <ForumComments 
-                                    username={comments.username} 
-                                    commentContent={comments.postComment} 
-                                    dateTime={comments.date} 
+                                    username={comments.userPosted.email} 
+                                    commentContent={comments.comment}
+                                    cid={comments._id.toString()}
+                                    pid={props.pid} 
+                                    dateTime={comments.dateTime} 
                                     key={i} 
                                     handleDeleteComment={props.handleDeleteComment} 
-                                    pid={props.pid}
-                                    cid={comments.cid} 
                                     curUser={props.curUser}/>
                                 ))
                             }

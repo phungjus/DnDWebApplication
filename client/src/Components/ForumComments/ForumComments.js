@@ -45,9 +45,6 @@ export default function ForumComments(props) {
         <Grid 
         item 
         xs={12}
-        direction="column"
-        justify="center"
-        alignItems="stretch"
         >
             <Card variant="outlined">
                 <CardContent className={classes.cardContent}>

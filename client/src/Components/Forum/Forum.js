@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import ForumGroups from '../ForumGroups/ForumGroups.js';
 import ForumPost from '../ForumPosts/ForumPost.js';
 import Grid from '@material-ui/core/Grid'
@@ -9,6 +9,17 @@ import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input'
 import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
+import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
+import { addComments, deleteComments } from  "../../Actions/Comments"
+
+//TODO:
+//1. Add backend calls to the Group portion of the database
+
+
+//Steps to start everything up:
+//1. mongod --dbpath mongo-data (load database)
+//2. node server.js (load server)
+//3. npm start (load front-end)
 
 const useStyles = makeStyles((theme) => ({
 
@@ -45,24 +56,23 @@ export default function Forum(props) {
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
-    const date = new Date()
-    const localDate = date.toLocaleDateString('en-US')
-    const localTime = date.toLocaleTimeString('en-US')
-    const time = localTime + " " + localDate
-
     // the variable forumPosts would require a server call to to get all the posts that have been made to the
     // Forum, but here they are hard-coded for Phase 1
-    const [forumPosts, setForumPosts] = useState([
-        {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
-        {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-        comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
-    ])
+    // const [forumPosts, setForumPosts] = useState([
+    //     {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+    //     comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
+    //     {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
+    //     comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
+    // ])
+
+    const [forumPosts, setForumPosts] = useState([])
 
     const [showPost, setShowPost] = useState(false)
-    const [pid, setPID] = useState(2)
-    const [cid, setCID] = useState(3)
     
+    useEffect(() => {
+        getPosts(setForumPosts)
+    }, [])
+
     function handleSubmit(e) {
         
         e.preventDefault();
@@ -70,34 +80,34 @@ export default function Forum(props) {
         const postDate = newDate.toLocaleDateString('en-US')
         const postTime = newDate.toLocaleTimeString('en-US')
         const dateTime = postTime + " " + postDate
-        const newPostInfo = { username: username, title: title, postContent: postContent, comments: [], pid: pid, date: dateTime }
-        setForumPosts((forumPosts) => ([newPostInfo, ...forumPosts]))
+        const newPost = {title: title, post: postContent, postComments: [], userPosted: username, dateTime: dateTime}
+        addPosts(newPost, setForumPosts, forumPosts)
         setTitle('')
         setPostContent('')
         setShowPost(false)
-        setPID(pid + 1)
     }
 
-    const handleNewComment = useCallback((username, postComment, postPID, date) => {
-        const shallowCopy = forumPosts.slice()
-        const prevPost = shallowCopy.filter(posts => posts.pid === postPID)
-        const newComment = {username: username, postComment: postComment, date: date, cid: cid}
-        prevPost[0].comments.push(newComment)
-        setCID(cid + 1)
-        setForumPosts(shallowCopy)
-    }, [forumPosts, cid])
+    const handleNewComment = useCallback((username, postComment, postPID, time) => {
+
+        const newComment = {comment: postComment, pid: postPID, dateTime: time}
+        addComments(newComment, setForumPosts)
+
+    }, [])
     
     const handleDelete = useCallback(pid => {
-        const updatedList = forumPosts.filter(posts => posts.pid !== pid)
-        setForumPosts(updatedList)
-    }, [forumPosts])
+        
+        const pidObj = {pid: pid}
+        deletePosts(pidObj, setForumPosts)
+
+    }, [])
 
     const handleDeleteComment = useCallback((pid, cid) => {
-        const shallowCopy = forumPosts.slice()
-        const indexOfComment = shallowCopy.filter(posts => posts.pid === pid)[0].comments.findIndex(comment => comment.cid === cid)
-        shallowCopy.find(posts => posts.pid === pid).comments.splice(indexOfComment, 1)
-        setForumPosts(shallowCopy)
-    }, [forumPosts])
+        
+        const commentObj = {pid: pid, cid: cid}
+        deleteComments(commentObj, setForumPosts)
+
+    }, [])
+
 
     return (
         <div className="mainForum">
@@ -122,8 +132,8 @@ export default function Forum(props) {
                         item 
                         xs={12} 
                         component='div'
-                        justify="center"
-                        alignItems="flex-start"
+                        // justify="center"
+                        // alignItems="flex-start"
                         >
                             <Card variant="outlined">
                                 <CardContent className={classes.cardContent}>
@@ -178,7 +188,7 @@ export default function Forum(props) {
                     }
 
                     {
-                        forumPosts.map((posts, i) => (
+                        forumPosts.map((posts) => (
                             
                             <Grid 
                             item 
@@ -187,19 +197,19 @@ export default function Forum(props) {
                             alignItems="center"
                             justify="flex-start"
                             direction="column"
+                            key={posts._id.toString()}
                             >
                                 <ForumPost
-                                    key={i} 
                                     title={posts.title} 
-                                    username={posts.username} 
-                                    postContent={posts.postContent} 
-                                    postComments={posts.comments} 
-                                    pid={posts.pid} 
+                                    username={posts.userPosted.email} 
+                                    postContent={posts.post} 
+                                    postComments={posts.postComments} 
+                                    pid={posts._id.toString()} 
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     handleDeleteComment={handleDeleteComment}
                                     curUser={username}
-                                    dateTime={posts.date}
+                                    dateTime={posts.dateTime}
                                 />
                             </Grid>
 

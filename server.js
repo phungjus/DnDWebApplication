@@ -11,6 +11,11 @@ const path = require('path')
 const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
+//cors
+
+const cors = require('cors');
+app.use(cors());
+
 // import the mongoose models
 // const { Student } = require("./models/student");
 const { User } = require("./models/user");
@@ -18,6 +23,7 @@ const { Post } = require("./models/post");
 const { Character } = require("./models/character")
 const { Group } = require("./models/group")
 const { Comment } = require("./models/comment")
+
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -28,6 +34,7 @@ app.use(bodyParser.json());
 
 // express-session for managing user sessions
 const session = require("express-session");
+const { mongo } = require("mongoose");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "/client/build")));
@@ -37,7 +44,175 @@ function isMongoError(error) { // checks for first error returned by promise rej
 }
 
 app.get("/", (req, res, next) => {
-    res.sendFile(path.join(__dirname, "/client/build/index.html"));
+    res.sendFile(path.join(__dirname, "/client/build/index.html"))});
+    
+const mongoChecker = (req, res, next) => {
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    } else {
+        next()  
+    }   
+}
+
+app.get("/api/posts", mongoChecker, async (req, res) => {
+
+    try {
+        const posts = await Post.find().populate({
+            path: 'postComments',
+            populate: { path: 'userPosted'}
+        }).populate('userPosted')
+
+        res.send(posts)
+    } catch (error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+app.post("/api/posts", mongoChecker, async (req, res) => {
+
+    //Once User Works use this need user id to be passed as parameter:
+
+    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+        const post = new Post({
+            title: req.body.title,
+            post: req.body.post,
+            dateTime: req.body.dateTime,
+            userPosted: user
+        })
+        try {
+            const result = await post.save()
+            res.send(result)
+        } catch (error) {
+            res.status(666).send("Shit has hit the fan")
+        }
+    })
+
+    // const post = new Post({
+    //     title: req.body.title,
+    //     post: req.body.post,
+    //     dateTime: req.body.dateTime
+    //     // userPosted: req.body.userPosted
+    // })
+
+    // try {
+    //     const result = await post.save()
+    //     res.send(result)
+    // } catch (error) {
+    //     log(error)
+    //     if (isMongoError(error)) {
+    //         res.status(500).send("Internal Server Error")
+    //     } else {
+    //         res.status(400).send("Bad Request")
+    //     }
+    // }
+
+})
+
+app.post("/api/comments", mongoChecker, async (req, res) => {
+
+    //Once User Works use this:
+
+    const comment = req.body.comment
+    const pid = req.body.pid
+    const dateTime = req.body.dateTime
+
+    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+        const newComment = {
+            comment: comment,
+            dateTime: dateTime,
+            userPosted: user
+        }
+
+        Post.findById(pid).then((post) => {
+            if (!post) {
+                res.status(404).send("Resource Not Found")
+            } else {
+                post.postComments.push(newComment)
+                log(post.postComments)
+                post.save().then((result) => {
+                    res.send(result)
+                })
+            }
+        }).catch((error) => {
+            log(error)
+            res.status(500).send("Internal Server Error")
+        })
+
+    }).catch((error) => {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    })
+
+    // const comment = req.body.comment
+    // const pid = req.body.pid
+    // const dateTime = req.body.dateTime
+
+    // const newComment = {
+    //     comment: comment,
+    //     pid: pid,
+    //     dateTime: dateTime
+    // }
+
+    // Post.findById(pid).then((post) => {
+    //     if (!post) {
+    //         res.status(404).send("Resource Not Found")
+    //     } else {
+    //         post.postComments.push(newComment)
+    //         log(post.postComments)
+    //         post.save().then((result) => {
+    //             res.send(result)
+    //         })
+    //     }
+    // }).catch((error) => {
+    //     log(error)
+    //     res.status(500).send("Internal Server Error")
+    // })
+
+})
+
+app.post('/api/deletePost', mongoChecker, async (req, res) => {
+
+    const pid = req.body.pid
+
+    Post.findByIdAndDelete(pid, function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send("Successful Delete")
+        }
+    })
+
+})
+
+app.post('/api/deleteComment', mongoChecker, async (req, res) => {
+
+    const pid = req.body.pid
+    const cid = req.body.cid
+
+    Post.findById(pid).then((post) => {
+        if (!post) {
+            res.status(404).send("Resource Not Found")
+        } else {
+            if (!post.postComments.id(cid)) {
+                res.status(404).send("Resource Not Found")
+            } else {
+
+                post.postComments = post.postComments.filter((comment) => comment._id.toString() !== cid)
+                post.save().then((result) => {
+                    res.send(result)
+                })
+            }
+        }
+    }).catch((error) => {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    })
+
 })
 
 app.post("/user", async (req, res) => {
