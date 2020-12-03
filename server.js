@@ -16,7 +16,7 @@ mongoose.set('useFindAndModify', false); // for some deprecation issues
 const { User } = require("./models/user");
 const { Post } = require("./models/post");
 const { Character } = require("./models/character")
-const { Group } = require("./models/Group")
+const { Group } = require("./models/group")
 const { Comment } = require("./models/comment")
 
 // to validate object IDs
