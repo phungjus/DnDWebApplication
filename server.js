@@ -36,7 +36,7 @@ function isMongoError(error) { // checks for first error returned by promise rej
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
-app.use("/", (req, res, next) => {
+app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"));
 })
 
