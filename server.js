@@ -11,6 +11,10 @@ const path = require('path')
 const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
+//cors 
+const cors = require('cors');
+app.use(cors());
+
 // import the mongoose models
 // const { Student } = require("./models/student");
 const { User } = require("./models/user");
@@ -128,6 +132,31 @@ app.patch("/user/:id/character", async (req, res) => {
             res.status(400).send('Bad Request') // bad request for changing the student.
         }
     }
+})
+
+app.get("/user/:id/character", async (req, res) => {
+    const id = req.params.id
+    // Validate id
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // user does not exist
+		return; 
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			res.status(404).send('Resource not found')  // could not find this restaurant
+		} else {  
+			if (user.character.length === 0) {
+                res.send({}) // user has not created a character yet
+            }
+            res.send(user.character[0])
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
 })
 
 app.patch("/user/:id/group", async (req, res) => {

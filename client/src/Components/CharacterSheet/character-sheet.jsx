@@ -6,9 +6,10 @@ import CharacterHeader from '../CharacterHeader/character-header.jsx';
 import Diceroller from '../Diceroller/index.js';
 import './character-sheet-styles.css';
 import AbilityModifiers from '../AbilityModifiers/ability-modifiers';
+import {getCharacter} from '../../Actions/Characters.js'
 
 class CharacterSheet extends React.Component {
-    /* This state is hardcoded for phase 1 but would be retrieved from backend */
+    
     state = {
         name: "Caleb Widogast",
         image: caleb,
@@ -23,8 +24,12 @@ class CharacterSheet extends React.Component {
         proficiency: 2,
         speed: 30,
         attack: 7,
-        hp: 11,
-        death: 0
+        hp: 11
+    }
+
+    componentWillMount = () => {
+        const character = getCharacter(this.props.userid)
+        console.log(character)
     }
 
     handleStatsChange = (statsValue) => {
