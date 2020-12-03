@@ -1,7 +1,11 @@
 
 export const getPosts = (setForumPosts) => {
 
+    //local
     const url = 'http://localhost:5000/api/posts'
+
+    //deployed
+    //const url = '/api/posts'
 
     fetch(url)
         .then(res => {
@@ -29,7 +33,11 @@ export const getPosts = (setForumPosts) => {
 
 export const addPosts = (post, setForumPosts, forumPosts) => {
 
+    //local
     const url = 'http://localhost:5000/api/posts'
+
+    //deployed
+    //const url = '/api/posts'
 
     const request = new Request(url, {
         method: "post",
@@ -60,7 +68,11 @@ export const addPosts = (post, setForumPosts, forumPosts) => {
 
 export const deletePosts = (pid, setForumPosts) => {
 
+    //local
     const url = 'http://localhost:5000/api/deletePost'
+
+    //deployed
+    //const url = '/api/deletePost'
 
     const request = new Request(url, {
         method: "post",

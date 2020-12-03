@@ -88,40 +88,27 @@ app.post("/api/posts", mongoChecker, async (req, res) => {
             const result = await post.save()
             res.send(result)
         } catch (error) {
-            res.status(666).send("Shit has hit the fan")
+            log(error)
+            if (isMongoError(error)) {
+                res.status(500).send("Internal Server Error")
+            } else {
+                res.status(400).send("Bad Request")
+            }
         }
     })
-
-    // const post = new Post({
-    //     title: req.body.title,
-    //     post: req.body.post,
-    //     dateTime: req.body.dateTime
-    //     // userPosted: req.body.userPosted
-    // })
-
-    // try {
-    //     const result = await post.save()
-    //     res.send(result)
-    // } catch (error) {
-    //     log(error)
-    //     if (isMongoError(error)) {
-    //         res.status(500).send("Internal Server Error")
-    //     } else {
-    //         res.status(400).send("Bad Request")
-    //     }
-    // }
 
 })
 
 app.post("/api/comments", mongoChecker, async (req, res) => {
 
-    //Once User Works use this:
+    //Once User Works use this need user id to be passed as parameter:
 
     const comment = req.body.comment
     const pid = req.body.pid
     const dateTime = req.body.dateTime
 
     User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+        
         const newComment = {
             comment: comment,
             dateTime: dateTime,
@@ -147,31 +134,6 @@ app.post("/api/comments", mongoChecker, async (req, res) => {
         log(error)
         res.status(500).send("Internal Server Error")
     })
-
-    // const comment = req.body.comment
-    // const pid = req.body.pid
-    // const dateTime = req.body.dateTime
-
-    // const newComment = {
-    //     comment: comment,
-    //     pid: pid,
-    //     dateTime: dateTime
-    // }
-
-    // Post.findById(pid).then((post) => {
-    //     if (!post) {
-    //         res.status(404).send("Resource Not Found")
-    //     } else {
-    //         post.postComments.push(newComment)
-    //         log(post.postComments)
-    //         post.save().then((result) => {
-    //             res.send(result)
-    //         })
-    //     }
-    // }).catch((error) => {
-    //     log(error)
-    //     res.status(500).send("Internal Server Error")
-    // })
 
 })
 
@@ -366,19 +328,6 @@ app.post("/user/:id/:pid/comment", async (req, res) => {
         }
     }
 })
-
-
-// // middleware for mongo connection error for routes that need it
-// const mongoChecker = (req, res, next) => {
-//     // check mongoose connection established.
-//     if (mongoose.connection.readyState != 1) {
-//         log('Issue with mongoose connection')
-//         res.status(500).send('Internal server error')
-//         return;
-//     } else {
-//         next()  
-//     }   
-// }
 
 // // Middleware for authentication of resources
 // const authenticate = (req, res, next) => {

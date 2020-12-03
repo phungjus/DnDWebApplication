@@ -2,7 +2,11 @@ import { getPosts } from "./Forum"
 
 export const addComments = (comment, setForumPosts) => {
 
+    //local
     const url = 'http://localhost:5000/api/comments'
+
+    //deployed
+    //const url = '/api/comments'
 
     const request = new Request(url, {
         method: "post",
@@ -30,7 +34,11 @@ export const addComments = (comment, setForumPosts) => {
 
 export const deleteComments = (commentInfo, setForumPosts) => {
 
+    //local
     const url = 'http://localhost:5000/api/deleteComment'
+
+    //deployed
+    //const url = '/api/deleteComment'
 
     const request = new Request(url, {
         method: "post",
