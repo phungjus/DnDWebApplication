@@ -30,9 +30,16 @@ app.use(bodyParser.json());
 const session = require("express-session");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(path.join(__dirname, "..", "build")));
+app.use(express.static("public"));
+
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
+
+app.use("/", (req, res, next) => {
+    res.sendFile(path.join(__dirname, "..", "build", "index.html"));
+})
 
 app.post("/user", async (req, res) => {
     log(req.body)
