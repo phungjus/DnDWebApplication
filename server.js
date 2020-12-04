@@ -95,7 +95,7 @@ app.post("/user/:id/post", async (req, res) => {
     }
 })
 
-app.patch("/user/:id/character", async (req, res) => {
+app.patch("api/user/:id/character", async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -134,11 +134,12 @@ app.patch("/user/:id/character", async (req, res) => {
     }
 })
 
-app.get("/user/:id/character", async (req, res) => {
+app.get("api/user/:id/character", async (req, res) => {
     const id = req.params.id
     // Validate id
 	if (!ObjectID.isValid(id)) {
-		res.status(404).send()  // user does not exist
+        res.status(404).send()  // user does not exist
+        log("wasn't found!!")
 		return; 
 	}
 

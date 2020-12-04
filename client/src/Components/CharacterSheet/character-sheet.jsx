@@ -29,7 +29,6 @@ class CharacterSheet extends React.Component {
 
     componentWillMount = () => {
         const character = getCharacter(this.props.userid)
-        console.log(character)
     }
 
     handleStatsChange = (statsValue) => {
