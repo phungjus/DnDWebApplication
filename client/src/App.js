@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar'
 import Forum from './Components/Forum/Forum'
 import CharacterSheet from './Components/CharacterSheet/character-sheet.jsx'
 import './App.css';
+import { login } from './Actions/Login.js'
 
 class App extends React.Component {
 
@@ -16,10 +17,14 @@ class App extends React.Component {
     user: ''
   }
 
-  handleLogin = (user) => {
-    this.setState({
-      login : true,
-      user: user
+  handleLogin = (username, password) => {
+    login(username, password, (user) => {
+      if (user !== "undefined") {
+        this.setState({
+          login: true,
+          user: user
+        })
+      }
     })
   }
 
@@ -43,7 +48,7 @@ class App extends React.Component {
             <Switch>
               <Route exact path='/' component={() => <CharacterCreatePage userid="5fc965218c1ba8614e917a0f"/>} />
               <Route exact path='/Grouplist' component={() => <Grouplist user={this.state.user}/>}/>
-              <Route exact path='/Groupadmin' component={() => <Group userType={"Admin"}/>}/>
+              <Route exact path='/Group/:gid' component={() => <Group user={this.state.user}/>}/>
               <Route exact path='/Groupuser' component={() => <Group userType={"User"}/>}/>
               <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
               <Route exact path='/Character' render={() => (<CharacterSheet user={this.state.user} userid="5fc965218c1ba8614e917a0f"/>)} />

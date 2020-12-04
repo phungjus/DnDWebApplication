@@ -2,24 +2,25 @@ import React from 'react';
 import './styles.css';
 import Member from '../Member'
 import Button from '@material-ui/core/Button'
+import { getUsers } from '../../Actions/Group'
 
 class Memberlist extends React.Component {
     
     state = {
         // Get members of the group from server
-        members : [
-            {name: "Matt", memberType: "DM"},
-            {name: "Kyoji", memberType: "Player"},
-            {name: "Jess", memberType: "Player"},
-            {name: "Justin", memberType: "Player"},
-            {name: "Kai", memberType: "Player"},
-            {name: "Maddy", memberType: "Player"},
-            {name: "Ma", memberType: "Player"},
-            {name: "Pa", memberType: "Player"},
-            {name: "Ricky", memberType: "Player"},
-            {name: "Ishan", memberType: "Player"},
-            {name: "Shakir", memberType: "Player"},
-        ]
+        members : []
+    }
+
+    componentDidMount() {
+        if (this.props.groupid !== "undefined") {
+            getUsers(this.props.groupid, (users) => {
+                if (users !== "undefined") {
+                    this.setState({
+                        members: users
+                    })
+                }
+            })
+        }
     }
 
     deleteMember = (member) => {

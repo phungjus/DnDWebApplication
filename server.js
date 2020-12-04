@@ -23,6 +23,7 @@ const { Post } = require("./models/post");
 const { Character } = require("./models/character")
 const { Group } = require("./models/group")
 const { Comment } = require("./models/comment")
+const { Message } = require("./models/message")
 
 
 // to validate object IDs
@@ -57,6 +58,16 @@ const mongoChecker = (req, res, next) => {
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
     
+// const mongoChecker = (req, res, next) => {
+//     // check mongoose connection established.
+//     if (mongoose.connection.readyState != 1) {
+//         log('Issue with mongoose connection')
+//         res.status(500).send('Internal server error')
+//         return;
+//     } else {
+//         next()  
+//     }   
+// }
 
 app.get("/api/posts", mongoChecker, async (req, res) => {
 
@@ -194,8 +205,8 @@ app.get("/api/character/:id", mongoChecker, async (req, res) => {
 })
 
 
-app.post("/user", async (req, res) => {
-    log(req.body)
+app.post("/api/user", mongoChecker, async (req, res) => {
+    // log(req.body)
 
     // Create a new user
     const user = new User({
@@ -310,7 +321,7 @@ app.get("api/user/:id/character", async (req, res) => {
 	}
 })
 
-app.patch("/user/:id/group", async (req, res) => {
+app.patch("/api/user/:id/group", async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -331,6 +342,166 @@ app.patch("/user/:id/group", async (req, res) => {
         const result = await user.save()
         res.send(result)
     } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.patch("/api/user/:id/leave/group/:gid", async (req, res) => {
+    log(req.body)
+
+    // Create a new user
+    const id = req.params.id
+    const gid = req.params.gid
+    const user = await User.findById(id)
+    const group = await Group.findById(gid)
+
+    try {
+        // Save the user
+        user.groups.pull(group._id)
+        group.users.pull(user._id)
+        const result1 = await group.save()
+        const result = await user.save()
+        res.send({result: result, result1: result1})
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.patch("/api/group/:groupid/add/user/:userid", async (req, res) => {
+    log(req.body)
+
+    // Create a new user
+    const id = req.params.userid
+    const groupid = req.params.groupid
+    const user = await User.findById(id)
+    const group = await Group.findById(groupid)
+
+    try {
+        // Save the user
+        group.users.push(user._id)
+        user.groups.push(group._id)
+        const result1 = await group.save()
+        const result = await user.save()
+        res.send({result: result, result1: result1})
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
+    const id = req.params.id
+
+    async function findGroups(user) {
+        var groups = []
+        for (const groupId of user.groups) {
+            const group = await Group.findById(groupId)
+            groups.push(group)
+        }
+        return groups
+    }
+    
+    try {
+        const user = await User.findById(id)
+        findGroups(user).then(groups => res.send({groups: groups}))
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.get("/api/group/:id", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const group = await Group.findById(id)
+        res.send({group: group})
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.get("/api/group/:id/messages", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const group = await Group.findById(id)
+        const messages = []
+        for (const messageid of group.messages) {
+            const message = await Message.findById(messageid)
+            messages.push(message)
+        }
+        res.send({ messages: messages})
+    } catch {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.get("/api/group/:id/users", async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const group = await Group.findById(id)
+        const users = []
+        for (const userid of group.users) {
+            const user = await User.findById(userid)
+            users.push(user)
+        }
+        res.send({ users: users})
+    } catch {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.patch("/api/group/:gid/user/:uid/message", async (req, res) => {
+    const gid = req.params.gid
+    const uid = req.params.uid
+
+    try {
+        const user = await User.findById(uid)
+        const message = new Message({
+            message: req.body.message,
+            userPosted: user._id
+        })
+        const group = await Group.findById(gid)
+        group.messages.push(message._id)
+        const result = await message.save()
+        const result1 = group.save()
+        res.send({ result: result, result1: result1 })
+    } catch {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
         } else {
@@ -372,80 +543,81 @@ app.post("/user/:id/:pid/comment", async (req, res) => {
     }
 })
 
-// // Middleware for authentication of resources
-// const authenticate = (req, res, next) => {
-//     if (req.session.user) {
-//         User.findById(req.session.user).then((user) => {
-//             if (!user) {
-//                 return Promise.reject()
-//             } else {
-//                 req.user = user
-//                 next()
-//             }
-//         }).catch((error) => {
-//             res.status(401).send("Unauthorized")
-//         })
-//     } else {
-//         res.status(401).send("Unauthorized")
-//     }
-// }
+// Middleware for authentication of resources
+const authenticate = (req, res, next) => {
+    if (req.session.user) {
+        User.findById(req.session.user).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
+}
 
 
-// /*** Session handling **************************************/
-// // Create a session and session cookie
-// app.use(
-//     session({
-//         secret: "our hardcoded secret",
-//         resave: false,
-//         saveUninitialized: false,
-//         cookie: {
-//             expires: 60000,
-//             httpOnly: true
-//         }
-//     })
-// );
+/*** Session handling **************************************/
+// Create a session and session cookie
+app.use(
+    session({
+        secret: "our hardcoded secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            expires: 60000,
+            httpOnly: true
+        }
+    })
+);
 
-// // A route to login and create a session
-// app.post("/users/login", (req, res) => {
-//     const email = req.body.email;
-//     const password = req.body.password;
+// A route to login and create a session
+app.post("/api/users/login", (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
 
-//     // log(email, password);
-//     // Use the static method on the User model to find a user
-//     // by their email and password
-//     User.findByEmailPassword(email, password)
-//         .then(user => {
-//             // Add the user's id to the session.
-//             // We can check later if this exists to ensure we are logged in.
-//             req.session.user = user._id;
-//             req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
-//             res.send({ currentUser: user.email });
-//         })
-//         .catch(error => {
-//             res.status(400).send()
-//         });
-// });
+    // log(email, password);
+    // Use the static method on the User model to find a user
+    // by their email and password
+    User.findByEmailPassword(email, password)
+        .then(user => {
+            // Add the user's id to the session.
+            // We can check later if this exists to ensure we are logged in.
+            req.session.user = user._id;
+            req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+            res.send({ currentUser: user });
+        })
+        .catch(error => {
+            res.status(400).send()
+        });
+});
 
-// // A route to logout a user
-// app.get("/users/logout", (req, res) => {
-//     // Remove the session
-//     req.session.destroy(error => {
-//         if (error) {
-//             res.status(500).send(error);
-//         } else {
-//             res.send()
-//         }
-//     });
-// });
+// A route to logout a user
+app.get("/api/users/logout", (req, res) => {
+    // Remove the session
+    req.session.destroy(error => {
+        if (error) {
+            res.status(500).send(error);
+        } else {
+            res.send()
+        }
+    });
+});
 
-// // A route to check if a user is logged in on the session
-// app.get("/users/check-session", (req, res) => {
-//     if (req.session.user) {
-//         res.send({ currentUser: req.session.email });
-//     } else {
-//         res.status(401).send();
-//     }
-// });
+// A route to check if a user is logged in on the session
+app.get("/api/users/check-session", (req, res) => {
+    if (req.session.user) {
+        res.send({ currentUser: req.session.email });
+    } else {
+        res.status(401).send();
+    }
+});
+
 
 // /*********************************************************/
 
