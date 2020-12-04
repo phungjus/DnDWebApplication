@@ -7,6 +7,7 @@ import ClassSelection from '../ClassSelection/class-selection.jsx'
 import Button from '@material-ui/core/Button'
 import './character-creation-page-styles.css'
 import {saveCharacter} from "../../Actions/Characters";
+import { Link } from 'react-router-dom'
 
 class CharacterCreatePage extends React.Component{ 
 
@@ -72,7 +73,7 @@ class CharacterCreatePage extends React.Component{
           <AbilityPoints onStatsChange={this.handleStatsChange}/>
           <RaceSelection onRaceChange={this.handleRaceChange}/>
           <ClassSelection onClassChange={this.handleClassChange}/>
-          <div className="wide"><Button className="button wide" variant="contained" component="span" onClick={this.handleCharacterSubmit}>SUBMIT</Button></div>
+          <div className="wide"><Link to='/Character'><Button className="button wide" variant="contained" component="span" onClick={this.handleCharacterSubmit}>SUBMIT</Button></Link></div>
         </div>
       </div>
     )

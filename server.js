@@ -40,9 +40,36 @@ function isMongoError(error) { // checks for first error returned by promise rej
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
+const mongoChecker = (req, res, next) => {
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    } else {
+        next()  
+    }   
+}
+
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"));
 })
+
+app.get("/api/character/:id", mongoChecker, async (req, res) => {
+    const id = req.params.id
+    try {
+        const user = await User.findById(id)
+        const c_id = user.character[0]
+        const character = await Character.findById(c_id)
+        console.log(character)
+        res.send(character)
+    } catch (error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
 
 app.post("/user", async (req, res) => {
     log(req.body)
@@ -95,7 +122,7 @@ app.post("/user/:id/post", async (req, res) => {
     }
 })
 
-app.patch("api/user/:id/character", async (req, res) => {
+app.patch("/api/character/:id", async (req, res) => {
     log(req.body)
 
     // Create a new user

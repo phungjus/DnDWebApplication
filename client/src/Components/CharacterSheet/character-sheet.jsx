@@ -24,11 +24,29 @@ class CharacterSheet extends React.Component {
         proficiency: 2,
         speed: 30,
         attack: 7,
-        hp: 11
+        hp: 11,
     }
 
-    componentWillMount = () => {
-        const character = getCharacter(this.props.userid)
+    componentDidMount = () => {
+        getCharacter(this.props.userid, this.setCharacter)
+    }
+
+    setCharacter = (char) => {
+        this.setState({name: char.name,
+        level: char.level,
+        race: char.race,
+        class: char.class,
+        personality: char.personality,
+        ideals: char.ideals,
+        bonds: char.bonds,
+        flaws: char.flaws,
+        stats: char.stats,
+        proficiency: char.proficiency,
+        speed: char.speed,
+        attack: char.attack,
+        hp: char.hp})
+        console.log("State updated!")
+        console.log(char)
     }
 
     handleStatsChange = (statsValue) => {
