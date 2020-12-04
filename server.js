@@ -57,16 +57,6 @@ const mongoChecker = (req, res, next) => {
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
     
-const mongoChecker = (req, res, next) => {
-    // check mongoose connection established.
-    if (mongoose.connection.readyState != 1) {
-        log('Issue with mongoose connection')
-        res.status(500).send('Internal server error')
-        return;
-    } else {
-        next()  
-    }   
-}
 
 app.get("/api/posts", mongoChecker, async (req, res) => {
 
