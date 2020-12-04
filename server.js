@@ -43,6 +43,17 @@ function isMongoError(error) { // checks for first error returned by promise rej
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
+const mongoChecker = (req, res, next) => {
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    } else {
+        next()  
+    }   
+}
+
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
     
@@ -177,6 +188,22 @@ app.post('/api/deleteComment', mongoChecker, async (req, res) => {
 
 })
 
+app.get("/api/character/:id", mongoChecker, async (req, res) => {
+    const id = req.params.id
+    try {
+        const user = await User.findById(id)
+        const c_id = user.character[0]
+        const character = await Character.findById(c_id)
+        console.log(character)
+        res.send(character)
+    } catch (error) {
+        log(error)
+        res.status(500).send("Internal Server Error")
+    }
+
+})
+
+
 app.post("/user", async (req, res) => {
     log(req.body)
 
@@ -228,7 +255,7 @@ app.post("/user/:id/post", async (req, res) => {
     }
 })
 
-app.patch("/user/:id/character", async (req, res) => {
+app.patch("/api/character/:id", async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -265,6 +292,32 @@ app.patch("/user/:id/character", async (req, res) => {
             res.status(400).send('Bad Request') // bad request for changing the student.
         }
     }
+})
+
+app.get("api/user/:id/character", async (req, res) => {
+    const id = req.params.id
+    // Validate id
+	if (!ObjectID.isValid(id)) {
+        res.status(404).send()  // user does not exist
+        log("wasn't found!!")
+		return; 
+	}
+
+	// If id valid, findById
+	try {
+		const user = await User.findById(id)
+		if (!user) {
+			res.status(404).send('Resource not found')  // could not find this restaurant
+		} else {  
+			if (user.character.length === 0) {
+                res.send({}) // user has not created a character yet
+            }
+            res.send(user.character[0])
+		}
+	} catch(error) {
+		log(error)
+		res.status(500).send('Internal Server Error')  // server error
+	}
 })
 
 app.patch("/user/:id/group", async (req, res) => {

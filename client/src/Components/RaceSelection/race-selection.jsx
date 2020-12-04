@@ -15,13 +15,14 @@ class RaceSelection extends React.Component {
 
     handleChange = (e) => {
         this.setState({selectedValue: e.target.value})
+        this.props.onRaceChange(e.target.value)
     }
 
     render(){
         return (
             <div className='raceselection'>
                 <h2>STEP 3: CHOOSE A RACE</h2>
-                <h3>Something about choosing a race... </h3>
+                <h3>Something about choosing a race TEST... </h3>
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>

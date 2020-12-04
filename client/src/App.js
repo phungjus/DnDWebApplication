@@ -41,12 +41,12 @@ class App extends React.Component {
               auth={this.state.login}
             />
             <Switch>
-              <Route exact path='/' component={CharacterCreatePage} />
+              <Route exact path='/' component={() => <CharacterCreatePage userid="5fc965218c1ba8614e917a0f"/>} />
               <Route exact path='/Grouplist' component={() => <Grouplist user={this.state.user}/>}/>
               <Route exact path='/Groupadmin' component={() => <Group userType={"Admin"}/>}/>
               <Route exact path='/Groupuser' component={() => <Group userType={"User"}/>}/>
               <Route exact path='/Forum' render={() => (<Forum user={this.state.user}/>)} />
-              <Route exact path='/Character' render={() => (<CharacterSheet user={this.state.user}/>)} />
+              <Route exact path='/Character' render={() => (<CharacterSheet user={this.state.user} userid="5fc965218c1ba8614e917a0f"/>)} />
             </Switch>
           </div>
         </BrowserRouter>

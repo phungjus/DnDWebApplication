@@ -1,8 +1,8 @@
 import React from 'react';
-import character from '../../images/character.jpg'
+import character from '../../images/character.jpg';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import './character-upload-styles.css'
+import './character-upload-styles.css';
 
 class CharacterUpload extends React.Component {
     state = {
@@ -45,6 +45,7 @@ class CharacterUpload extends React.Component {
                     InputProps={{
                         color: "white"
                       }}
+                    onChange={this.props.onNameChange}
                     />
                     </div>
                     <div className = 'side-bar'>
@@ -54,6 +55,7 @@ class CharacterUpload extends React.Component {
                     multiline
                     rows={4}
                     variant="filled"
+                    onChange={this.props.onPersonalityChange}
                     />
                     </div>
                     <div className = 'side-bar'>
@@ -63,6 +65,7 @@ class CharacterUpload extends React.Component {
                     multiline
                     rows={4}
                     variant="filled"
+                    onChange={this.props.onIdealsChange}
                     />
                     </div>
                     <div className = 'side-bar'>
@@ -72,6 +75,7 @@ class CharacterUpload extends React.Component {
                     multiline
                     rows={4}
                     variant="filled"
+                    onChange={this.props.onBondsChange}
                     />
                     </div>
                     <div className = 'side-bar'>
@@ -81,6 +85,7 @@ class CharacterUpload extends React.Component {
                     multiline
                     rows={4}
                     variant="filled"
+                    onChange={this.props.onFlawsChange}
                     />
                 </div>
             </div>

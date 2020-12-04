@@ -15,6 +15,7 @@ class ClassSelection extends React.Component {
 
     handleChange = (e) => {
         this.setState({selectedValue: e.target.value})
+        this.props.onClassChange(e.target.value)
     }
 
     render(){
