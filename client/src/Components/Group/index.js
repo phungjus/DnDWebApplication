@@ -11,12 +11,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import './style.css'
+import { getGroup } from '../../Actions/Group'
+import { withRouter } from "react-router"
 
 class Group extends React.Component {
 
     state = {
         inviteGroupModal: null,
-        leaveGroupModal: null
+        leaveGroupModal: null,
+        group: null
     }
 
     handleOpen = (modal) => {
@@ -38,6 +41,17 @@ class Group extends React.Component {
         this.setState({ copySuccess: true });
     };
 
+    componentDidMount() {
+        console.log(this.props.match.params.gid)
+        getGroup(this.props.match.params.gid, group => {
+            if(group !== "undefined") {
+                this.setState({
+                    group: group
+                })
+            }
+        })
+    }
+
     render() {
         return (
             <div className="Group">
@@ -45,8 +59,12 @@ class Group extends React.Component {
                     togglePop={() => this.handleOpen('inviteGroupModal')}
                     startLeaveEvent={() => this.handleOpen('leaveGroupModal')}
                     userType={this.props.userType}
+                    groupid={this.state.group ? this.state.group._id : "undefined"}
                 />
-                <Chatbox/>
+                <Chatbox
+                    groupid={this.state.group ? this.state.group._id : "undefined"}
+                    userid={this.props.user._id}
+                />
                 <Diceroller/>
                 
                 <Dialog open={this.state.inviteGroupModal} onClose={() => this.handleClose('inviteGroupModal')} aria-labelledby="form-dialog-title">
@@ -95,4 +113,4 @@ class Group extends React.Component {
     }
 }
 
-export default Group;
+export default withRouter(Group);

@@ -16,6 +16,7 @@ import group1 from './static/group1.jpg'
 import group2 from './static/group2.jpg'
 import './styles.css'
 import CardMedia from '@material-ui/core/CardMedia'
+import { getGroups } from '../../Actions/Group'
 
 
 class Grouplist extends React.Component {
@@ -28,17 +29,19 @@ class Grouplist extends React.Component {
         submitDisabled: true,
         createDisabled: true,
         code: null,
-        groups: [
-            {
-                link: `/Group${this.props.user}`,
-                image: group1,
-                Groupname: "Group 1",
-                Groupdescription: `This group is where the current user is joined as ${this.props.user}`
-            }
-        ],
+        groups: [],
         image: null,
         groupName: "",
         groupDescription: ""
+    }
+
+    componentDidMount() {
+        getGroups(this.props.user._id, (groups) => {
+            this.setState({
+                groups: groups
+            })
+            console.log(this.state)
+        })
     }
 
     handleClose = () => {
@@ -146,10 +149,10 @@ class Grouplist extends React.Component {
                 >
                     {(this.state.groups || []).map(group => (
                         <Grouptile
-                            link={group.link}
-                            image={group.image}
-                            Groupname={group.Groupname}
-                            Groupdescription={group.Groupdescription}
+                            link={"group/" + group._id}
+                            image={null}
+                            Groupname={group.name}
+                            Groupdescription={group.description}
                         />
                     ))}
                     <div>
