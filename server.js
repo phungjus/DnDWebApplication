@@ -130,7 +130,9 @@ app.post("/api/posts", mongoChecker, async (req, res) => {
 
     //Once User Works use this need user id to be passed as parameter:
 
-    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+    const userID = req.body.userPosted
+
+    User.findById(userID).then(async (user) => {
         const post = new Post({
             title: req.body.title,
             post: req.body.post,
@@ -159,8 +161,10 @@ app.post("/api/comments", mongoChecker, async (req, res) => {
     const comment = req.body.comment
     const pid = req.body.pid
     const dateTime = req.body.dateTime
+    const userID = req.body.curUser
 
-    User.findById("5fc80ddf3fa550aaa64a8480").then(async (user) => {
+
+    User.findById(userID).then(async (user) => {
         
         const newComment = {
             comment: comment,
@@ -457,7 +461,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     async function findGroups(user) {
         var groups = []
         for (const groupId of user.groups) {
-            const group = await Group.findById(groupId)
+            const group = await Group.findById(groupId).populate('users')
             groups.push(group)
         }
         return groups

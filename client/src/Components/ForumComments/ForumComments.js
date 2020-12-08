@@ -51,7 +51,7 @@ export default function ForumComments(props) {
                     <Typography component="h4" align="left" className='header'>by: {props.username} at {props.dateTime}</Typography>
                     <Typography component="p" align="left" className='paragraph'>{props.commentContent}</Typography>
                     {
-                        (props.curUser === props.username || props.curUser === 'admin') 
+                        (props.curUser.email === props.username || props.curUser.admin) 
                         ?
                         <Box component="div" className={classes.box}>
                             <Button variant="contained" className={classes.Button} onClick={() => props.handleDeleteComment(props.pid, props.cid)} fullWidth>

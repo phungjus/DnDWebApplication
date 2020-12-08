@@ -105,7 +105,7 @@ export default function ForumPost(props) {
                                     variant="contained"
                                     className={classes.Button}
                                     fullWidth
-                                    onClick={() => handleComment(props.curUser, newComment, props.pid)}
+                                    onClick={() => handleComment(props.curUser._id, newComment, props.pid)}
                                     >
                                         Submit
                                     </Button>
@@ -114,7 +114,7 @@ export default function ForumPost(props) {
                         </Grid>
                     </Toggle>
                     {
-                        (props.curUser === props.username || props.curUser === 'admin') 
+                        (props.curUser.admin || props.curUser.email === props.username) 
                         ?
                         <Box component="div" className={classes.box}>
                             <Button variant="contained" className={classes.Button} onClick={() => props.handleDelete(props.pid)} fullWidth>

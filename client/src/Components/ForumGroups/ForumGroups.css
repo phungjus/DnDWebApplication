@@ -24,7 +24,7 @@
 
 .groupDiv {
     border: solid var(--textColour) 1px ;
-    height: 100px;
+    min-height: 100px;
     background-color: var(--backgroundColourSecondary);
     top: 0;
     margin-bottom: 15px;
@@ -38,6 +38,14 @@
     text-align: left;
 }
 
+#membersTitle {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 5px;
+    color: var(--textColour);
+    text-align: left;
+}
+
 #icon {
     height: 45px;
     width: 45px;
@@ -45,8 +53,11 @@
     border: solid var(--textColour) 1px;
 }
 
-.groupIcons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+
+#groupID {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: var(--textColour);
+    text-align: left;
+    margin-left: 10px;
 }

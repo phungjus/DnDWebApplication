@@ -11,9 +11,12 @@ import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
 import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
 import { addComments, deleteComments } from  "../../Actions/Comments"
+import { getGroups } from '../../Actions/Group'
 
 //TODO:
 //1. Add backend calls to the Group portion of the database
+//2. Update the user calls as they now work
+//3. Don't Forget to Tell Kyoji about the error when entering invalid login information
 
 
 //Steps to start everything up:
@@ -52,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Forum(props) {
 
     const classes = useStyles()
-    const username = props.user
+    const user = props.user
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
@@ -65,12 +68,15 @@ export default function Forum(props) {
     //     comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
     // ])
 
-    const [forumPosts, setForumPosts] = useState([])
+    console.log(user)
 
+    const [forumPosts, setForumPosts] = useState([])
+    const [userGroups, setUserGroups] = useState([])
     const [showPost, setShowPost] = useState(false)
     
     useEffect(() => {
         getPosts(setForumPosts)
+        getGroups(user._id, setUserGroups)
     }, [])
 
     function handleSubmit(e) {
@@ -80,16 +86,16 @@ export default function Forum(props) {
         const postDate = newDate.toLocaleDateString('en-US')
         const postTime = newDate.toLocaleTimeString('en-US')
         const dateTime = postTime + " " + postDate
-        const newPost = {title: title, post: postContent, postComments: [], userPosted: username, dateTime: dateTime}
+        const newPost = {title: title, post: postContent, postComments: [], userPosted: user._id, dateTime: dateTime}
         addPosts(newPost, setForumPosts, forumPosts)
         setTitle('')
         setPostContent('')
         setShowPost(false)
     }
 
-    const handleNewComment = useCallback((username, postComment, postPID, time) => {
+    const handleNewComment = useCallback((user, postComment, postPID, time) => {
 
-        const newComment = {comment: postComment, pid: postPID, dateTime: time}
+        const newComment = {comment: postComment, pid: postPID, dateTime: time, curUser: user}
         addComments(newComment, setForumPosts)
 
     }, [])
@@ -119,7 +125,7 @@ export default function Forum(props) {
             justify="center"
             >
                 <Grid container item xs={3}>
-                    <ForumGroups />
+                    <ForumGroups userGroups={userGroups}/>
                 </Grid>
                 <Grid item container xs={8} className={classes.forumPostBody} spacing={2} direction="row">
                     <Grid container item xs={12} alignItems="center" justify="space-between">
@@ -208,7 +214,7 @@ export default function Forum(props) {
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     handleDeleteComment={handleDeleteComment}
-                                    curUser={username}
+                                    curUser={user}
                                     dateTime={posts.dateTime}
                                 />
                             </Grid>
