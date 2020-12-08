@@ -65,6 +65,7 @@ class CharacterCreatePage extends React.Component{
   }
   
   render() {
+    console.log(this.props.userid)
     return (
       <div>
         <div className='charactercreatepage'>
