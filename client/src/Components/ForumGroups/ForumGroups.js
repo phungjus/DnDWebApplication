@@ -9,44 +9,30 @@ import paladin from './groupImages/paladin.jpg'
 import ranger from './groupImages/ranger.png'
 import warlock from './groupImages/warlock.png'
 
-class ForumGroups extends React.Component {
+export default function ForumGroups(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
+    console.log(props.userGroups)
 
-    // Inside the ForumGroups components for the next phase this data would need to be pulled from the
-    // back-end of the program in order to find out which groups that current user is a part of, but
-    // for the purposes of Phase 1 the groups the user is part of is hard-coded.
-
-    render() {
-        return(
-            <div className="yourGroups">
+    return(    
+        <div> 
+        {props.userGroups.length === 0 
+            ? 
+            (<div className="yourGroups">
                 <h1 id="yourGroupsTitle">Your Groups</h1>
-                <div className="groupDiv">
-                    <h2 id="indivGroupTitle">TM9</h2>
-                    <div className="groupIcons">
-                        <img id="icon" alt="assassin" src={assassin}></img>
-                        <img id="icon" alt="bard" src={bard}></img>
-                        <img id="icon" alt="druid" src={druid}></img>
-                        <img id="icon" alt="mage" src={mage}></img>
-                        <img id="icon" alt="monk" src={monk}></img>
+            </div>) 
+            : 
+            (<div className="yourGroups">
+                <h1 id="yourGroupsTitle">Your Groups</h1>
+                {props.userGroups.map(groups =>
+                    (<div className="groupDiv">
+                        <h2 id="indivGroupTitle">{groups.name}</h2>
+                        <h4 id="membersTitle">Group Members:</h4>
+                        {groups.users.map(user => (<p id="groupID">{user.email}</p>))}
                     </div>
-                </div>
-                <div className="groupDiv">
-                    <h2 id="indivGroupTitle">VM</h2>
-                    <div className="groupIcons">
-                        <img id="icon" alt="paladin" src={paladin}></img>
-                        <img id="icon" alt="ranger" src={ranger}></img>
-                        <img id="icon" alt="warlock" src={warlock}></img>
-                        <img id="icon" alt="druid" src={druid}></img>
-                    </div>
-                </div>
+                ))}
             </div>
-        )
-    }
-
+            )
+        }
+        </div>
+    )
 }
-
-export default ForumGroups;

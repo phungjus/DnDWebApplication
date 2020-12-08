@@ -11,6 +11,7 @@ import "./Forum.css";
 import { Card, CardContent, Paper } from '@material-ui/core';
 import { getPosts, addPosts, deletePosts } from "../../Actions/Forum"
 import { addComments, deleteComments } from  "../../Actions/Comments"
+import { getGroups } from '../../Actions/Group'
 
 //TODO:
 //1. Add backend calls to the Group portion of the database
@@ -70,11 +71,12 @@ export default function Forum(props) {
     console.log(user)
 
     const [forumPosts, setForumPosts] = useState([])
-
+    const [userGroups, setUserGroups] = useState([])
     const [showPost, setShowPost] = useState(false)
     
     useEffect(() => {
         getPosts(setForumPosts)
+        getGroups(user._id, setUserGroups)
     }, [])
 
     function handleSubmit(e) {
@@ -123,7 +125,7 @@ export default function Forum(props) {
             justify="center"
             >
                 <Grid container item xs={3}>
-                    <ForumGroups />
+                    <ForumGroups userGroups={userGroups}/>
                 </Grid>
                 <Grid item container xs={8} className={classes.forumPostBody} spacing={2} direction="row">
                     <Grid container item xs={12} alignItems="center" justify="space-between">
