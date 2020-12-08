@@ -12,6 +12,7 @@ class CharacterSheet extends React.Component {
     
     state = {
         name: "Caleb Widogast",
+        imageID: "5fcfd0785149ff50c03d6bdd",
         image: caleb,
         level: 1,
         race: "human",
@@ -28,7 +29,7 @@ class CharacterSheet extends React.Component {
     }
 
     componentDidMount = () => {
-        getCharacter(this.props.userid, this.setCharacter)
+        getCharacter(this.props.userid, this.setCharacter, this.setImage)
     }
 
     setCharacter = (char) => {
@@ -46,7 +47,10 @@ class CharacterSheet extends React.Component {
         attack: char.attack,
         hp: char.hp})
         console.log("State updated!")
-        console.log(char)
+    }
+
+    setImage = (image) => {
+        this.setState({image: image})
     }
 
     handleStatsChange = (statsValue) => {
