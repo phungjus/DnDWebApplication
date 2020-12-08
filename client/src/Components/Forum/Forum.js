@@ -14,6 +14,8 @@ import { addComments, deleteComments } from  "../../Actions/Comments"
 
 //TODO:
 //1. Add backend calls to the Group portion of the database
+//2. Update the user calls as they now work
+//3. Don't Forget to Tell Kyoji about the error when entering invalid login information
 
 
 //Steps to start everything up:
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Forum(props) {
 
     const classes = useStyles()
-    const username = props.user
+    const user = props.user
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
@@ -64,6 +66,8 @@ export default function Forum(props) {
     //     {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
     //     comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
     // ])
+
+    console.log(user)
 
     const [forumPosts, setForumPosts] = useState([])
 
@@ -80,16 +84,16 @@ export default function Forum(props) {
         const postDate = newDate.toLocaleDateString('en-US')
         const postTime = newDate.toLocaleTimeString('en-US')
         const dateTime = postTime + " " + postDate
-        const newPost = {title: title, post: postContent, postComments: [], userPosted: username, dateTime: dateTime}
+        const newPost = {title: title, post: postContent, postComments: [], userPosted: user._id, dateTime: dateTime}
         addPosts(newPost, setForumPosts, forumPosts)
         setTitle('')
         setPostContent('')
         setShowPost(false)
     }
 
-    const handleNewComment = useCallback((username, postComment, postPID, time) => {
+    const handleNewComment = useCallback((user, postComment, postPID, time) => {
 
-        const newComment = {comment: postComment, pid: postPID, dateTime: time}
+        const newComment = {comment: postComment, pid: postPID, dateTime: time, curUser: user}
         addComments(newComment, setForumPosts)
 
     }, [])
@@ -208,7 +212,7 @@ export default function Forum(props) {
                                     handleDelete={handleDelete}
                                     handleNewComment={handleNewComment}
                                     handleDeleteComment={handleDeleteComment}
-                                    curUser={username}
+                                    curUser={user}
                                     dateTime={posts.dateTime}
                                 />
                             </Grid>
