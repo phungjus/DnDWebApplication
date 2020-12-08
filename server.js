@@ -24,6 +24,7 @@ const { Character } = require("./models/character")
 const { Group } = require("./models/group")
 const { Comment } = require("./models/comment")
 const { Message } = require("./models/message")
+const { Image } = require("./models/image")
 
 
 // to validate object IDs
@@ -32,6 +33,19 @@ const { ObjectID } = require("mongodb");
 // body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+// sign up for a free account here: https://cloudinary.com/users/register/free
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'dgo9nqrxz',
+    api_key: '937695347993213',
+    api_secret: 'WdsUp7Ln1_P3-dIeZP-4Nl55Nr0'
+});
 
 // express-session for managing user sessions
 const session = require("express-session");
@@ -54,6 +68,33 @@ const mongoChecker = (req, res, next) => {
         next()  
     }   
 }
+
+// a POST route to *create* an image
+app.post("/api/images", multipartMiddleware, (req, res) => {
+
+    // Use uploader.upload API to upload image to cloudinary server.
+    cloudinary.uploader.upload(
+        req.files.image.path, // req.files contains uploaded files
+        function (result) {
+
+            // Create a new image using the Image mongoose model
+            var img = new Image({
+                image_id: result.public_id, // image id on cloudinary server
+                image_url: result.url, // image url on cloudinary server
+                created_at: new Date(),
+            });
+
+            // Save image to the database
+            img.save().then(
+                saveRes => {
+                    res.send(saveRes);
+                },
+                error => {
+                    res.status(400).send(error); // 400 for bad request
+                }
+            );
+        });
+});
 
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
@@ -264,6 +305,7 @@ app.patch("/api/character/:id", async (req, res) => {
     const user = await User.findById(id)
     console.log(user)
     const character = new Character({
+        image: req.body.image,
         name: req.body.name,
         level: req.body.level,
         race: req.body.race,
@@ -320,6 +362,12 @@ app.get("api/user/:id/character", async (req, res) => {
 		res.status(500).send('Internal Server Error')  // server error
 	}
 })
+
+app.get("/api/images/:id", async (req, res) => {
+    const id = req.params.id
+    const image = await Image.findById(id)
+    res.send(image)
+});
 
 app.patch("/api/user/:id/group", async (req, res) => {
     log(req.body)

@@ -6,7 +6,7 @@ import RaceSelection from '../RaceSelection/race-selection.jsx'
 import ClassSelection from '../ClassSelection/class-selection.jsx'
 import Button from '@material-ui/core/Button'
 import './character-creation-page-styles.css'
-import {saveCharacter} from "../../Actions/Characters";
+import {addImage} from "../../Actions/Characters";
 import { Link } from 'react-router-dom'
 
 class CharacterCreatePage extends React.Component{ 
@@ -60,8 +60,8 @@ class CharacterCreatePage extends React.Component{
     newCharacter.speed = 25
     newCharacter.attack = 5
     newCharacter.hp = 11
-    console.log(this.props.userid)
-    saveCharacter(this.props.userid, newCharacter)
+    var x = document.getElementsByClassName("image-form");
+    addImage(x[0], this.props.userid, newCharacter)
   }
   
   render() {

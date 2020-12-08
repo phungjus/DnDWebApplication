@@ -3,6 +3,7 @@ import character from '../../images/character.jpg';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import './character-upload-styles.css';
+import { addImage } from "../../Actions/Characters";
 
 class CharacterUpload extends React.Component {
     state = {
@@ -24,19 +25,25 @@ class CharacterUpload extends React.Component {
             <div className='character-upload'>
                 <img className='character-image' alt="This is your character." src = { this.state.selectedPic }/>
                 <div className = 'side-bar'>
-                    <input
-                    accept="image/*"
-                    className="pic-upload"
-                    id="contained-button-file"
-                    type="file"
-                    onChange={this.picSelectedHandler}
-                />
-                <label htmlFor="contained-button-file">
-                    <Button variant="contained" component="span" className='button'>
-                    Upload Picture 
-                    </Button>
-                </label>
-                    </div>
+                    <form className="image-form" onSubmit={(e) => {
+                        e.preventDefault();
+                        console.log(e.target)
+                        addImage(e.target);
+                    }}>
+                        <div class="image-form__field">
+                            <label>Image:</label>
+                            <input name="image" type="file" onChange={this.picSelectedHandler}/>
+                        </div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            className="image-form__submit-button"
+                        >
+                            Upload
+                        </Button>
+                    </form>
+                </div>
                     <div className = 'side-bar'>
                     <TextField
                     className='input'

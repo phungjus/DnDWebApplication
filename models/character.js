@@ -1,5 +1,9 @@
 const mongoose  = require('mongoose');
 const CharacterSchema = new mongoose.Schema({
+    image:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Image"
+    },
     name:{
         type:String,
         required: true
