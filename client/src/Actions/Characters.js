@@ -36,7 +36,7 @@ export const getCharacter = (userid, setCharacter, setImage) => {
         }).then(json => {
             console.log(json)
             setCharacter(json)
-            if (json.image != undefined) {
+            if (json.image !== undefined) {
                 getImage(json.image, setImage)
             }
         })

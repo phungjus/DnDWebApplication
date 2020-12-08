@@ -28,16 +28,6 @@ class Stats extends React.Component {
 
     generateStats = () => {
         const stats = []
-        var edit
-        if (this.props.user === 'user') {
-            edit = <div>
-                <button 
-                    className='increment' 
-                    onClick={this.increaseStat} 
-                    value={1}>+
-                </button>
-            </div>
-        }
         for (let i = 0; i < 6; i++) {
             stats.push(
                 <div className="stat-container">

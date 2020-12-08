@@ -1,6 +1,5 @@
 import React from 'react';
 import character from '../../images/character.jpg';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import './character-upload-styles.css';
 import { addImage } from "../../Actions/Characters";
@@ -34,14 +33,6 @@ class CharacterUpload extends React.Component {
                             <label>Image:</label>
                             <input name="image" type="file" onChange={this.picSelectedHandler}/>
                         </div>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            className="image-form__submit-button"
-                        >
-                            Upload
-                        </Button>
                     </form>
                 </div>
                     <div className = 'side-bar'>
