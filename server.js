@@ -56,6 +56,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: process.env.PORT || 5001 });
+
+// wss.on('connection', function connection(ws) {
+//   ws.on('message', function incoming(data) {
+//     wss.clients.forEach(function each(client) {
+//       if (client !== ws && client.readyState === WebSocket.OPEN) {
+//         client.send(data);
+//       }
+//     });
+//   });
+// });
+
 function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
@@ -527,6 +540,7 @@ app.get("/api/group/:id/messages", async (req, res) => {
             const message = await Message.findById(messageid)
             messages.push(message)
         }
+        console.log(messages)
         res.send({ messages: messages})
     } catch {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
@@ -559,11 +573,15 @@ app.get("/api/group/:id/users", async (req, res) => {
     }
 })
 
-app.patch("/api/group/:gid/user/:uid/message", async (req, res) => {
+app.post("/api/group/:gid/user/:uid/message", async (req, res) => {
+    console.log("Hellooo")
     const gid = req.params.gid
     const uid = req.params.uid
 
+    console.log("AHHHHHHH")
+
     try {
+        console.log("Trying")
         const user = await User.findById(uid)
         const message = new Message({
             message: req.body.message,
@@ -572,13 +590,19 @@ app.patch("/api/group/:gid/user/:uid/message", async (req, res) => {
         const group = await Group.findById(gid)
         group.messages.push(message._id)
         const result = await message.save()
-        const result1 = group.save()
+        const result1 = await group.save()
+        wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send(JSON.stringify(result));
+            }
+        });
         res.send({ result: result, result1: result1 })
     } catch (error) {
+        console.log(error)
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
         } else {
-            log(error)
+            console.log(error)
             res.status(400).send('Bad Request') // bad request for changing the student.
         }
     }

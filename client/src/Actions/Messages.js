@@ -11,16 +11,19 @@ export const getMessages = (groupid, setMessage) => {
             }
         })
         .then(json => {
-            setMessage(json.groups)
+            console.log(json)
+            setMessage(json.messages)
         })
 }
 
-export const addMessage = (groupid, userid, message, setMessage) => {
+export const addMessage = (groupid, userid, message) => {
 
-    const url = "http://localhost:5000/api/group/" + groupid + "/user/"  + userid + "/messages"
+    const url = 'http://localhost:5000/api/group/' + groupid + '/user/' + userid + '/message'
 
+    console.log(url)
+    console.log(typeof message)
     const req = new Request(url, {
-        method: "patch",
+        method: "post",
         body: JSON.stringify({
             message: message
         }),
@@ -37,8 +40,5 @@ export const addMessage = (groupid, userid, message, setMessage) => {
             } else {
                 console.log("Could Not Get Forum Posts")
             }
-        })
-        .then(json => {
-            setMessage(json.groups)
         })
 }

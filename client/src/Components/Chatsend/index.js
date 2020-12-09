@@ -21,7 +21,7 @@ class Chatsend extends React.Component {
     
     handleSubmit = (event) => {
         event.preventDefault()
-        this.props.sendMessage(this.state.message, this.getTime())
+        this.props.sendMessage(this.state.message)
         this.setState({
             message: ''
         })

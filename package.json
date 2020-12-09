@@ -24,6 +24,7 @@
         "mongodb": "^3.5.9",
         "mongoose": "^5.9.26",
         "mongoose-unique-validator": "^2.0.3",
-        "validator": "^13.1.1"
+        "validator": "^13.1.1",
+        "ws": "^7.4.1"
     }
 }
