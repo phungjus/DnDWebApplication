@@ -6,7 +6,7 @@ import CharacterHeader from '../CharacterHeader/character-header.jsx';
 import Diceroller from '../Diceroller/index.js';
 import './character-sheet-styles.css';
 import AbilityModifiers from '../AbilityModifiers/ability-modifiers';
-import {getCharacter} from '../../Actions/Characters.js'
+import {getCharacter, saveCharacter} from '../../Actions/Characters.js'
 
 class CharacterSheet extends React.Component {
     
@@ -26,6 +26,7 @@ class CharacterSheet extends React.Component {
         speed: 30,
         attack: 7,
         hp: 11,
+        char: {}
     }
 
     componentDidMount = () => {
@@ -45,7 +46,8 @@ class CharacterSheet extends React.Component {
         proficiency: char.proficiency,
         speed: char.speed,
         attack: char.attack,
-        hp: char.hp})
+        hp: char.hp,
+        char: char})
         console.log("State updated!")
     }
 

@@ -61,7 +61,7 @@ class Navbar extends React.Component {
                                                     }
                                                 }}
                                             >
-                                                <MenuItem className="Accountmenuitem" component={Link} to={'/Character'}>View Character</MenuItem>
+                                                <MenuItem className="Accountmenuitem" id="NavigateCharacter" component={Link} to={'/Character'}>View Character</MenuItem>
                                                 <MenuItem className="Accountmenuitem" onClick={() => this.handleLogout()}>Log Out</MenuItem>
                                             </Menu>
                                         </div>: null}

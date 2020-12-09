@@ -1,4 +1,4 @@
-export const saveCharacter = (userid, character) => {
+export const saveCharacter = (userid, character, next) => {
     const url = "http://localhost:5000/api/character/" + userid
 
     var myHeaders = new Headers();
@@ -15,7 +15,7 @@ export const saveCharacter = (userid, character) => {
 
     fetch(url, requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
+    .then(result => next())
     .catch(error => console.log('error', error));
 
 
@@ -31,7 +31,7 @@ export const getCharacter = (userid, setCharacter, setImage) => {
             if (res.status === 200) {
                 return res.json()
             } else {
-                console.log("Could Not Get Forum Posts")
+                console.log("Could Not Get Character")
             }
         }).then(json => {
             console.log(json)
@@ -43,7 +43,7 @@ export const getCharacter = (userid, setCharacter, setImage) => {
 }
 
 // A function to send a POST request with a new image
-export const addImage = (form, userid, character) => {
+export const addImage = (form, userid, character, next) => {
     console.log("Attempting to add image...")
     // the URL for the request
     const url = "http://localhost:5000/api/images";
@@ -71,7 +71,7 @@ export const addImage = (form, userid, character) => {
             }
         }).then(json => {
             character.image = json._id
-            saveCharacter(userid, character)
+            saveCharacter(userid, character, next)
         })
         .catch(error => {
             console.log(error);

@@ -6,8 +6,7 @@ import RaceSelection from '../RaceSelection/race-selection.jsx'
 import ClassSelection from '../ClassSelection/class-selection.jsx'
 import Button from '@material-ui/core/Button'
 import './character-creation-page-styles.css'
-import {addImage} from "../../Actions/Characters";
-import { Link } from 'react-router-dom'
+import {addImage, saveCharacter} from "../../Actions/Characters";
 
 class CharacterCreatePage extends React.Component{ 
 
@@ -61,7 +60,18 @@ class CharacterCreatePage extends React.Component{
     newCharacter.attack = 5
     newCharacter.hp = 11
     var x = document.getElementsByClassName("image-form");
-    addImage(x[0], this.props.userid, newCharacter)
+    var input = document.getElementById("imageInput")
+    if (input.value === "") {
+      saveCharacter(this.props.userid, newCharacter, this.loadNextPage)
+    }
+    else {
+      addImage(x[0], this.props.userid, newCharacter, this.loadNextPage)
+    }
+  }
+
+  loadNextPage = () => {
+    const button = document.getElementById("NavigateCharacter")
+    button.click()
   }
   
   render() {
@@ -74,7 +84,7 @@ class CharacterCreatePage extends React.Component{
           <AbilityPoints onStatsChange={this.handleStatsChange}/>
           <RaceSelection onRaceChange={this.handleRaceChange}/>
           <ClassSelection onClassChange={this.handleClassChange}/>
-          <div className="wide"><Link to='/Character'><Button className="button wide" variant="contained" component="span" onClick={this.handleCharacterSubmit}>SUBMIT</Button></Link></div>
+          <div className="wide"><Button className="button wide" variant="contained" component="span" onClick={this.handleCharacterSubmit}>SUBMIT</Button></div>
         </div>
       </div>
     )
@@ -82,4 +92,4 @@ class CharacterCreatePage extends React.Component{
 
 }
 
-export default CharacterCreatePage;
+export default CharacterCreatePage

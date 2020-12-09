@@ -11,7 +11,6 @@ class Stats extends React.Component {
 
     increaseStat = (e) => {
         const index = e.currentTarget.value
-        console.log(index)
         var new_stat = this.state.stats
         new_stat[index] += 1
         this.setState({stats: new_stat})
@@ -36,7 +35,7 @@ class Stats extends React.Component {
                     </Paper>
                     <span className="circle">{(this.state.stats[i] > 9) ? "+":""}{Math.floor(this.state.stats[i]/2)-5}</span>
                     <p className="stat-label">{this.state.names[i]}</p>
-                    {this.props.user === 'admin' ? (
+                    {this.props.user.admin ? (
                         <div>
                         <Button 
                             className='button' 

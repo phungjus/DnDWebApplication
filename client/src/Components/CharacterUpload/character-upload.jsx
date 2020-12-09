@@ -26,12 +26,11 @@ class CharacterUpload extends React.Component {
                 <div className = 'side-bar'>
                     <form className="image-form" onSubmit={(e) => {
                         e.preventDefault();
-                        console.log(e.target)
                         addImage(e.target);
                     }}>
                         <div class="image-form__field">
                             <label>Image:</label>
-                            <input name="image" type="file" onChange={this.picSelectedHandler}/>
+                            <input name="image" id="imageInput" type="file" onChange={this.picSelectedHandler}/>
                         </div>
                     </form>
                 </div>
