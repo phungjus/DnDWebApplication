@@ -4,14 +4,14 @@
 }
 
 .MuiButton-root.NavbarLink:hover {
-    color: var(--linkColour);
+    color: var(--backgroundColourSecondary);
 }
 
 .MuiButton-root.NavbarLink {
     color: var(--textColour);
 }
 
-.MuiButtonBase-root.AccountIcon {
+.AccountIcon {
     margin-left: auto;
 }
 

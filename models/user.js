@@ -3,24 +3,30 @@
 'use strict';
 
 const mongoose = require('mongoose')
-const validator = require('validator')
+var uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcryptjs')
 
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const UserSchema = new mongoose.Schema({
-	email: {
+	// email: {
+	// 	type: String,
+	// 	required: true,
+	// 	minlength: 1,
+	// 	trim: true,
+	// 	unique: true,
+	// 	validate: {
+	// 		validator: validator.isEmail,   // custom validator
+	// 		message: 'Not valid email'
+	// 	}
+	// },
+	username: {
 		type: String,
 		required: true,
-		minlength: 1,
-		trim: true,
-		unique: true,
-		validate: {
-			validator: validator.isEmail,   // custom validator
-			message: 'Not valid email'
-		}
-	}, 
+		minlength: 4,
+		unique: true
+	},
 	password: {
 		type: String,
 		required: true,
@@ -37,8 +43,11 @@ const UserSchema = new mongoose.Schema({
 	admin: {
 		type: Boolean,
 		required: true
-	},
-
+	}
+	// ,
+	// icon: {
+	// 	type: image
+	// }
 })
 
 // An example of Mongoose middleware.
@@ -64,11 +73,11 @@ UserSchema.pre('save', function(next) {
 // A static method on the document model.
 // Allows us to find a User document by comparing the hashed password
 //  to a given one, for example when logging in.
-UserSchema.statics.findByEmailPassword = function(email, password) {
+UserSchema.statics.findByUsernamePassword = function(username, password) {
 	const User = this // binds this to the User model
 
 	// First find the user by their email
-	return User.findOne({ email: email }).then((user) => {
+	return User.findOne({ username: username }).then((user) => {
 		if (!user) {
 			return Promise.reject()  // a rejected promise
 		}
@@ -84,6 +93,8 @@ UserSchema.statics.findByEmailPassword = function(email, password) {
 		})
 	})
 }
+
+UserSchema.plugin(uniqueValidator)
 
 // make a model using the User schema
 const User = mongoose.model('User', UserSchema)

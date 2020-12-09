@@ -6,6 +6,7 @@ const express = require("express");
 // starting the express server
 const app = express();
 const path = require('path')
+const env = process.env.NODE_ENV
 
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
@@ -49,6 +50,7 @@ cloudinary.config({
 
 // express-session for managing user sessions
 const session = require("express-session");
+const MongoStore = require('connect-mongo')(session)
 const { mongo } = require("mongoose");
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -67,6 +69,24 @@ const mongoChecker = (req, res, next) => {
     } else {
         next()  
     }   
+}
+
+// Middleware for authentication of resources
+const authenticate = (req, res, next) => {
+    if (req.session.user) {
+        User.findById(req.session.user).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
 }
 
 // a POST route to *create* an image
@@ -255,7 +275,7 @@ app.post("/api/user", mongoChecker, async (req, res) => {
 
     // Create a new user
     const user = new User({
-        email: req.body.email,
+        username: req.body.username,
         password: req.body.password,
         admin: req.body.admin
     })
@@ -265,6 +285,7 @@ app.post("/api/user", mongoChecker, async (req, res) => {
         const newUser = await user.save()
         res.send(newUser)
     } catch (error) {
+        console.log(error)
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
         } else {
@@ -553,7 +574,7 @@ app.patch("/api/group/:gid/user/:uid/message", async (req, res) => {
         const result = await message.save()
         const result1 = group.save()
         res.send({ result: result, result1: result1 })
-    } catch {
+    } catch (error) {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
         } else {
@@ -595,25 +616,6 @@ app.post("/user/:id/:pid/comment", async (req, res) => {
     }
 })
 
-// Middleware for authentication of resources
-const authenticate = (req, res, next) => {
-    if (req.session.user) {
-        User.findById(req.session.user).then((user) => {
-            if (!user) {
-                return Promise.reject()
-            } else {
-                req.user = user
-                next()
-            }
-        }).catch((error) => {
-            res.status(401).send("Unauthorized")
-        })
-    } else {
-        res.status(401).send("Unauthorized")
-    }
-}
-
-
 /*** Session handling **************************************/
 // Create a session and session cookie
 app.use(
@@ -624,24 +626,25 @@ app.use(
         cookie: {
             expires: 60000,
             httpOnly: true
-        }
+        },
+        store: env === 'production' ? new MongoStore({ mongooseConnection: mongoose.connection }) : null
     })
 );
 
 // A route to login and create a session
 app.post("/api/users/login", (req, res) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
 
     // log(email, password);
     // Use the static method on the User model to find a user
     // by their email and password
-    User.findByEmailPassword(email, password)
+    User.findByUsernamePassword(username, password)
         .then(user => {
             // Add the user's id to the session.
             // We can check later if this exists to ensure we are logged in.
             req.session.user = user._id;
-            req.session.email = user.email; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
+            req.session.username = user.username; // we will later send the email to the browser when checking if someone is logged in through GET /check-session (we will display it on the frontend dashboard. You could however also just send a boolean flag).
             res.send({ currentUser: user });
         })
         .catch(error => {
@@ -664,7 +667,13 @@ app.get("/api/users/logout", (req, res) => {
 // A route to check if a user is logged in on the session
 app.get("/api/users/check-session", (req, res) => {
     if (req.session.user) {
-        res.send({ currentUser: req.session.email });
+        User.findById(req.session.user)
+            .then(user => {
+                res.send({ currentUser: user })
+            })
+            .catch(error => {
+                res.status(400).send()
+            });
     } else {
         res.status(401).send();
     }

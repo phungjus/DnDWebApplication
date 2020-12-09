@@ -8,13 +8,17 @@ import Navbar from './Components/Navbar'
 import Forum from './Components/Forum/Forum'
 import CharacterSheet from './Components/CharacterSheet/character-sheet.jsx'
 import './App.css';
-import { login } from './Actions/Login.js'
+import { login, logout, checkSession } from './Actions/User.js'
 
 class App extends React.Component {
 
   state = {
     login : false,
-    user: ''
+    user: null
+  }
+
+  componentDidMount() {
+    checkSession(this)
   }
 
   handleLogin = (username, password) => {
@@ -26,6 +30,10 @@ class App extends React.Component {
         })
       }
     })
+  }
+
+  handleLogout = () => {
+    logout(this)
   }
 
   render() {
@@ -44,6 +52,7 @@ class App extends React.Component {
           <div className="App">
             <Navbar
               auth={this.state.login}
+              handleLogout={this.handleLogout}
             />
             <Switch>
               <Route exact path='/' component={() => <CharacterCreatePage userid={this.state.user._id}/>} />

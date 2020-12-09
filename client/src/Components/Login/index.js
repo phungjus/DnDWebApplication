@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { createUser } from '../../Actions/User'
 
 
 class Login extends React.Component {
@@ -17,8 +18,7 @@ class Login extends React.Component {
         pass : "",
         singup_user: "",
         singup_password: "",
-        singup_first: "",
-        singup_last: "",
+        singup_password_confirm: "",
         value: 0
     }
 
@@ -35,21 +35,17 @@ class Login extends React.Component {
             this.setState({
                 username: value 
             });
-        } else if (name === 'signup-firstname') {
-            this.setState({
-                singup_first: value 
-            });
-        } else if (name === 'signup-lastname') {
-            this.setState({
-                singup_last: value 
-            });
         } else if (name === 'signup-username') {
             this.setState({
                 singup_user: value 
             });
-        } else  {
+        } else if (name === 'signup-password') {
             this.setState({
                 singup_password: value 
+            });
+        } else  {
+            this.setState({
+                singup_password_confirm: value 
             });
         }
     };
@@ -75,7 +71,10 @@ class Login extends React.Component {
 
     handleSignup = (e) => {
         // Backend call
-        console.log(this.state)
+        createUser(this.state.singup_user, this.state.singup_password, () => {
+            console.log("Created Account!")
+        })
+        // console.log(this.state)
     }
 
     handleChange = (event, newValue) => {
@@ -161,26 +160,6 @@ class Login extends React.Component {
                                 variant="outlined"
                                 margin="dense"
                                 id="username"
-                                label="First Name"
-                                name="signup-firstname"
-                                type="username"
-                                fullWidth
-                                onChange={this.handleInputChange}
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="dense"
-                                id="username"
-                                label="Last Name"
-                                name="signup-lastname"
-                                type="username"
-                                fullWidth
-                                onChange={this.handleInputChange}
-                            />
-                            <TextField
-                                variant="outlined"
-                                margin="dense"
-                                id="username"
                                 label="Username"
                                 type="username"
                                 name="signup-username"
@@ -193,6 +172,16 @@ class Login extends React.Component {
                                 id="standard-password-input"
                                 name="signup-password"
                                 label="Password"
+                                type="password"
+                                fullWidth
+                                onChange={this.handleInputChange}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="dense"
+                                id="standard-password-input"
+                                name="signup-password-confirm"
+                                label="Confirm Password"
                                 type="password"
                                 fullWidth
                                 onChange={this.handleInputChange}
