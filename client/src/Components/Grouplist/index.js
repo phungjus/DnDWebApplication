@@ -16,7 +16,7 @@ import group1 from './static/group1.jpg'
 import group2 from './static/group2.jpg'
 import './styles.css'
 import CardMedia from '@material-ui/core/CardMedia'
-import { getGroups } from '../../Actions/Group'
+import { getGroups, addGroup, createGroup } from '../../Actions/Group'
 
 
 class Grouplist extends React.Component {
@@ -93,21 +93,15 @@ class Grouplist extends React.Component {
 
     joinGroup = () => {
         // Handle join group on a server
-        if (this.state.code === 'aaaa') {
-            const newGroups = this.state.groups.concat({
-                link: '/Group',
-                image: group2,
-                Groupname: `Group ${this.state.groups.length + 1}`,
-                Groupdescription: "This is a group you just added"
-            })
+        addGroup(this.props.user._id, this.state.code, (groups) => {
             this.setState({
-                groups: newGroups,
+                groups: groups,
                 submitDisabled: true,
                 code: null
             })
-        }
-        this.handleClose()
-        this.handleGroupClose('joinGroupModal')
+            this.handleClose()
+            this.handleGroupClose('joinGroupModal')
+        })
     }
 
     handleUpload = (event) => {
@@ -119,21 +113,17 @@ class Grouplist extends React.Component {
 
     handleGroupCreate = () => {
         // handle creating a group with a server call
-        const newGroups = this.state.groups.concat({
-            link: '/Group',
-            image: this.state.image,
-            Groupname: this.state.groupName,
-            Groupdescription: this.state.groupDescription
+        createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, (groups) => {
+            this.setState({
+                groups: groups,
+                createDisabled: true,
+                image: null,
+                groupName: "",
+                groupDescription: ""
+            })
+            this.handleClose()
+            this.handleGroupClose('createGroupModal')
         })
-        this.setState({
-            groups: newGroups,
-            createDisabled: true,
-            image: null,
-            groupName: "",
-            groupDescription: ""
-        })
-        this.handleClose()
-        this.handleGroupClose('createGroupModal')
     }
 
     render() {

@@ -52,7 +52,7 @@ export const createGroup = (userid, groupName, groupDescription, setGroups) => {
     const url = "http://localhost:5000/api/user/" + userid + "/group"
 
     const req = new Request(url, {
-        method: "patch",
+        method: "post",
         body: JSON.stringify({
             name: groupName,
             description: groupDescription
@@ -80,7 +80,7 @@ export const addGroup = (userid, groupid, setGroups) => {
     const url = "http://localhost:5000/api/group/" + groupid + "/add/user/" + userid
 
     const req = new Request(url, {
-        method: "patch",
+        method: "post",
         body: JSON.stringify({}),
         headers: {
             Accept: "application/json, text/plain, */*",
@@ -102,11 +102,11 @@ export const addGroup = (userid, groupid, setGroups) => {
 }
 
 
-export const leaveGroup = (userid, groupid, setGroups) => {
-    const url = "http://localhost:5000/api/user/" + userid + "/leave/group" + groupid
+export const leaveGroup = (userid, groupid, handleLeave) => {
+    const url = "http://localhost:5000/api/user/" + userid + "/leave/group/" + groupid
 
     const req = new Request(url, {
-        method: "patch",
+        method: "post",
         body: JSON.stringify({}),
         headers: {
             Accept: "application/json, text/plain, */*",
@@ -117,12 +117,9 @@ export const leaveGroup = (userid, groupid, setGroups) => {
     fetch(req)
         .then(res => {
             if (res.status === 200) {
-                return Promise.resolve()
+                handleLeave()
             } else {
                 console.log("Could Not Get Forum Posts")
             }
-        })
-        .then(json => {
-            getGroups(userid, setGroups)
         })
 }

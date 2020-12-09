@@ -407,7 +407,7 @@ app.get("/api/images/:id", async (req, res) => {
     res.send(image)
 });
 
-app.patch("/api/user/:id/group", async (req, res) => {
+app.post("/api/user/:id/group", async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -437,7 +437,7 @@ app.patch("/api/user/:id/group", async (req, res) => {
     }
 })
 
-app.patch("/api/user/:id/leave/group/:gid", async (req, res) => {
+app.post("/api/user/:id/leave/group/:gid", async (req, res) => {
     log(req.body)
 
     // Create a new user
@@ -463,7 +463,7 @@ app.patch("/api/user/:id/leave/group/:gid", async (req, res) => {
     }
 })
 
-app.patch("/api/group/:groupid/add/user/:userid", async (req, res) => {
+app.post("/api/group/:groupid/add/user/:userid", async (req, res) => {
     log(req.body)
 
     // Create a new user

@@ -13,6 +13,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import './style.css'
 import { getGroup } from '../../Actions/Group'
 import { withRouter } from "react-router"
+import { leaveGroup } from '../../Actions/Group'
+import {useHistory} from 'react-router-dom';
 
 class Group extends React.Component {
 
@@ -35,6 +37,13 @@ class Group extends React.Component {
         })
     }
 
+    handleLeave = () => {
+        console.log(this.props)
+        leaveGroup(this.props.user._id, this.state.group._id, () => {
+            this.props.history.push("/Grouplist")
+        })
+    }
+
     copyToClipboard = () => {
         document.querySelector('#code').select();
         document.execCommand('copy');
@@ -42,7 +51,6 @@ class Group extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props.match.params.gid)
         getGroup(this.props.match.params.gid, group => {
             if(group !== "undefined") {
                 this.setState({
@@ -71,14 +79,14 @@ class Group extends React.Component {
                     <DialogTitle id="form-dialog-title">Invite to Group</DialogTitle>
                     <DialogContent>
                     <DialogContentText>
-                        Send this link to your friends to add them to the group!
+                        Send this code to your friends to add them to the group!
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="code"
                         label="Group Code"
-                        value='bit.ly/dndgroup1234'
+                        value={this.state.group}
                     />
                     <DialogContentText>{this.state.copySuccess ? "Copied!" : ""}</DialogContentText>
                     </DialogContent>
@@ -87,7 +95,7 @@ class Group extends React.Component {
                         Cancel
                     </Button>
                     <Button onClick={() => this.copyToClipboard()} type="submit" disabled={this.state.submitDisabled} color="primary">
-                        Copy Link
+                        Copy Code
                     </Button>
                     </DialogActions>
                 </Dialog>
@@ -103,7 +111,7 @@ class Group extends React.Component {
                     <Button onClick={() => this.handleClose('leaveGroupModal')} color="primary">
                         No
                     </Button>
-                    <Button component={Link} to={'/Grouplist'} type="submit" disabled={this.state.submitDisabled} color="primary">
+                    <Button onClick={this.handleLeave} type="submit" disabled={this.state.submitDisabled} color="primary">
                         Yes
                     </Button>
                     </DialogActions>
