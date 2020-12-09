@@ -75,7 +75,7 @@ export default function ForumPost(props) {
                             {
                                 props.postComments.map((comments, i) => (
                                     <ForumComments 
-                                    username={comments.userPosted.email} 
+                                    username={comments.userPosted.username} 
                                     commentContent={comments.comment}
                                     cid={comments._id.toString()}
                                     pid={props.pid} 
@@ -114,7 +114,7 @@ export default function ForumPost(props) {
                         </Grid>
                     </Toggle>
                     {
-                        (props.curUser.admin || props.curUser.email === props.username) 
+                        (props.curUser.admin || props.curUser.username === props.username) 
                         ?
                         <Box component="div" className={classes.box}>
                             <Button variant="contained" className={classes.Button} onClick={() => props.handleDelete(props.pid)} fullWidth>

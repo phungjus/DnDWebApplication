@@ -14,9 +14,8 @@ import { addComments, deleteComments } from  "../../Actions/Comments"
 import { getGroups } from '../../Actions/Group'
 
 //TODO:
-//1. Add backend calls to the Group portion of the database
-//2. Update the user calls as they now work
-//3. Don't Forget to Tell Kyoji about the error when entering invalid login information
+//1. When a user makes a group shouldn't they by default be a member of that group?
+//2. When hovering over links on the nav bar the color changes to blend in with the background
 
 
 //Steps to start everything up:
@@ -59,17 +58,6 @@ export default function Forum(props) {
     const [title, setTitle] = useState('')
     const [postContent, setPostContent] = useState('')
 
-    // the variable forumPosts would require a server call to to get all the posts that have been made to the
-    // Forum, but here they are hard-coded for Phase 1
-    // const [forumPosts, setForumPosts] = useState([
-    //     {username: 'DragonRider12', title: 'Introduction Post', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-    //     comments: [{username: 'OrcMan52', postComment: "Hey I am willing to join your game", date: time, cid: 0}, {username: 'DragonRider12', postComment: "Neat let me send you a private message", date: time}], pid: 0, date: time, cid: 1},
-    //     {username: 'OrcMan52', title: 'Looking for Game', postContent: "Hi everybody I am currently looking for a game to join. I have experience playing Dungeon's and Dragon's so I can hope right in. Hope to hear from you guys soon!",
-    //     comments: [{username: 'DnDMaster', postComment:'Hey we are starting a new game right now still wanna join?', date: time, cid: 2}], pid: 1, date: time}
-    // ])
-
-    console.log(user)
-
     const [forumPosts, setForumPosts] = useState([])
     const [userGroups, setUserGroups] = useState([])
     const [showPost, setShowPost] = useState(false)
@@ -77,7 +65,7 @@ export default function Forum(props) {
     useEffect(() => {
         getPosts(setForumPosts)
         getGroups(user._id, setUserGroups)
-    }, [])
+    }, [user._id])
 
     function handleSubmit(e) {
         
@@ -207,7 +195,7 @@ export default function Forum(props) {
                             >
                                 <ForumPost
                                     title={posts.title} 
-                                    username={posts.userPosted.email} 
+                                    username={posts.userPosted.username} 
                                     postContent={posts.post} 
                                     postComments={posts.postComments} 
                                     pid={posts._id.toString()} 

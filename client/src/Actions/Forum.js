@@ -24,7 +24,6 @@ export const getPosts = (setForumPosts) => {
             }
 
             listOfPosts.reverse()
-            console.log(listOfPosts)
             setForumPosts(listOfPosts)
 
         })
