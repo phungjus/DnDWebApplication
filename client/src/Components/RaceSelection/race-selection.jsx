@@ -22,7 +22,7 @@ class RaceSelection extends React.Component {
         return (
             <div className='raceselection'>
                 <h2>STEP 3: CHOOSE A RACE</h2>
-                <h3>Something about choosing a race TEST... </h3>
+                <h3>Choosing your race is a huge decision when creating a character. You have to take into account what traits your race has and how that impacts your roleplay, you also have to take into consideration which classes with synergize well with your chosen race. </h3>
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>

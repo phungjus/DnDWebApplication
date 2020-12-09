@@ -11,7 +11,7 @@ class Stats extends React.Component {
 
     increaseStat = (e) => {
         const index = e.currentTarget.value
-        var new_stat = this.state.stats
+        var new_stat = this.props.stats
         new_stat[index] += 1
         this.setState({stats: new_stat})
         this.props.onStatsChange(new_stat)
@@ -20,7 +20,7 @@ class Stats extends React.Component {
 
     decreaseStat = (e) => {
         const index = e.currentTarget.value 
-        var new_stat = this.state.stats 
+        var new_stat = this.props.stats 
         new_stat[index] -= 1
         this.props.onStatsChange(new_stat)
     }

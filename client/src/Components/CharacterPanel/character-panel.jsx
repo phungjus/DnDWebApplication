@@ -4,17 +4,6 @@ import Button from '@material-ui/core/Button';
 import './character-panel-styles.css';
 
 class CharacterPanel extends React.Component {
-    state = {
-        curr: this.props.hp
-    }
-
-    increaseHp = () => {
-        this.setState({curr: this.state.curr + 1})
-    }
-
-    decreaseHp = () => {
-        this.setState({curr: this.state.curr - 1})
-    }
 
     render() {
         return (
@@ -25,14 +14,14 @@ class CharacterPanel extends React.Component {
                 <p className="caption bottom">{this.props.personality}</p>
 
                 <Paper className="hit-points">
-                    <p>{this.state.curr}/{this.props.hp} HP</p>
+                    <p>{this.props.curr}/{this.props.hp} HP</p>
                 </Paper>
                 <div className="button-container">
-                <Button variant="contained" component="p" className='hp-button' onClick={this.increaseHp}>
+                <Button variant="contained" component="p" className='hp-button' onClick={this.props.inc}>
                     + 
                 </Button>
                 <span className="spacing"></span>
-                <Button variant="contained" component="p" className='hp-button' onClick={this.decreaseHp}>
+                <Button variant="contained" component="p" className='hp-button' onClick={this.props.dec}>
                     - 
                 </Button>
                 </div>

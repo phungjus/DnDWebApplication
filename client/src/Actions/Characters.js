@@ -101,3 +101,24 @@ export const getImage = (id, setImage) => {
             console.log(error);
         });
 };
+
+export const updateStats = (id, stats) => {
+    const url = "http://localhost:5000/api/stats/" + id
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+
+    var requestOptions = {
+    method: 'PATCH',
+    headers: myHeaders,
+    body: stats,
+    redirect: 'follow'
+    };
+
+    fetch(url, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+
+}

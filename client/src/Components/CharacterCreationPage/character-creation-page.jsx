@@ -12,6 +12,19 @@ class CharacterCreatePage extends React.Component{
 
   state = {stats: [8, 8, 8, 8, 8, 8], class: "wizard", race: "human", name: "na", personality: "na", ideals: "na", bonds: "na", flaws: "na"}
 
+  setStats(char) {
+    var newStats = char.stats
+    if (char.race === 'human') {
+      newStats.map(n=>n+1) 
+    }
+    else if (char.race === 'elf') {
+      newStats[1] = newStats[1] + 2
+    }
+    else {
+      newStats[2] = newStats[2] + 2
+    }
+  }
+
   handleStatsChange = (statsValue) => {
     this.setState({stats: statsValue});
   }
@@ -55,10 +68,12 @@ class CharacterCreatePage extends React.Component{
     newCharacter.race = this.state.race
     newCharacter.class = this.state.class
     newCharacter.stats = this.state.stats 
+    this.setStats(newCharacter)
     newCharacter.proficiency = 1 // all characters start with a prof. bonus of +1
-    newCharacter.speed = 25
-    newCharacter.attack = 5
-    newCharacter.hp = 11
+    newCharacter.race === 'dwarf' ? newCharacter.speed = 20 : newCharacter.speed = 30
+    newCharacter.attack = newCharacter.class === 'wizard' ? Math.floor(newCharacter.stats[3]/2)-4 : Math.floor(newCharacter.stats[1]/2)-4
+    newCharacter.hp = Math.floor(newCharacter.stats[2]/2) + (newCharacter.class === 'wizard' ? 1 : newCharacter.class === 'rogue' ? 3 : 5)
+
     var x = document.getElementsByClassName("image-form");
     var input = document.getElementById("imageInput")
     if (input.value === "") {

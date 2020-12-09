@@ -6,7 +6,7 @@ import CharacterHeader from '../CharacterHeader/character-header.jsx';
 import Diceroller from '../Diceroller/index.js';
 import './character-sheet-styles.css';
 import AbilityModifiers from '../AbilityModifiers/ability-modifiers';
-import {getCharacter, saveCharacter} from '../../Actions/Characters.js'
+import {getCharacter} from '../../Actions/Characters.js'
 
 class CharacterSheet extends React.Component {
     
@@ -26,6 +26,7 @@ class CharacterSheet extends React.Component {
         speed: 30,
         attack: 7,
         hp: 11,
+        curr: 11,
         char: {}
     }
 
@@ -47,6 +48,7 @@ class CharacterSheet extends React.Component {
         speed: char.speed,
         attack: char.attack,
         hp: char.hp,
+        curr: char.hp,
         char: char})
         console.log("State updated!")
     }
@@ -56,8 +58,16 @@ class CharacterSheet extends React.Component {
     }
 
     handleStatsChange = (statsValue) => {
-        this.setState({stats: statsValue});
-      }
+        this.setState({stats: statsValue})
+    }
+
+    increaseHp = () => {
+        this.setState({curr: this.state.curr + 1})
+    }
+
+    decreaseHp = () => {
+        this.setState({curr: this.state.curr - 1})
+    }
 
     render() {
         return (
@@ -70,9 +80,12 @@ class CharacterSheet extends React.Component {
                     class={this.state.class}
                     personality={this.state.personality}
                     hp={this.state.hp}
+                    curr={this.state.curr}
                     ideals={this.state.ideals}
                     bonds={this.state.bonds}
                     flaws={this.state.flaws}
+                    inc={this.increaseHp}
+                    dec={this.decreaseHp}
                 />
                 <Stats
                     stats={this.state.stats}

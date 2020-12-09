@@ -336,9 +336,8 @@ app.post("/user/:id/post", async (req, res) => {
 })
 
 app.patch("/api/character/:id", async (req, res) => {
-    log(req.body)
 
-    // Create a new user
+    // Create a new character
     const id = req.params.id
     const user = await User.findById(id)
     console.log(user)
@@ -364,6 +363,25 @@ app.patch("/api/character/:id", async (req, res) => {
         user.character.push(character)
         const result1 = await character.save()
         const result = await user.save()
+        res.send(result)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+app.patch("api/stats/:id", async (req, res) => {
+    console.log("attempting to patch")
+    const id = req.params.id
+    const character = await Character.findById("5fd0308f3ead0e5bf9cec3ba")
+
+    character.stats = req.body.stats
+    try {
+        const result = await character.save()
         res.send(result)
     } catch (error) {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.

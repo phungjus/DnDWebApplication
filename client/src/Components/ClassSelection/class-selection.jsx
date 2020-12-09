@@ -22,7 +22,7 @@ class ClassSelection extends React.Component {
         return (
             <div className='class-selection'>
                 <h2>STEP 4: CHOOSE A CLASS</h2>
-                <h3>Something about choosing a class... </h3>
+                <h3>Your character’s class determines their skills and abilities. Skills are determined by a particular Class’ Class Features, while abilities are measured by Ability Scores.</h3>
                 <Grid container spacing={3} className='grid'>
                     <Grid item xs={4}>
                         <Paper className='card'>
