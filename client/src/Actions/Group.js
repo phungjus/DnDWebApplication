@@ -51,15 +51,10 @@ export const getUsers = (groupid, setUsers) => {
 export const createGroup = (userid, groupName, groupDescription, groupImage, setGroups) => {
     
     const saveImageurl = "/api/image";
+    const imageData = new FormData(form);
     const request = new Request(saveImageurl, {
         method: "post",
-        body: JSON.stringify({
-            file: groupImage
-        }),
-        headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json"
-        }
+        body: imageData
     });
     
 
@@ -72,7 +67,7 @@ export const createGroup = (userid, groupName, groupDescription, groupImage, set
                     body: JSON.stringify({
                         name: groupName,
                         description: groupDescription,
-                        image: res.json.image_id
+                        image: res.json._id
                     }),
                     headers: {
                         Accept: "application/json, text/plain, */*",
