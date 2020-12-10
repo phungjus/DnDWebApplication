@@ -422,6 +422,7 @@ app.post("/api/user/:id/group", async (req, res) => {
     const group = new Group({
         name: req.body.name,
         description: req.body.description,
+        image: req.body.image,
         admin: userModel
     })
 

@@ -25,7 +25,7 @@ wss.on('connection', function connection(ws) {
 });
 
 
-server.listen(process.env.PORT || 5000, function() {
+server.listen(process.env.PORT || 5001, function() {
 
-  console.log(`http/ws server listening on ${process.env.PORT || 5000 }`);
+  console.log(`http/ws server listening on ${process.env.PORT || 5001 }`);
 });

@@ -32,7 +32,8 @@ class Grouplist extends React.Component {
         groups: [],
         image: null,
         groupName: "",
-        groupDescription: ""
+        groupDescription: "",
+        groupImageForm: null
     }
 
     componentDidMount() {
@@ -104,9 +105,27 @@ class Grouplist extends React.Component {
         })
     }
 
-    handleUpload = (event) => {
-        // console.log(event.target.files[0])
-        // console.log(new FormData(event.target.files[0]))
+    handleGroupCreate = () => {
+        // handle creating a group with a server call
+        createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, this.state.groupImageForm, (groups) => {
+            this.setState({
+                groups: groups,
+                createDisabled: true,
+                image: null,
+                groupName: "",
+                groupDescription: "",
+                groupImageForm: null
+            })
+            this.handleClose()
+            this.handleGroupClose('createGroupModal')
+        })
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            groupImageForm: event.target
+        })
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
@@ -116,22 +135,7 @@ class Grouplist extends React.Component {
                 })
             }
         }
-        reader.readAsDataURL(event.target.files[0])
-    }
-
-    handleGroupCreate = () => {
-        // handle creating a group with a server call
-        createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, this.state.image.split(',')[1], (groups) => {
-            this.setState({
-                groups: groups,
-                createDisabled: true,
-                image: null,
-                groupName: "",
-                groupDescription: ""
-            })
-            this.handleClose()
-            this.handleGroupClose('createGroupModal')
-        })
+        reader.readAsDataURL(event.target[0].files[0])
     }
 
     render() {
@@ -204,8 +208,29 @@ class Grouplist extends React.Component {
                         onChange={this.handleCreateInputChange}
                     />
                     {this.state.image ? <CardMedia image={this.state.image}></CardMedia> : <DialogContentText>Import an image to continue</DialogContentText>}
+                    <form className="image-form" id="image-form" onSubmit={this.handleSubmit}>
+                        <div class="image-form__field">
+                            <input 
+                                id="fileInput" 
+                                name="image" 
+                                type="file" 
+                                accept="image/*" 
+                                style={{display: "none"}}
+                                onChange={() => document.getElementById('image-form__submit-button').click()}
+                            />
+                        </div>
+                        <Button
+                            variant="contained"
+                            type="submit"
+                            className="image-form__submit-button"
+                            id="image-form__submit-button"
+                            style={{display: "none"}}
+                        >
+                            Upload
+                        </Button>
+                    </form>
                     <Button onClick={() => document.getElementById('fileInput').click()}>
-                        Import Group image
+                            Select Group image
                     </Button>
                     </DialogContent>
                     <DialogActions>
@@ -218,7 +243,7 @@ class Grouplist extends React.Component {
                     </DialogActions>
                 </Dialog>
                 
-                <input id="fileInput" type="file" accept="image/*" style={{display: "none"}} onChange={this.handleUpload}/>
+                {/* <input id="fileInput" type="file" accept="image/*" style={{display: "none"}} onChange={this.handleUpload}/> */}
                 
                 <Dialog open={this.state.joinGroupModal} onClose={() => this.handleGroupClose('joinGroupModal')} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Join a New Group</DialogTitle>
