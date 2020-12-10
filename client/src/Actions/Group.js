@@ -50,7 +50,7 @@ export const getUsers = (groupid, setUsers) => {
 
 export const createGroup = (userid, groupName, groupDescription, groupImage, setGroups) => {
     
-    const saveImageurl = "/api/image";
+    const saveImageurl = "/api/images";
     const imageData = new FormData(groupImage);
     const request = new Request(saveImageurl, {
         method: "post",
