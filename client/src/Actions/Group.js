@@ -1,6 +1,6 @@
 export const getGroups = (userid, setGroups) => {
 
-    const url = "http://localhost:5000/api/user/" + userid + "/group"
+    const url = "/api/user/" + userid + "/group"
 
     fetch(url)
         .then(res => {
@@ -16,7 +16,7 @@ export const getGroups = (userid, setGroups) => {
 }
 
 export const getGroup = (groupid, setGroups) => {
-    const url = "http://localhost:5000/api/group/" + groupid
+    const url = "/api/group/" + groupid
 
     fetch(url)
         .then(res => {
@@ -32,7 +32,7 @@ export const getGroup = (groupid, setGroups) => {
 }
 
 export const getUsers = (groupid, setUsers) => {
-    const url = "http://localhost:5000/api/group/" + groupid + "/users"
+    const url = "/api/group/" + groupid + "/users"
 
     fetch(url)
         .then(res => {
@@ -50,7 +50,7 @@ export const getUsers = (groupid, setUsers) => {
 
 export const createGroup = (userid, groupName, groupDescription, groupImage, setGroups) => {
     
-    const saveImageurl = "http://localhost:5000/api/image";
+    const saveImageurl = "/api/image";
     const request = new Request(saveImageurl, {
         method: "post",
         body: JSON.stringify({
@@ -62,7 +62,7 @@ export const createGroup = (userid, groupName, groupDescription, groupImage, set
         }
     });
     
-    const url = "http://localhost:5000/api/user/" + userid + "/group"
+    const url = "/api/user/" + userid + "/group"
     const req = new Request(url, {
         method: "post",
         body: JSON.stringify({
@@ -96,7 +96,7 @@ export const createGroup = (userid, groupName, groupDescription, groupImage, set
 }
 
 export const addGroup = (userid, groupid, setGroups) => {
-    const url = "http://localhost:5000/api/group/" + groupid + "/add/user/" + userid
+    const url = "/api/group/" + groupid + "/add/user/" + userid
 
     const req = new Request(url, {
         method: "post",
@@ -122,7 +122,7 @@ export const addGroup = (userid, groupid, setGroups) => {
 
 
 export const leaveGroup = (userid, groupid, handleLeave) => {
-    const url = "http://localhost:5000/api/user/" + userid + "/leave/group/" + groupid
+    const url = "/api/user/" + userid + "/leave/group/" + groupid
 
     const req = new Request(url, {
         method: "post",

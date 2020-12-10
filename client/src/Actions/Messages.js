@@ -1,6 +1,6 @@
 export const getMessages = (groupid, setMessage) => {
 
-    const url = "http://localhost:5000/api/group/" + groupid + "/messages"
+    const url = "/api/group/" + groupid + "/messages"
 
     fetch(url)
         .then(res => {
@@ -18,7 +18,7 @@ export const getMessages = (groupid, setMessage) => {
 
 export const addMessage = (groupid, userid, message, socket) => {
 
-    const url = 'http://localhost:5000/api/group/' + groupid + '/user/' + userid + '/message'
+    const url = '/api/group/' + groupid + '/user/' + userid + '/message'
 
     console.log(url)
     console.log(typeof message)

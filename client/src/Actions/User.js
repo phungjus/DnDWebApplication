@@ -1,6 +1,6 @@
 export const checkSession = (app) => {
 
-    const url = 'http://localhost:5000/api/users/check-session'
+    const url = '/api/users/check-session'
 
     // const url = "/api/users/login"
 
@@ -19,7 +19,7 @@ export const checkSession = (app) => {
 
 export const login = (username, password, handleLogin) => {
 
-    const url = 'http://localhost:5000/api/users/login'
+    const url = '/api/users/login'
 
     // const url = "/api/users/login"
 
@@ -51,7 +51,7 @@ export const login = (username, password, handleLogin) => {
 
 export const logout = (app) => {
 
-    const url = 'http://localhost:5000/api/users/logout'
+    const url = '/api/users/logout'
 
     // const url = "/api/users/login"
 
@@ -69,7 +69,7 @@ export const logout = (app) => {
 
 export const createUser = (username, password, handleCreate) => {
 
-    const url = 'http://localhost:5000/api/user'
+    const url = '/api/user'
 
     // const url = "/api/users/login"
 

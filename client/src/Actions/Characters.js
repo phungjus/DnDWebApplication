@@ -1,5 +1,5 @@
 export const saveCharacter = (userid, character, next) => {
-    const url = "http://localhost:5000/api/character/" + userid
+    const url = "/api/character/" + userid
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -24,7 +24,7 @@ export const saveCharacter = (userid, character, next) => {
 
 export const getCharacter = (userid, setCharacter, setImage) => {
 
-    const url = 'http://localhost:5000/api/character/' + userid
+    const url = '/api/character/' + userid
 
     fetch(url)
         .then(res => {
@@ -46,7 +46,7 @@ export const getCharacter = (userid, setCharacter, setImage) => {
 export const addImage = (form, userid, character, next) => {
     console.log("Attempting to add image...")
     // the URL for the request
-    const url = "http://localhost:5000/api/images";
+    const url = "/api/images";
 
     // The data we are going to send in our request
     const imageData = new FormData(form);
@@ -81,7 +81,7 @@ export const addImage = (form, userid, character, next) => {
 export const getImage = (id, setImage) => {
     console.log("Getting image")
     // the URL for the request
-    const url = "http://localhost:5000/api/images/" + id
+    const url = "/api/images/" + id
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -103,7 +103,7 @@ export const getImage = (id, setImage) => {
 };
 
 export const updateStats = (id, stats) => {
-    const url = "http://localhost:5000/api/stats/" + id
+    const url = "/api/stats/" + id
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");

@@ -2,7 +2,7 @@
 export const getPosts = (setForumPosts) => {
 
     //local
-    const url = 'http://localhost:5000/api/posts'
+    const url = '/api/posts'
 
     //deployed
     //const url = '/api/posts'
@@ -33,7 +33,7 @@ export const getPosts = (setForumPosts) => {
 export const addPosts = (post, setForumPosts, forumPosts) => {
 
     //local
-    const url = 'http://localhost:5000/api/posts'
+    const url = '/api/posts'
 
     //deployed
     //const url = '/api/posts'
@@ -68,7 +68,7 @@ export const addPosts = (post, setForumPosts, forumPosts) => {
 export const deletePosts = (pid, setForumPosts) => {
 
     //local
-    const url = 'http://localhost:5000/api/deletePost'
+    const url = '/api/deletePost'
 
     //deployed
     //const url = '/api/deletePost'
