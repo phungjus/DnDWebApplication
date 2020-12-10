@@ -33,7 +33,8 @@ const { ObjectID } = require("mongodb");
 
 // body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
 // multipart middleware: allows you to access uploaded file from req.file
 const multipart = require('connect-multiparty');
@@ -426,7 +427,6 @@ app.get("/api/images/:id", async (req, res) => {
 });
 
 app.post("/api/user/:id/group", async (req, res) => {
-    log(req.body)
 
     // Create a new user
     const id = req.params.id
@@ -513,7 +513,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     async function findGroups(user) {
         var groups = []
         for (const groupId of user.groups) {
-            const group = await Group.findById(groupId).populate('users')
+            const group = await (await Group.findById(groupId).populate('users')).populate('image')
             groups.push(group)
         }
         return groups
@@ -555,7 +555,7 @@ app.get("/api/group/:id/messages", async (req, res) => {
         const group = await Group.findById(id)
         const messages = []
         for (const messageid of group.messages) {
-            const message = await Message.findById(messageid)
+            const message = await Message.findById(messageid).populate('userPosted')
             messages.push(message)
         }
         console.log(messages)
@@ -607,7 +607,9 @@ app.post("/api/group/:gid/user/:uid/message", async (req, res) => {
         })
         const group = await Group.findById(gid)
         group.messages.push(message._id)
-        const result = await message.save()
+        var result = await message.save()
+        result = await Message.findById(message._id).populate("userPosted")
+        console.log(result)
         const result1 = await group.save()
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {

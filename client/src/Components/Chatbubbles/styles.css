@@ -1,9 +1,9 @@
 .message {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     background-color: var(--palette-dark-red);
     color: var(--textColour);
     display: inline;
-    padding: 5px 5px;
+    padding: 10px 10px;
     border-radius: 8px;
     float: left;
     height: 50%;
