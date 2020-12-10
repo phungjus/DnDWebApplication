@@ -431,6 +431,7 @@ app.post("/api/user/:id/group", async (req, res) => {
         user.groups.push(group)
         const result1 = await group.save()
         const result = await user.save()
+        console.log(result)
         res.send(result)
     } catch (error) {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.

@@ -61,14 +61,19 @@ export const createGroup = (userid, groupName, groupDescription, groupImage, set
     fetch(request)
         .then(res => {
             if (res.status === 200) {
-                console.log(res.json())
-                const url = "/api/user/" + userid + "/group"
+                return res.json()
+            } else {
+                console.log("failure")
+            }
+        })
+        .then(json => {
+            const url = "/api/user/" + userid + "/group"
                 const req = new Request(url, {
                     method: "post",
                     body: JSON.stringify({
                         name: groupName,
                         description: groupDescription,
-                        image: res.json()._id
+                        image: json._id
                     }),
                     headers: {
                         Accept: "application/json, text/plain, */*",
@@ -86,9 +91,6 @@ export const createGroup = (userid, groupName, groupDescription, groupImage, set
                     .then(json => {
                         getGroups(userid, setGroups)
                     })
-            } else {
-                console.log("failure")
-            }
         })
 }
 
