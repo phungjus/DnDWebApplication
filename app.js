@@ -1,16 +1,122 @@
-'use strict';
+/* server.js for react-express-authentication */
+"use strict";
+const log = console.log;
 
-const WebSocket = require('ws');
-let server = require('http').createServer();
-let app = require('./app');
+const express = require("express");
+// starting the express server
+const app = express();
+const path = require('path')
+const env = process.env.NODE_ENV
 
-// Create web socket server on top of a regular http server
-let wss = new WebSocket.Server({
+// mongoose and mongo connection
+const { mongoose } = require("./db/mongoose");
+mongoose.set('useFindAndModify', false); // for some deprecation issues
 
-  server: server
+//cors
+
+const cors = require('cors');
+app.use(cors());
+
+// import the mongoose models
+// const { Student } = require("./models/student");
+const { User } = require("./models/user");
+const { Post } = require("./models/post");
+const { Character } = require("./models/character")
+const { Group } = require("./models/group")
+const { Comment } = require("./models/comment")
+const { Message } = require("./models/message")
+const { Image } = require("./models/image")
+
+
+// to validate object IDs
+const { ObjectID } = require("mongodb");
+
+// body-parser: middleware for parsing HTTP JSON body into a usable object
+const bodyParser = require("body-parser");
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+
+// multipart middleware: allows you to access uploaded file from req.file
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
+
+// cloudinary: configure using credentials found on your Cloudinary Dashboard
+// sign up for a free account here: https://cloudinary.com/users/register/free
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'dgo9nqrxz',
+    api_key: '937695347993213',
+    api_secret: 'WdsUp7Ln1_P3-dIeZP-4Nl55Nr0'
 });
 
-<<<<<<< HEAD
+// express-session for managing user sessions
+const session = require("express-session");
+const MongoStore = require('connect-mongo')(session)
+const { mongo } = require("mongoose");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+function isMongoError(error) { // checks for first error returned by promise rejection if Mongo database suddently disconnects
+    return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
+}
+
+const mongoChecker = (req, res, next) => {
+    // check mongoose connection established.
+    if (mongoose.connection.readyState != 1) {
+        log('Issue with mongoose connection')
+        res.status(500).send('Internal server error')
+        return;
+    } else {
+        next()  
+    }   
+}
+
+// Middleware for authentication of resources
+const authenticate = (req, res, next) => {
+    if (req.session.user) {
+        User.findById(req.session.user).then((user) => {
+            if (!user) {
+                return Promise.reject()
+            } else {
+                req.user = user
+                next()
+            }
+        }).catch((error) => {
+            res.status(401).send("Unauthorized")
+        })
+    } else {
+        res.status(401).send("Unauthorized")
+    }
+}
+
+// a POST route to *create* an image
+app.post("/api/images", multipartMiddleware, (req, res) => {
+
+    // Use uploader.upload API to upload image to cloudinary server.
+    cloudinary.uploader.upload(
+        req.files.image.path, // req.files contains uploaded files
+        function (result) {
+
+            // Create a new image using the Image mongoose model
+            var img = new Image({
+                image_id: result.public_id, // image id on cloudinary server
+                image_url: result.url, // image url on cloudinary server
+                created_at: new Date(),
+            });
+
+            // Save image to the database
+            img.save().then(
+                saveRes => {
+                    res.send(saveRes);
+                },
+                error => {
+                    res.status(400).send(error); // 400 for bad request
+                }
+            );
+        });
+});
+
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
     
@@ -394,7 +500,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     async function findGroups(user) {
         var groups = []
         for (const groupId of user.groups) {
-            const group = await (await Group.findById(groupId).populate('users')).populate('image').populate('admin')
+            const group = await (await Group.findById(groupId).populate('users')).populate('image')
             groups.push(group)
         }
         return groups
@@ -492,12 +598,12 @@ app.post("/api/group/:gid/user/:uid/message", async (req, res) => {
         result = await Message.findById(message._id).populate("userPosted")
         console.log(result)
         const result1 = await group.save()
-        wss.clients.forEach(function each(client) {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify(result));
-            }
-        });
-        res.send({ result: result, result1: result1 })
+        // wss.clients.forEach(function each(client) {
+        //     if (client.readyState === WebSocket.OPEN) {
+        //       client.send(JSON.stringify(result));
+        //     }
+        // });
+        res.send({ message: result})
     } catch (error) {
         console.log(error)
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
@@ -586,25 +692,119 @@ app.get("/api/users/logout", (req, res) => {
         } else {
             res.send()
         }
-=======
-// Also mount the app here
-server.on('request', app);
-
-wss.on('connection', function connection(ws) {
-    console.log("connected")
-  ws.on('message', function incoming(data) {
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-            console.log(data)
-            client.send(data);
-      }
->>>>>>> 52374ee179024c03de88961a3bec57a3a72f0b6a
     });
-  });
+});
+
+// A route to check if a user is logged in on the session
+app.get("/api/users/check-session", (req, res) => {
+    if (req.session.user) {
+        User.findById(req.session.user)
+            .then(user => {
+                res.send({ currentUser: user })
+            })
+            .catch(error => {
+                res.status(400).send()
+            });
+    } else {
+        res.status(401).send();
+    }
 });
 
 
-server.listen(process.env.PORT || 5000, function() {
+// /*********************************************************/
 
-  console.log(`http/ws server listening on ${process.env.PORT || 5000 }`);
-});
+// /*** API Routes below ************************************/
+// // User API Route
+// app.post('/api/users', mongoChecker, async (req, res) => {
+    // log(req.body)
+
+    // // Create a new user
+    // const user = new User({
+    //     email: req.body.email,
+    //     password: req.body.password
+    // })
+
+    // try {
+    //     // Save the user
+    //     const newUser = await user.save()
+    //     res.send(newUser)
+    // } catch (error) {
+    //     if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+    //         res.status(500).send('Internal server error')
+    //     } else {
+    //         log(error)
+    //         res.status(400).send('Bad Request') // bad request for changing the student.
+    //     }
+    // }
+// })
+
+// /** Student resource routes **/
+// // a POST route to *create* a student
+// app.post('/api/students', mongoChecker, authenticate, async (req, res) => {
+//     log(`Adding student ${req.body.name}, created by user ${req.user._id}`)
+
+//     // Create a new student using the Student mongoose model
+//     const student = new Student({
+//         name: req.body.name,
+//         year: req.body.year,
+//         creator: req.user._id // creator id from the authenticate middleware
+//     })
+
+
+//     // Save student to the database
+//     // async-await version:
+//     try {
+//         const result = await student.save() 
+//         res.send(result)
+//     } catch(error) {
+//         log(error) // log server error to the console, not to the client.
+//         if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+//             res.status(500).send('Internal server error')
+//         } else {
+//             res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+//         }
+//     }
+// })
+
+// // a GET route to get all students
+// app.get('/api/students', mongoChecker, authenticate, async (req, res) => {
+
+//     // Get the students
+//     try {
+//         const students = await Student.find({creator: req.user._id})
+//         // res.send(students) // just the array
+//         res.send({ students }) // can wrap students in object if want to add more properties
+//     } catch(error) {
+//         log(error)
+//         res.status(500).send("Internal Server Error")
+//     }
+
+// })
+
+// // other student API routes can go here...
+// // ...
+
+// /*** Webpage routes below **********************************/
+// // Serve the build
+// app.use(express.static(path.join(__dirname, "/client/build")));
+
+// // All routes other than above will go to index.html
+// app.get("*", (req, res) => {
+//     // check for page routes that we expect in the frontend to provide correct status code.
+//     const goodPageRoutes = ["/", "/login", "/dashboard"];
+//     if (!goodPageRoutes.includes(req.url)) {
+//         // if url not in expected page routes, set status to 404.
+//         res.status(404);
+//     }
+
+//     // send index.html
+//     res.sendFile(path.join(__dirname, "/client/build/index.html"));
+// });
+
+/*************************************************/
+// Express server listening...
+// const port = process.env.PORT || 5000;
+// app.listen(port, () => {
+//     log(`Listening on port ${port}...`);
+// });
+module.exports = app;

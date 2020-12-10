@@ -48,9 +48,21 @@ export const getUsers = (groupid, setUsers) => {
 }
 
 
-export const createGroup = (userid, groupName, groupDescription, setGroups) => {
+export const createGroup = (userid, groupName, groupDescription, groupImage, setGroups) => {
+    
+    const saveImageurl = "http://localhost:5000/api/image";
+    const request = new Request(saveImageurl, {
+        method: "post",
+        body: JSON.stringify({
+            file: groupImage
+        }),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    
     const url = "http://localhost:5000/api/user/" + userid + "/group"
-
     const req = new Request(url, {
         method: "post",
         body: JSON.stringify({
@@ -63,16 +75,23 @@ export const createGroup = (userid, groupName, groupDescription, setGroups) => {
         }
     })
 
-    fetch(req)
+    fetch(request)
         .then(res => {
             if (res.status === 200) {
-                return Promise.resolve()
+                fetch(req)
+                .then(res => {
+                    if (res.status === 200) {
+                        return Promise.resolve()
+                    } else {
+                        console.log("Could Not Get Forum Posts")
+                    }
+                })
+                .then(json => {
+                    getGroups(userid, setGroups)
+                })
             } else {
-                console.log("Could Not Get Forum Posts")
+                console.log("failure")
             }
-        })
-        .then(json => {
-            getGroups(userid, setGroups)
         })
 }
 
