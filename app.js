@@ -138,7 +138,6 @@ app.get("/api/posts", mongoChecker, async (req, res) => {
             path: 'postComments',
             populate: { path: 'userPosted'}
         }).populate('userPosted')
-
         res.send(posts)
     } catch (error) {
         log(error)
@@ -500,7 +499,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     async function findGroups(user) {
         var groups = []
         for (const groupId of user.groups) {
-            const group = await (await (await Group.findById(groupId).populate('users')).populate('admin')).populate('image')
+            const group = await Group.findById(groupId).populate('users').populate('admin').populate('image')
             groups.push(group)
         }
         return groups
