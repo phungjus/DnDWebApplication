@@ -4,7 +4,7 @@ import Chatsend from '../Chatsend'
 import './styles.css'
 import { getMessages, addMessage } from '../../Actions/Messages'
 
-const URL = 'ws://safe-savannah-28556.herokuapp.com'
+const URL = 'wss://safe-savannah-28556.herokuapp.com'
 
 class Chatbox extends React.Component {
 
