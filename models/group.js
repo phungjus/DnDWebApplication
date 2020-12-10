@@ -7,7 +7,7 @@ const GroupSchema = new mongoose.Schema({
     description :{
         type: String
     },
-    image:{
+    image: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Image"
     },
