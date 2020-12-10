@@ -3,6 +3,8 @@ import './ForumGroups.css';
 
 export default function ForumGroups(props) {
 
+    console.log(props.userGroups)
+
     return(    
         <div> 
         {props.userGroups.length === 0 
@@ -16,6 +18,7 @@ export default function ForumGroups(props) {
                 {props.userGroups.map(groups =>
                     (<div className="groupDiv">
                         <h2 id="indivGroupTitle">{groups.name}</h2>
+                        <h4 id="membersTitle">Admin: {groups.admin.username}</h4>
                         <h4 id="membersTitle">Group Members:</h4>
                         {groups.users.map(user => (<p id="groupID">{user.username}</p>))}
                     </div>

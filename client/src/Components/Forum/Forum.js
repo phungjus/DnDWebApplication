@@ -14,8 +14,9 @@ import { addComments, deleteComments } from  "../../Actions/Comments"
 import { getGroups } from '../../Actions/Group'
 
 //TODO:
-//1. When a user makes a group shouldn't they by default be a member of that group?
+//1. Add a section for admin and normal group members
 //2. When hovering over links on the nav bar the color changes to blend in with the background
+//3. When a user creates an account shouldn't it take them to the character page automatically?
 
 
 //Steps to start everything up:
