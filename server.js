@@ -6,7 +6,6 @@ let app = require('./app');
 
 // Create web socket server on top of a regular http server
 let wss = new WebSocket.Server({
-
   server: server
 });
 
