@@ -10,7 +10,6 @@ let wss = new WebSocket.Server({
   server: server
 });
 
-<<<<<<< HEAD
 app.get("/", (req, res, next) => {
     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
     
@@ -586,7 +585,6 @@ app.get("/api/users/logout", (req, res) => {
         } else {
             res.send()
         }
-=======
 // Also mount the app here
 server.on('request', app);
 
@@ -598,7 +596,6 @@ wss.on('connection', function connection(ws) {
             console.log(data)
             client.send(data);
       }
->>>>>>> 52374ee179024c03de88961a3bec57a3a72f0b6a
     });
   });
 });
