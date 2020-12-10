@@ -500,7 +500,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     async function findGroups(user) {
         var groups = []
         for (const groupId of user.groups) {
-            const group = await (await (await Group.findById(groupId).populate('users')).populate('image')).populate('admin')
+            const group = await (await (await Group.findById(groupId).populate('users')).populate('admin')).populate('image')
             groups.push(group)
         }
         return groups
