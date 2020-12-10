@@ -4,7 +4,7 @@ import Chatsend from '../Chatsend'
 import './styles.css'
 import { getMessages, addMessage } from '../../Actions/Messages'
 
-const URL = 'ws://localhost:5001'
+const URL = 'ws://localhost:5000'
 
 class Chatbox extends React.Component {
 
@@ -60,7 +60,7 @@ class Chatbox extends React.Component {
     
     sendMessage = (text) => {
         // send message though a server call
-        addMessage(this.props.groupid, this.props.userid, text)
+        addMessage(this.props.groupid, this.props.userid, text, this.ws)
     }
     
     render() {

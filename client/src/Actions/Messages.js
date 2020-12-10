@@ -16,7 +16,7 @@ export const getMessages = (groupid, setMessage) => {
         })
 }
 
-export const addMessage = (groupid, userid, message) => {
+export const addMessage = (groupid, userid, message, socket) => {
 
     const url = 'http://localhost:5000/api/group/' + groupid + '/user/' + userid + '/message'
 
@@ -40,5 +40,7 @@ export const addMessage = (groupid, userid, message) => {
             } else {
                 console.log("Could Not Get Forum Posts")
             }
+        }).then(json => {
+            socket.send(JSON.stringify(json.message))
         })
 }

@@ -105,15 +105,23 @@ class Grouplist extends React.Component {
     }
 
     handleUpload = (event) => {
-        this.setState({
-            image: URL.createObjectURL(event.target.files[0]),
-            createDisabled: this.state.groupName === "" || this.state.groupDescription === ""
-        })
+        // console.log(event.target.files[0])
+        // console.log(new FormData(event.target.files[0]))
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                this.setState({
+                    image: reader.result,
+                    createDisabled: this.state.groupName === "" || this.state.groupDescription === ""
+                })
+            }
+        }
+        reader.readAsDataURL(event.target.files[0])
     }
 
     handleGroupCreate = () => {
         // handle creating a group with a server call
-        createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, (groups) => {
+        createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, this.state.image.split(',')[1], (groups) => {
             this.setState({
                 groups: groups,
                 createDisabled: true,
@@ -140,7 +148,7 @@ class Grouplist extends React.Component {
                     {(this.state.groups || []).map(group => (
                         <Grouptile
                             link={"group/" + group._id}
-                            image={null}
+                            image={group.image ? group.image.image_url : null}
                             Groupname={group.name}
                             Groupdescription={group.description}
                         />
