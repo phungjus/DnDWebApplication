@@ -33,7 +33,7 @@ class Stats extends React.Component {
                     <Paper className="box">
                         <p>{this.props.stats[i]}</p>
                     </Paper>
-                    <span className="circle">{(this.state.stats[i] > 9) ? "+":""}{Math.floor(this.state.stats[i]/2)-5}</span>
+                    <span className="circle">{(this.props.stats[i] > 9) ? "+":""}{Math.floor(this.props.stats[i]/2)-5}</span>
                     <p className="stat-label">{this.state.names[i]}</p>
                     {this.props.user.admin ? (
                         <div>

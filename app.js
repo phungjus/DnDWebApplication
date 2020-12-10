@@ -90,7 +90,13 @@ const authenticate = (req, res, next) => {
     }
 }
 
-// a POST route to *create* an image
+app.get("/", (req, res, next) => {
+    res.sendFile(path.join(__dirname, "/client/build/index.html"))});
+
+
+// IMAGE API CALLS
+
+// a POST route to create an image
 app.post("/api/images", multipartMiddleware, (req, res) => {
 
     // Use uploader.upload API to upload image to cloudinary server.
@@ -115,22 +121,19 @@ app.post("/api/images", multipartMiddleware, (req, res) => {
                 }
             );
         });
+}); 
+
+// a GET route to get an image
+app.get("/api/images/:id", async (req, res) => {
+    const id = req.params.id
+    const image = await Image.findById(id)
+    res.send(image)
 });
 
-app.get("/", (req, res, next) => {
-    res.sendFile(path.join(__dirname, "/client/build/index.html"))});
-    
-// const mongoChecker = (req, res, next) => {
-//     // check mongoose connection established.
-//     if (mongoose.connection.readyState != 1) {
-//         log('Issue with mongoose connection')
-//         res.status(500).send('Internal server error')
-//         return;
-//     } else {
-//         next()  
-//     }   
-// }
 
+// FORUM POST API CALLS
+
+// a GET route to get all forum posts 
 app.get("/api/posts", mongoChecker, async (req, res) => {
 
     try {
@@ -146,6 +149,7 @@ app.get("/api/posts", mongoChecker, async (req, res) => {
 
 })
 
+// a POST route to save a forum post
 app.post("/api/posts", mongoChecker, async (req, res) => {
 
     //Once User Works use this need user id to be passed as parameter:
@@ -174,9 +178,54 @@ app.post("/api/posts", mongoChecker, async (req, res) => {
 
 })
 
-app.post("/api/comments", mongoChecker, async (req, res) => {
+// a POST route to delete a forum post
+app.post('/api/deletePost', mongoChecker, async (req, res) => {
 
-    //Once User Works use this need user id to be passed as parameter:
+    const pid = req.body.pid
+
+    Post.findByIdAndDelete(pid, function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send("Successful Delete")
+        }
+    })
+
+})
+
+// a POST route to create a new post
+app.post("/user/:id/post", async (req, res) => {
+    log(req.body)
+
+    // find user
+    const id = req.params.id
+    const user = await User.findById(id).getFilter()
+    // create post
+    const post = new Post({
+        title: req.body.title,
+        post: req.body.post,
+        userPosted: user
+    })
+
+    try {
+        // Save the user
+        const newPost = await post.save()
+        res.send(newPost)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+
+// COMMENT API CALLS
+
+// a POST route to save a new comment 
+app.post("/api/comments", mongoChecker, async (req, res) => {
 
     const comment = req.body.comment
     const pid = req.body.pid
@@ -214,19 +263,7 @@ app.post("/api/comments", mongoChecker, async (req, res) => {
 
 })
 
-app.post('/api/deletePost', mongoChecker, async (req, res) => {
-
-    const pid = req.body.pid
-
-    Post.findByIdAndDelete(pid, function(err) {
-        if (err) {
-            console.log(err)
-        } else {
-            res.send("Successful Delete")
-        }
-    })
-
-})
+// a POST route to delete a comment
 
 app.post('/api/deleteComment', mongoChecker, async (req, res) => {
 
@@ -254,6 +291,42 @@ app.post('/api/deleteComment', mongoChecker, async (req, res) => {
 
 })
 
+// a POST route to add a comment to a post
+app.post("/user/:id/:pid/comment", async (req, res) => {
+
+    // finduser
+    const id = req.params.id
+    const pid = req.params.pid
+    const user = await User.findById(id)
+    const post = await Post.findById(pid)
+    const postModel = await Post.findById(id).getFilter()
+    const userModel = await User.findById(id).getFilter()
+    const comment = new Comment({
+        comment: req.body.comment,
+        userPosted: userModel
+    })
+
+    try {
+        // Save the user
+        post.userComments.push(comment)
+        const result = await comment.save()
+        const result1 = await post.save()
+        res.send(result)
+    } catch (error) {
+        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
+            res.status(500).send('Internal server error')
+        } else {
+            log(error)
+            res.status(400).send('Bad Request') // bad request for changing the student.
+        }
+    }
+})
+
+
+
+// CHARACTER API CALLS
+
+// a GET route to get a character by ID 
 app.get("/api/character/:id", mongoChecker, async (req, res) => {
     const id = req.params.id
     try {
@@ -269,59 +342,7 @@ app.get("/api/character/:id", mongoChecker, async (req, res) => {
 
 })
 
-
-app.post("/api/user", mongoChecker, async (req, res) => {
-    // log(req.body)
-
-    // Create a new user
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password,
-        admin: req.body.admin
-    })
-
-    try {
-        // Save the user
-        const newUser = await user.save()
-        res.send(newUser)
-    } catch (error) {
-        console.log(error)
-        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
-        }
-    }
-})
-
-app.post("/user/:id/post", async (req, res) => {
-    log(req.body)
-
-    // Create a new user
-    const id = req.params.id
-    const user = await User.findById(id).getFilter()
-    console.log(user)
-    const post = new Post({
-        title: req.body.title,
-        post: req.body.post,
-        userPosted: user
-    })
-
-    try {
-        // Save the user
-        const newPost = await post.save()
-        res.send(newPost)
-    } catch (error) {
-        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
-        }
-    }
-})
-
+// a PATCH route to add a character to a user
 app.patch("/api/character/:id", async (req, res) => {
 
     // Create a new character
@@ -361,16 +382,26 @@ app.patch("/api/character/:id", async (req, res) => {
     }
 })
 
-app.patch("api/stats/:id", async (req, res) => {
-    console.log("attempting to patch")
-    const id = req.params.id
-    const character = await Character.findById("5fd0308f3ead0e5bf9cec3ba")
 
-    character.stats = req.body.stats
+// USER API CALLS 
+
+// a POST route to add a new user to the database
+app.post("/api/user", mongoChecker, async (req, res) => {
+    // log(req.body)
+
+    // Create a new user
+    const user = new User({
+        username: req.body.username,
+        password: req.body.password,
+        admin: req.body.admin
+    })
+
     try {
-        const result = await character.save()
-        res.send(result)
+        // Save the user
+        const newUser = await user.save()
+        res.send(newUser)
     } catch (error) {
+        console.log(error)
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
         } else {
@@ -380,41 +411,13 @@ app.patch("api/stats/:id", async (req, res) => {
     }
 })
 
-app.get("api/user/:id/character", async (req, res) => {
-    const id = req.params.id
-    // Validate id
-	if (!ObjectID.isValid(id)) {
-        res.status(404).send()  // user does not exist
-        log("wasn't found!!")
-		return; 
-	}
 
-	// If id valid, findById
-	try {
-		const user = await User.findById(id)
-		if (!user) {
-			res.status(404).send('Resource not found')  // could not find this restaurant
-		} else {  
-			if (user.character.length === 0) {
-                res.send({}) // user has not created a character yet
-            }
-            res.send(user.character[0])
-		}
-	} catch(error) {
-		log(error)
-		res.status(500).send('Internal Server Error')  // server error
-	}
-})
+// GROUP API CALLS 
 
-app.get("/api/images/:id", async (req, res) => {
-    const id = req.params.id
-    const image = await Image.findById(id)
-    res.send(image)
-});
-
+// a POST route to add a new group to a user
 app.post("/api/user/:id/group", async (req, res) => {
 
-    // Create a new user
+    // find user
     const id = req.params.id
     const user = await User.findById(id)
     const userModel = await User.findById(id).getFilter()
@@ -442,6 +445,7 @@ app.post("/api/user/:id/group", async (req, res) => {
     }
 })
 
+// a POST route for to remove a group from a user
 app.post("/api/user/:id/leave/group/:gid", async (req, res) => {
     log(req.body)
 
@@ -468,6 +472,7 @@ app.post("/api/user/:id/leave/group/:gid", async (req, res) => {
     }
 })
 
+// a POST route to add a group to a user and add the user to the group
 app.post("/api/group/:groupid/add/user/:userid", async (req, res) => {
     log(req.body)
 
@@ -494,6 +499,7 @@ app.post("/api/group/:groupid/add/user/:userid", async (req, res) => {
     }
 })
 
+// a GET route to find all groups a user is in 
 app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     const id = req.params.id
 
@@ -519,6 +525,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
     }
 })
 
+// a GET route to find a group by its ID
 app.get("/api/group/:id", async (req, res) => {
     const id = req.params.id
 
@@ -535,6 +542,7 @@ app.get("/api/group/:id", async (req, res) => {
     }
 })
 
+// a GET route to find all of the messages in a group
 app.get("/api/group/:id/messages", async (req, res) => {
     const id = req.params.id
 
@@ -557,6 +565,7 @@ app.get("/api/group/:id/messages", async (req, res) => {
     }
 })
 
+// a GET call to find all of the users in a group
 app.get("/api/group/:id/users", async (req, res) => {
     const id = req.params.id
 
@@ -578,6 +587,7 @@ app.get("/api/group/:id/users", async (req, res) => {
     }
 })
 
+// a POST call to add a message from a user to a group
 app.post("/api/group/:gid/user/:uid/message", async (req, res) => {
     console.log("Hellooo")
     const gid = req.params.gid
@@ -615,37 +625,6 @@ app.post("/api/group/:gid/user/:uid/message", async (req, res) => {
     }
 })
 
-app.post("/user/:id/:pid/comment", async (req, res) => {
-    log(req.body)
-
-    // Create a new user
-    const id = req.params.id
-    const pid = req.params.pid
-    const user = await User.findById(id)
-    const post = await Post.findById(pid)
-    const postModel = await Post.findById(id).getFilter()
-    const userModel = await User.findById(id).getFilter()
-    console.log(user)
-    const comment = new Comment({
-        comment: req.body.comment,
-        userPosted: userModel
-    })
-
-    try {
-        // Save the user
-        post.userComments.push(comment)
-        const result = await comment.save()
-        const result1 = await post.save()
-        res.send(result)
-    } catch (error) {
-        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            log(error)
-            res.status(400).send('Bad Request') // bad request for changing the student.
-        }
-    }
-})
 
 /*** Session handling **************************************/
 // Create a session and session cookie

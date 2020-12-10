@@ -1,27 +1,14 @@
-# Starting the App 
-This app was made using React. Within the Phase 1 folder, run: <br>
-<ul>
-	<li> npm install </li>
-	<li> npm start </li>
-</ul>
+# Deployed App
+Our deployed application can be found at: https://safe-savannah-28556.herokuapp.com/
+Example log in information: 
+username: user
+password: user
 
-We used the following third party libraries: <br>
-<ul>
-	<li> material-ui </li>
-	<li> react-router-dom </li>
-</ul>
+username: admin
+password: admin
 
-You can log in to the website with two accounts. To log in as a user: <br>
-<ul>
-	<li> Username: user </li>
-	<li> Password: user </li>
-</ul>
+You can also sign up for a new account, but it is only possible to create user accounts this way. 
 
-To log in as an admin: <br>
-<ul>
-	 <li> Username: admin </li>
-	 <li> Password: admin </li>
-</ul>
 
 # Features
 
@@ -36,3 +23,35 @@ Character Sheet: This page allows you to view created characters, and all of the
 # Navigating the site
 
 Forums, groups, and character creation can all be accessed as options from the top navigation bar. Clicking the icon in the top right will take you to your generated character sheet if you have created one. 
+
+# Express Routes 
+
+NOTE: Because we are hosting both a socket and our express server using Heroku, all of our express routes are located in the file app.js. All api calls still work in the expected manner. 
+
+All of the character, group, and forum information is stored in our MongoDB server. Images uploaded by users are stored using Cloudinary. 
+
+Our API calls are split in the following categories: 
+Images
+Forum Posts
+Comments
+Characters
+Users
+Groups
+LogIn
+
+Some example API calls: 
+
+CHARACTERS
+
+PATCH "/api/character/:id" 
+This call takes a user object ID as a parameter and contains in its body a character javascript object. (This includes all information stored about characters listed in the character.js model, except for the image ID. That is added by image API calls.) It saves the new character object to the character collection. It then finds the correct user object by ID, and adds the character object ID to the list of characters made by that user. 
+
+IMAGES 
+
+POST "/api/images" 
+This call takes a form containing file data in its body and uploads the image file to cloudinary, before then creating a new image object containing the url in our database. 
+
+
+
+
+
