@@ -425,7 +425,7 @@ app.post("/api/user/:id/group", async (req, res) => {
         image: req.body.image,
         admin: userModel
     })
-
+    console.log(group)
     try {
         // Save the user
         user.groups.push(group)
@@ -501,6 +501,7 @@ app.get("/api/user/:id/group", mongoChecker, async (req, res) => {
         var groups = []
         for (const groupId of user.groups) {
             const group = await Group.findById(groupId).populate('users').populate('admin').populate('image')
+            console.log(group)
             groups.push(group)
         }
         return groups
