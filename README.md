@@ -54,12 +54,12 @@ This call takes a form containing file data in its body and uploads the image fi
 FORUMS
 
 POST "/api/posts"
-This call retrieves creates a forum post by taking object which contains the post's title, post's content, the date of the post, and the user ID of the poster. It then looks for the User in the back-end according to the user ID, then creates a Post according to the schema which includes the User found in the backend then saves the new post object to the post collections.
+This call retrieves creates a forum post by taking object which contains the post's title, post's content, the date of the post, and the user ID of the poster. It then looks for the User in the back-end according to the user ID, then creates a Post according to the schema which includes the User found in the backend then saves the new post object to the post collections. It then sends the newly created Post object which contains the title, post content, date & time, and user who made the post.
 
 COMMENTS
 
 POST "/api/deleteComment"
-This call takes the post's ID and comment's ID which is passed through the body of the request, it then searches for the post in the post collection in the backend based on the post's ID provided, then it filters the list of comments inside the post object to exclude any comments with the provided comment ID, then saves the post.
+This call takes the post's ID and comment's ID which is passed through the body of the request, it then searches for the post in the post collection in the backend based on the post's ID provided, then it filters the list of comments inside the post object to exclude any comments with the provided comment ID, then saves the post. It then sends a Post object which has removed that comment from the array which represents all comments on that post.
 
 
 
