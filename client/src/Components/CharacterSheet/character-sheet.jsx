@@ -31,7 +31,10 @@ class CharacterSheet extends React.Component {
     }
 
     componentDidMount = () => {
-        getCharacter(this.props.userid, this.setCharacter, this.setImage)
+        if (this.props.location.state.id === undefined){
+            getCharacter(this.props.userid, this.setCharacter, this.setImage)
+        }
+        getCharacter(this.props.location.state.id, this.setCharacter, this.setImage)
     }
 
     setCharacter = (char) => {

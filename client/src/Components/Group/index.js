@@ -39,10 +39,13 @@ class Group extends React.Component {
     }
 
     handleLeave = () => {
-        console.log(this.props)
-        leaveGroup(this.props.user._id, this.state.group._id, () => {
-            this.props.history.push("/Grouplist")
-        })
+        if (this.state.group.admin === this.props.user._id) {
+            window.alert("You cannot leave this group! You are an admin!")
+        } else {
+            leaveGroup(this.props.user._id, this.state.group._id, () => {
+                this.props.history.push("/Grouplist")
+            })
+        }
     }
 
     copyToClipboard = () => {
@@ -88,7 +91,7 @@ class Group extends React.Component {
                         margin="dense"
                         id="code"
                         label="Group Code"
-                        value={this.state.group}
+                        value={this.state.group ? this.state.group._id : null}
                     />
                     <DialogContentText>{this.state.copySuccess ? "Copied!" : ""}</DialogContentText>
                     </DialogContent>
