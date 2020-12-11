@@ -102,15 +102,13 @@ class Grouplist extends React.Component {
             }
         }
         if (found) {
-            console.log("Found group already!")
-            window.alert("Already part of this group!")
+            window.alert("You are already part of this group!")
         } else {
             this.setState({
                 submitDisabled: true
             })
             addGroup(this.props.user._id, this.state.code, (groups) => {
                 if (groups === this.state.groups) {
-                    console.log("INvalid group code")
                     window.alert("Invalid group code")
                 }
                 this.setState({

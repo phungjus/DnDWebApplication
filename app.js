@@ -482,6 +482,10 @@ app.post("/api/group/:groupid/add/user/:userid", async (req, res) => {
     const user = await User.findById(id)
     const group = await Group.findById(groupid)
 
+    if(!group) {
+        res.send({})
+    }
+
     try {
         // Save the user
         group.users.push(user._id)
