@@ -43,7 +43,7 @@ export const getUsers = (groupid, setUsers) => {
             }
         })
         .then(json => {
-            setUsers(json.group)
+            setUsers(json.users, json.admin)
         })
 }
 

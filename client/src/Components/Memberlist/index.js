@@ -8,15 +8,17 @@ class Memberlist extends React.Component {
     
     state = {
         // Get members of the group from server
+        admin: null,
         members : []
     }
 
     componentDidMount() {
-        if (this.props.groupid !== "undefined") {
-            getUsers(this.props.groupid, (users) => {
+        if (this.props.group !== "undefined") {
+            getUsers(this.props.group._id, (users, admin) => {
                 if (users !== "undefined") {
                     this.setState({
-                        members: users
+                        members: users,
+                        admin: admin
                     })
                 }
             })
@@ -35,8 +37,8 @@ class Memberlist extends React.Component {
         const members = this.state.members.map((member) => 
             <li>
                 <Member
-                    name={member.name}
-                    memberType={member.memberType}
+                    name={member.username}
+                    memberType={"Member"}
                     userType={this.props.userType}
                     deleteMember={this.deleteMember}
                 />
@@ -48,6 +50,14 @@ class Memberlist extends React.Component {
                         Members
                     </h1>
                     <div className="Members">
+                        {this.state.admin ? <li>
+                                                <Member
+                                                    name={this.state.admin.username}
+                                                    memberType={"Admin"}
+                                                    userType={null}
+                                                    deleteMember={null}
+                                                />
+                                            </li> : null}
                         {members}
                     </div>
                     <li>

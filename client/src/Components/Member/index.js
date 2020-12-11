@@ -6,7 +6,7 @@ class Member extends React.Component {
     render() {
         return(
             <div className="Member">
-                <span className="dot"></span>
+                {/* <span className="dot"></span> */}
                 <p className="Memberp">
                     {this.props.name}
                     {" (" + this.props.memberType + ")"}
@@ -14,7 +14,7 @@ class Member extends React.Component {
                 <a href="/Character">
                     Character sheet
                 </a>
-                {this.props.userType === 'Admin' ? <Button className="KickButton" onClick={() => this.props.deleteMember(this.props.name)}>Kick</Button>:null}
+                {this.props.userType === true ? <Button className="KickButton" onClick={() => this.props.deleteMember(this.props.name)}>Kick</Button>:null}
             </div>
         );
     }

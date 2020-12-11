@@ -572,13 +572,13 @@ app.get("/api/group/:id/users", async (req, res) => {
     const id = req.params.id
 
     try {
-        const group = await Group.findById(id)
+        const group = await (await Group.findById(id)).populated("admin")
         const users = []
         for (const userid of group.users) {
             const user = await User.findById(userid)
             users.push(user)
         }
-        res.send({ users: users})
+        res.send({ users: users, admin: group.admin })
     } catch {
         if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
             res.status(500).send('Internal server error')
