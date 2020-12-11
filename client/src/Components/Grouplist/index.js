@@ -94,23 +94,41 @@ class Grouplist extends React.Component {
 
     joinGroup = () => {
         // Handle join group on a server
-        addGroup(this.props.user._id, this.state.code, (groups) => {
+        var found = false;
+        for(var i = 0; i < this.state.groups.length; i++) {
+            if (this.state.groups[i]._id === this.state.code) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            alert("Already part of this group!")
+        } else {
             this.setState({
-                groups: groups,
-                submitDisabled: true,
-                code: null
+                submitDisabled: true
             })
-            this.handleClose()
-            this.handleGroupClose('joinGroupModal')
-        })
+            addGroup(this.props.user._id, this.state.code, (groups) => {
+                if (groups === this.state.groups) {
+                    alert("Invalid group code")
+                }
+                this.setState({
+                    groups: groups,
+                    code: null
+                })
+                this.handleClose()
+                this.handleGroupClose('joinGroupModal')
+            })
+        }
     }
 
     handleGroupCreate = () => {
         // handle creating a group with a server call
+        this.setState({
+            createDisabled: true
+        })
         createGroup(this.props.user._id, this.state.groupName, this.state.groupDescription, this.state.groupImageForm, (groups) => {
             this.setState({
                 groups: groups,
-                createDisabled: true,
                 image: null,
                 groupName: "",
                 groupDescription: "",
