@@ -91,7 +91,7 @@ export const createUser = (username, password, handleCreate) => {
             if (res.status === 200) {
                 return res.json()
             } else {
-                return res.statusText
+                return res.status
             }
         }).then(res => {
             handleCreate(res)

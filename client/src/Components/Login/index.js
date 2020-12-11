@@ -21,7 +21,7 @@ class Login extends React.Component {
         singup_user: "",
         singup_password: "",
         singup_password_confirm: "",
-        signup_success: false,
+        signup_success: null,
         signup_error: null,
         value: 0
     }
@@ -64,7 +64,16 @@ class Login extends React.Component {
     handleEnterSignup = (e) => {
         //it triggers by pressing the enter key
       if (e.key === "Enter") {
-        this.handleSignup();
+        if (this.state.singup_password === this.state.singup_password_confirm) {
+            this.setState({
+                singin_error: null
+            })
+            this.handleSignup();
+        } else {
+            this.setState({
+                singin_error: "Passwords do not match!"
+            })
+        }
       }
     };
 
@@ -87,16 +96,16 @@ class Login extends React.Component {
     handleSignup = (e) => {
         // Backend call
         createUser(this.state.singup_user, this.state.singup_password, (res) => {
-            if (typeof res === 'string') {
+            if (typeof res === 'number') {
                 // error
                 this.setState({
-                    singup_error: res,
+                    singup_error: 'This username is already in use! Please use a different username.',
                     signup_success: false
                 })
             } else {
                 // Success message - set state
                 this.setState({
-                    signup_success: true,
+                    signup_success: "Account created successfully",
                     signup_error: null
                 })
             }
@@ -219,10 +228,10 @@ class Login extends React.Component {
                         </CardContent>
                         <CardActions>
                             <Typography variant="body2" component="p">
-                                {this.state.signup_error ? this.state.signup_error: null}
+                                {this.state.signup_error}
                             </Typography>
                             <Typography variant="body2" component="p">
-                                {this.state.signup_success ? "Account created successfully!": null}
+                                {this.state.signup_success}
                             </Typography>
                             <Button className="Signin" onClick={this.handleSignup} size="small" color="primary">
                                 Sign Up
