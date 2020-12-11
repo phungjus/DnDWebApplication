@@ -12,9 +12,12 @@ class Memberlist extends React.Component {
         members : []
     }
 
-    componentDidMount() {
-        if (this.props.group !== "undefined") {
+    componentDidUpdate(prevProps) {
+        if (this.props.group !== prevProps.group) {
             getUsers(this.props.group._id, (users, admin) => {
+                console.log("Trying to get users!")
+                console.log(users)
+                console.log(admin)
                 if (users !== "undefined") {
                     this.setState({
                         members: users,
