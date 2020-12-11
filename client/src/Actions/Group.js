@@ -111,7 +111,7 @@ export const addGroup = (userid, groupid, setGroups) => {
             if (res.status === 200) {
                 return Promise.resolve()
             } else {
-                console.log("Could Not Get Forum Posts")
+                return Promise.reject()
             }
         })
         .then(json => {
