@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button'
+import { Link } from 'react-router-dom';
 import './styles.css';
 
 class Member extends React.Component {
@@ -22,9 +23,14 @@ class Member extends React.Component {
                     {this.props.name}
                     {" (" + this.props.memberType + ")"}
                 </p>
-                <a href="/Character">
+                <Link to ={{
+                    pathname: "/Character",
+                    state: {id: this.props.id}
+                    }
+                }>
+                    <Button>
                     Character sheet
-                </a>
+                    </Button></Link>
                 {this.props.userType === true ? <Button className="KickButton" onClick={() => this.props.deleteMember(this.state.user)}>Kick</Button>:null}
             </div>
         );

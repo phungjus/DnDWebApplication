@@ -43,6 +43,7 @@ class Memberlist extends React.Component {
         const members = this.state.members.map((member) => 
             <li>
                 <Member
+                    id={member._id}
                     user={member}
                     name={member.username}
                     memberType={"Member"}
