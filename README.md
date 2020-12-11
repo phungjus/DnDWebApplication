@@ -9,12 +9,14 @@ password: admin
 
 You can also sign up for a new account, but it is only possible to create user accounts this way. 
 
+You can join a new group by entering the code 5fd3e5f179ea1400178d73df in the join group menu (accessed by clicking on the + in the grouplist page).
+
 
 # Features
 
 Forum: This is a public space for discussion that all users have access to. You can make your own post, view comments on other posts, or create your own comments. If logged in as an admin, you can also delete forum posts and comments. 
 
-Groups: These are private groups that you can either create or join with a code. The user and admin account are both pre-joined in one group. Within a group you can message other members, view their character sheets, and have access to a dice roller. Group admins have the option to delete users from groups. 
+Groups: These are private groups that you can either create or join with a code. The user and admin account are both pre-joined in one group. Within a group you can message other members, view their character sheets, and have access to a dice roller. Group admins have the option to delete users from groups.
 
 Character Creation: This page allows a user to create their own DND character. This involves describing the character’s name and personality, uploading an image of the character, choosing an alignment, assigning the character’s statistics based on a point buy system, and selecting the character’s race and class. 
 
@@ -39,7 +41,7 @@ Users
 Groups
 LogIn
 
-Some example API calls: 
+API calls: 
 
 CHARACTERS
 
@@ -77,7 +79,6 @@ POST "/api/deleteComment"
 This call takes the post's ID and comment's ID which is passed through the body of the request, it then searches for the post in the post collection in the backend based on the post's ID provided, then it filters the list of comments inside the post object to exclude any comments with the provided comment ID, then saves the post. It then sends a Post object which has removed that comment from the array which represents all comments on that post.
 
 USERS
-
 POST "/api/user"
 This call creates a new user in the database. It passes the user inputted username and password through the request body. Mongoose then parses the password and encrypts it before it is stored in the database. Also, Mongoose checks if the username is unique. If it passes the uniqueness requirement, we save the new User into the database.
 
@@ -85,6 +86,38 @@ GROUPS
 POST "/api/group/:id/messages"
 This call gets all the messages sent in the group with the given groupid ":id". This call gets the group based on the groupid given in the url parameters. Then, it finds all the messages stored by objectId reference in the group object. These messages are pushed onto an array, which is sent over in JSON format.
 
+POST "/api/group/:gid/user/:uid/message"
+This call allows a user with _id ":uid" to send a new message to a group with _id ":gid". The message content is found within the request body, as the property "message" (string). 
+
+GET "/api/group/:id/users"
+This call gets an array of all users related to the group with _id ":id". This is done by addding all users from the group's users array into a new array. This new array is then sent over JSON.
+
+GET "/api/group/:id/messages"
+This call finds all group messages, for the group with _id ":id". This is done by adding all messages from the group's messages array into a new array. This new array is then sent over JSON.
+
+GET "/api/group/:id"
+This call finds a group with _id ":id". This is done by invoking the findById mongoose function. 
+
+GET "/api/user/:id/group"
+This call gets all groups that the user with _id ":id" is a member of. This is done by finding all groups within the user's groups array. 
+
+POST "/api/user/:id/group"
+This call creates a new group that user with the _id ":id" is an admin of. It creates the group by getting name (string), description (string), image (image _id) and admin (user _id) from the request body. It then creates the group and it is added to the user's groups array.
+
+POST "/api/group/:groupid/add/user/:userid"
+This call adds the user with _id ":id" to the group with _id ":gid". This is done by adding the user to the group's users array and adding the group to the user's groups array. 
+
+POST "/api/user/:id/leave/group/:gid"
+This call removes the user with _id ":id" from the group with _id ":gid". This is done by removing the user from the group's users array and removing the group from the user's groups array. 
+
+
+
 LOGIN
 POST "/api/users/login"
 This call allows users to login to their accounts. It does so by looking for a User in the database based on their username and password. Then, it creates a cookie session for that user, which is stored for an hour. If the login was successful, it sends the user object back to the website.
+
+GET "/api/users/check-session"
+This call checks if there is a session in the request. If so, it sends that user's information in the result.
+
+GET "/api/users/logout"
+This call destroys the current request session.
