@@ -17,10 +17,10 @@ class Login extends React.Component {
     state = {
         username : "",
         pass : "",
-        singin_error: null,
-        singup_user: "",
-        singup_password: "",
-        singup_password_confirm: "",
+        signin_error: null,
+        signup_user: "",
+        signup_password: "",
+        signup_password_confirm: "",
         signup_success: null,
         signup_error: null,
         value: 0
@@ -41,15 +41,15 @@ class Login extends React.Component {
             });
         } else if (name === 'signup-username') {
             this.setState({
-                singup_user: value 
+                signup_user: value 
             });
         } else if (name === 'signup-password') {
             this.setState({
-                singup_password: value 
+                signup_password: value 
             });
         } else  {
             this.setState({
-                singup_password_confirm: value 
+                signup_password_confirm: value 
             });
         }
     };
@@ -64,16 +64,7 @@ class Login extends React.Component {
     handleEnterSignup = (e) => {
         //it triggers by pressing the enter key
       if (e.key === "Enter") {
-        if (this.state.singup_password === this.state.singup_password_confirm) {
-            this.setState({
-                singin_error: null
-            })
-            this.handleSignup();
-        } else {
-            this.setState({
-                singin_error: "Passwords do not match!"
-            })
-        }
+        this.handleSignup();
       }
     };
 
@@ -87,7 +78,7 @@ class Login extends React.Component {
                 this.props.handleLogin(user)
             } else {
                 this.setState({
-                    singin_error: "Invalid username and password! Please try again"
+                    signin_error: "Invalid username and password! Please try again"
                 })
             }
           })
@@ -95,21 +86,27 @@ class Login extends React.Component {
 
     handleSignup = (e) => {
         // Backend call
-        createUser(this.state.singup_user, this.state.singup_password, (res) => {
-            if (typeof res === 'number') {
-                // error
-                this.setState({
-                    singup_error: 'This username is already in use! Please use a different username.',
-                    signup_success: false
-                })
-            } else {
-                // Success message - set state
-                this.setState({
-                    signup_success: "Account created successfully",
-                    signup_error: null
-                })
-            }
-        })
+        if (this.state.signup_password === this.state.signup_password_confirm) {
+            createUser(this.state.signup_user, this.state.signup_password, (res) => {
+                if (typeof res === 'number') {
+                    // error
+                    this.setState({
+                        signup_error: 'This username is already in use! Please use a different username.',
+                        signup_success: false
+                    })
+                } else {
+                    // Success message - set state
+                    this.setState({
+                        signup_success: "Account created successfully",
+                        signup_error: null
+                    })
+                }
+            })
+        } else {
+            this.setState({
+                signup_error: "Passwords do not match!"
+            })
+        }
     }
 
     handleChange = (event, newValue) => {
@@ -117,6 +114,11 @@ class Login extends React.Component {
             value: newValue
         });
     };
+
+    showError = () => {
+        console.log(this)
+        return this.state.signup_error ? "Passwords do not match!" : "testing"
+    }
 
     TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -180,11 +182,11 @@ class Login extends React.Component {
                                 onChange={this.handleInputChange}
                                 onKeyPress={this.handleEnterLogin}
                             />
+                            <Typography variant="body2" component="p">
+                                {this.state.signin_error}
+                            </Typography>
                         </CardContent>
                         <CardActions>
-                            <Typography variant="body2" component="p">
-                                {this.state.singin_error ? this.state.signin_error : null}
-                            </Typography>
                             <Button className="Signin" onClick={this.handleLogin} size="small" color="primary">
                                 Sign In
                             </Button>
@@ -225,14 +227,11 @@ class Login extends React.Component {
                                 onChange={this.handleInputChange}
                                 onKeyPress={this.handleEnterSignup}
                             />
+                            <p>
+                                {this.state.signup_error ? this.state.signup_error : this.state.signup_success}
+                            </p>
                         </CardContent>
                         <CardActions>
-                            <Typography variant="body2" component="p">
-                                {this.state.signup_error}
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                {this.state.signup_success}
-                            </Typography>
                             <Button className="Signin" onClick={this.handleSignup} size="small" color="primary">
                                 Sign Up
                             </Button>
