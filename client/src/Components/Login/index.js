@@ -71,6 +71,7 @@ class Login extends React.Component {
     handleLogin = (e) => {
         // Handle login in a backend server
         login(this.state.username, this.state.pass, (user) => {
+            console.log(user)
             if (user !== "undefined") {
                 this.setState({
                     signin_error: null
