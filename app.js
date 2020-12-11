@@ -90,8 +90,8 @@ const authenticate = (req, res, next) => {
     }
 }
 
-app.get("/", (req, res, next) => {
-    res.sendFile(path.join(__dirname, "/client/build/index.html"))});
+// app.get("/", (req, res, next) => {
+//     res.sendFile(path.join(__dirname, "/client/build/index.html"))});
 
 
 // IMAGE API CALLS
@@ -789,4 +789,18 @@ app.get("/api/users/check-session", (req, res) => {
 // app.listen(port, () => {
 //     log(`Listening on port ${port}...`);
 // });
+
+// All routes other than above will go to index.html
+app.get("*", (req, res) => {
+    // check for page routes that we expect in the frontend to provide correct status code.
+    const goodPageRoutes = ["/", "/Grouplist", "/Forum", "/group/*"];
+    if (!goodPageRoutes.includes(req.url)) {
+        // if url not in expected page routes, set status to 404.
+        res.status(404);
+    }
+
+    // send index.html
+    res.sendFile(path.join(__dirname, "/client/build/index.html"));
+});
+
 module.exports = app;
