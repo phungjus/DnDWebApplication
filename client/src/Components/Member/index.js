@@ -5,7 +5,7 @@ import './styles.css';
 class Member extends React.Component {
 
     state = {
-        user = null
+        user: null
     }
 
     componentDidMount() {
