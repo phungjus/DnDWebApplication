@@ -91,7 +91,7 @@ class Group extends React.Component {
                         margin="dense"
                         id="code"
                         label="Group Code"
-                        value={this.state.group._id}
+                        value={this.state.group ? this.state.group._id : null}
                     />
                     <DialogContentText>{this.state.copySuccess ? "Copied!" : ""}</DialogContentText>
                     </DialogContent>
