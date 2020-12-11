@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import Member from '../Member'
 import Button from '@material-ui/core/Button'
-import { getUsers } from '../../Actions/Group'
+import { getUsers, leaveGroup } from '../../Actions/Group'
 
 class Memberlist extends React.Component {
     
@@ -27,9 +27,15 @@ class Memberlist extends React.Component {
 
     deleteMember = (member) => {
         // delete member on server
-        const notKicked = this.state.members.filter( el => el.name !== member)
-        this.setState({
-            members: notKicked
+        leaveGroup(member._id, this.props.group._id, () => {
+            getUsers(this.props.group._id, (users, admin) => {
+                if (users !== "undefined") {
+                    this.setState({
+                        members: users,
+                        admin: admin
+                    })
+                }
+            })
         })
     }
     
