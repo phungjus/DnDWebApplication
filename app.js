@@ -176,39 +176,13 @@ app.post('/api/deletePost', mongoChecker, async (req, res) => {
     Post.findByIdAndDelete(pid, function(err) {
         if (err) {
             console.log(err)
+            res.send("Error: could not delete post")
         } else {
             res.send("Successful Delete")
         }
     })
 
 })
-
-// a POST route to create a new post
-app.post("/user/:id/post", mongoChecker, async (req, res) => {
-
-    // find user
-    const id = req.params.id
-    const user = await User.findById(id).getFilter()
-    // create post
-    const post = new Post({
-        title: req.body.title,
-        post: req.body.post,
-        userPosted: user
-    })
-
-    try {
-        // Save the user
-        const newPost = await post.save()
-        res.send(newPost)
-    } catch (error) {
-        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            res.status(400).send('Bad Request') // bad request for changing the student.
-        }
-    }
-})
-
 
 // COMMENT API CALLS
 
