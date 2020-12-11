@@ -14,7 +14,7 @@ You can also sign up for a new account, but it is only possible to create user a
 
 Forum: This is a public space for discussion that all users have access to. You can make your own post, view comments on other posts, or create your own comments. If logged in as an admin, you can also delete forum posts and comments. 
 
-Groups: These are private groups that you can either create or join with a code. The user and admin account are both pre-joined in one group. Within a group you can message other members, view their character sheets, and have access to a dice roller. Currently you can join another premade group with the code ‘aaaa’. Admin accounts have the option to delete users from groups. 
+Groups: These are private groups that you can either create or join with a code. The user and admin account are both pre-joined in one group. Within a group you can message other members, view their character sheets, and have access to a dice roller. Group admins have the option to delete users from groups. 
 
 Character Creation: This page allows a user to create their own DND character. This involves describing the character’s name and personality, uploading an image of the character, choosing an alignment, assigning the character’s statistics based on a point buy system, and selecting the character’s race and class. 
 
@@ -61,5 +61,15 @@ COMMENTS
 POST "/api/deleteComment"
 This call takes the post's ID and comment's ID which is passed through the body of the request, it then searches for the post in the post collection in the backend based on the post's ID provided, then it filters the list of comments inside the post object to exclude any comments with the provided comment ID, then saves the post.
 
+USERS
 
+POST "/api/user"
+This call creates a new user in the database. It passes the user inputted username and password through the request body. Mongoose then parses the password and encrypts it before it is stored in the database. Also, Mongoose checks if the username is unique. If it passes the uniqueness requirement, we save the new User into the database.
 
+GROUPS
+POST "/api/group/:id/messages"
+This call gets all the messages sent in the group with the given groupid ":id". This call gets the group based on the groupid given in the url parameters. Then, it finds all the messages stored by objectId reference in the group object. These messages are pushed onto an array, which is sent over in JSON format.
+
+LOGIN
+POST "/api/users/login"
+This call allows users to login to their accounts. It does so by looking for a User in the database based on their username and password. Then, it creates a cookie session for that user, which is stored for an hour. If the login was successful, it sends the user object back to the website.
