@@ -275,38 +275,6 @@ app.post('/api/deleteComment', mongoChecker, async (req, res) => {
 
 })
 
-// a POST route to add a comment to a post
-app.post("/user/:id/:pid/comment", mongoChecker, async (req, res) => {
-
-    // finduser
-    const id = req.params.id
-    const pid = req.params.pid
-    const user = await User.findById(id)
-    const post = await Post.findById(pid)
-    const postModel = await Post.findById(id).getFilter()
-    const userModel = await User.findById(id).getFilter()
-    const comment = new Comment({
-        comment: req.body.comment,
-        userPosted: userModel
-    })
-
-    try {
-        // Save the user
-        post.userComments.push(comment)
-        const result = await comment.save()
-        const result1 = await post.save()
-        res.send(result)
-    } catch (error) {
-        if (isMongoError(error)) { // check for if mongo server suddenly disconnected before this request.
-            res.status(500).send('Internal server error')
-        } else {
-            res.status(400).send('Bad Request') // bad request for changing the student.
-        }
-    }
-})
-
-
-
 // CHARACTER API CALLS
 
 // a GET route to get a character by ID 
