@@ -3,6 +3,17 @@ import Button from '@material-ui/core/Button'
 import './styles.css';
 
 class Member extends React.Component {
+
+    state = {
+        user = null
+    }
+
+    componentDidMount() {
+        this.setState({
+            user: this.props.user
+        })
+    }
+
     render() {
         return(
             <div className="Member">

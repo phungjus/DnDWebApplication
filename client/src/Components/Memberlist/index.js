@@ -15,9 +15,6 @@ class Memberlist extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.group !== prevProps.group) {
             getUsers(this.props.group._id, (users, admin) => {
-                console.log("Trying to get users!")
-                console.log(users)
-                console.log(admin)
                 if (users !== "undefined") {
                     this.setState({
                         members: users,
@@ -40,6 +37,7 @@ class Memberlist extends React.Component {
         const members = this.state.members.map((member) => 
             <li>
                 <Member
+                    user={member}
                     name={member.username}
                     memberType={"Member"}
                     userType={this.props.userType}
@@ -55,6 +53,7 @@ class Memberlist extends React.Component {
                     <div className="Members">
                         {this.state.admin ? <li>
                                                 <Member
+                                                    user={this.state.admin}
                                                     name={this.state.admin.username}
                                                     memberType={"Admin"}
                                                     userType={null}
