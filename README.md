@@ -43,6 +43,9 @@ Some example API calls:
 
 CHARACTERS
 
+GET "/api/character/:id"
+This call takes a user object ID as a parameter and returns a javascript object containing the information of the character created by that user. (Note: Currently the website only allows one character to be stored per user, but the backend stores all created characters, making it easier in the future to implement allowing multiple characters.)
+
 PATCH "/api/character/:id" 
 This call takes a user object ID as a parameter and contains in its body a character javascript object. (This includes all information stored about characters listed in the character.js model, except for the image ID. That is added by image API calls.) It saves the new character object to the character collection. It then finds the correct user object by ID, and adds the character object ID to the list of characters made by that user. 
 
@@ -50,6 +53,9 @@ IMAGES
 
 POST "/api/images" 
 This call takes a form containing file data in its body and uploads the image file to cloudinary, before then creating a new image object containing the url in our database. 
+
+GET "/api/images/:id" 
+This call takes an image object ID and returns the javascript object containing the information about the image. 
 
 FORUMS
 
