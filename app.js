@@ -572,7 +572,7 @@ app.get("/api/group/:id/users", async (req, res) => {
     const id = req.params.id
 
     try {
-        const group = await (await Group.findById(id)).populate("admin")
+        const group = await (await Group.findById(id)).populate('admin')
         const users = []
         for (const userid of group.users) {
             const user = await User.findById(userid)
