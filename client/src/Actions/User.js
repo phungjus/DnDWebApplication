@@ -91,9 +91,9 @@ export const createUser = (username, password, handleCreate) => {
             if (res.status === 200) {
                 return res.json()
             } else {
-                console.log("Could not create")
+                return res.statusText
             }
-        }).then(json => {
-            handleCreate()
+        }).then(res => {
+            handleCreate(res)
         })
 }

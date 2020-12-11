@@ -56,7 +56,7 @@ class Group extends React.Component {
             if(group !== "undefined") {
                 this.setState({
                     group: group,
-                    admin: group.admin._id === this.props.user._id
+                    admin: group.admin === this.props.user._id
                 })
             }
         })
@@ -68,7 +68,7 @@ class Group extends React.Component {
                 <Memberlist
                     togglePop={() => this.handleOpen('inviteGroupModal')}
                     startLeaveEvent={() => this.handleOpen('leaveGroupModal')}
-                    userType={this.state.admin ? this.state.admin : "undefined"}
+                    userType={this.state.admin ? this.state.admin : false}
                     group={this.state.group ? this.state.group : "undefined"}
                 />
                 <Chatbox

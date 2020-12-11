@@ -21,14 +21,10 @@ class App extends React.Component {
     checkSession(this)
   }
 
-  handleLogin = (username, password) => {
-    login(username, password, (user) => {
-      if (user !== "undefined") {
-        this.setState({
-          login: true,
-          user: user
-        })
-      }
+  handleLogin = (user) => {
+    this.setState({
+      login: true,
+      user: user
     })
   }
 
