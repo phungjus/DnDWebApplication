@@ -256,7 +256,7 @@ app.get("/api/character/:id", mongoChecker, async (req, res) => {
     const id = req.params.id
     try {
         const user = await User.findById(id)
-        const c_id = user.character[0]
+        const c_id = user.character[user.character.length-1]
         const character = await Character.findById(c_id)
         res.send(character)
     } catch (error) {
