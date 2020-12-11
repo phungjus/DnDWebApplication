@@ -75,7 +75,7 @@ class Login extends React.Component {
                 this.setState({
                     signin_error: null
                 })
-                this.props.handleLogin(user)
+                this.props.handleLogin(user.currentUser)
             } else {
                 this.setState({
                     signin_error: "Invalid username and password! Please try again"

@@ -44,8 +44,7 @@ export const login = (username, password, handleLogin) => {
             }
         })
         .then(json => {
-            console.log(json)
-            handleLogin(json.currentUser)
+            handleLogin(json)
         })
 }
 
