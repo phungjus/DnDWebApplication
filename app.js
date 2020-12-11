@@ -644,7 +644,7 @@ app.get("/api/users/check-session", mongoChecker, (req, res) => {
 
 // All routes other than above will go to index.html
 app.get("*", (req, res) => {
-    const goodPageRoutes = ["/", "/Grouplist", "/Forum", "/group/*"];
+    const goodPageRoutes = ["/", "/Grouplist", "/Forum", "/group/*", "/Character"];
     if (!goodPageRoutes.includes(req.url)) {
         res.status(404);
     }
