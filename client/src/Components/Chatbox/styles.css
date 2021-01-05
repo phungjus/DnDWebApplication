@@ -1,0 +1,5 @@
+.Chatbox {
+    height: 100%;
+    width: calc(100% - 342px);
+    float: left;
+}

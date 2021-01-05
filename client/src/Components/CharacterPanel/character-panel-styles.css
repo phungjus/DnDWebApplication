@@ -1,0 +1,40 @@
+.panel {
+    width: 25%;
+    height: 150%;
+    float: left;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.caption {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.bottom {
+    padding-bottom: 15px;
+}
+
+.hit-points {
+    width: 85%;
+    font-weight: bolder;
+    font-size: x-large;
+}
+
+.button-container {
+    padding-top: 10px;
+}
+
+.hp-button {
+    width: 150px;
+    height: 25px;
+}
+
+.spacing {
+    padding-right: 5px;
+}

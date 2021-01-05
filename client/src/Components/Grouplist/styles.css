@@ -1,0 +1,31 @@
+.Gridwrapper {
+    height: calc(100% - 64px);
+    width: 100%;
+}
+
+.MuiGrid-container {
+    height: calc(100%);
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.MuiGrid-container::-webkit-scrollbar { width: 0 !important }
+
+.MuiButtonBase-root.addGroup, .MuiSvgIcon-root.addGroup {
+    height: min(5vh, 5vw);
+    width: min(5vh, 5vw);
+    min-height: 30px;
+    min-width: 30px;
+    color: var(--buttonColour);
+    margin: 0px;
+    box-sizing: content-box;
+}
+
+.MuiMenuItem-root.Addmenuitem {
+    background-color: var(--buttonColour);
+    color: var(--textColour);
+}
+
+.MuiMenuItem-root.Addmenuitem .MuiTouchRipple-child {
+    background-color: var(--backgroundColourSecondary);
+}
